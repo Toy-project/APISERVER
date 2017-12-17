@@ -1,35 +1,18 @@
-pipeline {
-  agent {
-    docker {
-      image 'node:8.9.3'
-      args '--rm -d --name "nodejs" -it -v $HOME:/home'
-    }
-  }
+node {
   environment {
     CI = 'true'
   }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'npm install'
-      }
+  stage('Develop') {
+    when {
+      branch 'develop'
     }
-    stage('Test') {
-      when {
-        branch 'develop'
-      }
-      steps {
-        sh 'ddd'
-        stash includes: '**', name: 'App'
-      }
-    }
-    stage('Develop') {
-      when {
-        branch 'develop'
-      }
-      steps {
-        echo 'Develop Environment'
-      }
-    }
+    // docker connection
+    sh 'sudo docker exec -i develop bash'
+    // sleep for connetion delay
+    sleep 1
+    // 
+    echo "develop docker"
+    // git checkout
+    checkout scm
   }
 }
