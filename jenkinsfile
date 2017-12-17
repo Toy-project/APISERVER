@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       image 'node:8.9.3'
-      arg '--rm -d --name "nodejs" -it -v $HOME:/home'
+      args '--rm -d --name "nodejs" -it -v $HOME:/home'
     }
   }
   environment {
