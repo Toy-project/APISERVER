@@ -1,18 +1,25 @@
-node {
+pipeline {
+  agent none 
   environment {
     CI = 'true'
   }
-  stage('Develop') {
-    when {
-      branch 'develop'
+  stages {
+    stage('Develop') {
+      agent none
+      when {
+        branch 'develop'
+      }
+      steps {
+        // stash includes: '**/target/*.jar', name: 'app'
+        // docker connection
+        sh 'sudo docker exec -i develop bash'
+        // sleep for connetion delay
+        sleep 1
+        // 
+        echo "develop docker"
+        // git checkout
+        
+      }
     }
-    // docker connection
-    sh 'sudo docker exec -i develop bash'
-    // sleep for connetion delay
-    sleep 1
-    // 
-    echo "develop docker"
-    // git checkout
-    checkout scm
   }
 }
