@@ -10,6 +10,8 @@ pipeline {
         branch 'develop'
       }
       steps {
+        sh 'echo Building ${BRANCH_NAME}'
+        
         // stash includes: '**/target/*.jar', name: 'app'
         // docker connection
         sh 'docker exec -i develop bash'
