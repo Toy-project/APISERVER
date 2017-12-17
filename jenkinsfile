@@ -5,10 +5,14 @@ pipeline {
   }
   stages {
     stage('Develop') {
+      node {
+        label 'develop'
+        customWorkspace '/develop'
+      }
       when {
         branch 'develop'
       }
-      node {
+      steps {
         // stash includes: '**/target/*.jar', name: 'app'
         // docker connection
         sh 'docker exec -i develop bash'
