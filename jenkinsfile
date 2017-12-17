@@ -4,15 +4,9 @@ pipeline {
     CI = 'true'
   }
   stages {
-    agent {
-      node {
-        label ''
-        customWorkspace '/var/git'
-      }
-    }
-    stage('Git') {
+    stage('Build') {
       steps {
-        checkout scm
+        sh 'npm install'
       }
     }
     stage('Test') {
@@ -21,7 +15,7 @@ pipeline {
       }
       steps {
         sh 'npm install'
-        stash includes: '**', name: 'App'
+        stash includes: '**', name: 'App' 
       }
     }
     stage('Develop') {
