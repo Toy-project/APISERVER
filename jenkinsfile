@@ -5,9 +5,11 @@ pipeline {
   }
   stages {
     stage('Develop') {
-      node {
-        label 'develop'
-        customWorkspace '/develop'
+      agent {
+        node {
+          label 'develop'
+          customWorkspace '/develop'
+        }
       }
       when {
         branch 'develop'
