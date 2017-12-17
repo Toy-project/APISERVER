@@ -1,12 +1,12 @@
 pipeline {
   agent none
+  environment {
+    CI = 'true'
+  }
   stages {
-    when {
-      branch 'develop'
-    }
     agent {
       node {
-        label 'develop-stage'
+        label ''
         customWorkspace '/var/git'
       }
     }
@@ -16,14 +16,20 @@ pipeline {
       }
     }
     stage('Test') {
+      when {
+        branch 'develop'
+      }
       steps {
         sh 'npm install'
         stash includes: '**', name: 'App'
       }
     }
     stage('Develop') {
+      when {
+        branch 'develop'
+      }
       steps {
-        sh ''
+        echo 'Develop Environment'
       }
     }
   }
