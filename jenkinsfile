@@ -10,9 +10,9 @@ pipeline {
         branch 'develop'
       }
       steps {
-        sh 'echo Building ${BRANCH_NAME} ${CHANGE_ID}'
+        sh 'echo Building ${BRANCH_NAME}'
 
-        // stash includes: '**/target/*.jar', name: 'app'
+        stash includes: 'ToyprojectApi_develop-2UFDQD7WCPHTEO7IOTUZKDZLQLLHAXLSLYVE4H3QDU4WJZY527SQ/**', name: 'app'
         // docker connection
         sh 'docker exec -i develop bash'
         // sleep for connetion delay
@@ -20,7 +20,7 @@ pipeline {
         // 
         echo "develop docker container"
         // git checkout
-        checkout scm
+        git branch: 'develop', changelog: false, credentialsId: 'd0c8a159-07f0-48ee-a6f6-1e18afc2f735', url: 'https://github.com/Toy-project/OutPlatformApi.git' 
       }
     }
   }
