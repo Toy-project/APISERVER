@@ -16,8 +16,9 @@ pipeline {
         // sleep for connetion delay
         sleep 1
         // 
-        echo "develop docker"
+        echo "develop docker container"
         // git checkout
+        checkout scm
       }
     }
   }
