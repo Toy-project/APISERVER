@@ -5,20 +5,18 @@ pipeline {
   }
   stages {
     stage('Develop') {
-      agent any
       when {
         branch 'develop'
       }
-      steps {
+      node {
         // stash includes: '**/target/*.jar', name: 'app'
         // docker connection
-        sh 'sudo docker exec -i develop bash'
+        sh 'docker exec -i develop bash'
         // sleep for connetion delay
         sleep 1
         // 
         echo "develop docker"
         // git checkout
-        
       }
     }
   }
