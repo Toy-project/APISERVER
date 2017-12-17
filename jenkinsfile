@@ -19,7 +19,7 @@ pipeline {
         branch 'develop'
       }
       steps {
-        sh 'dd'
+        sh 'ddd'
         stash includes: '**', name: 'App'
       }
     }
