@@ -1,5 +1,10 @@
 pipeline {
-  agent none
+  agent {
+    docker {
+      image 'node:8.9.3'
+      arg '--rm -d --name "nodejs" -it -v $HOME:/home'
+    }
+  }
   environment {
     CI = 'true'
   }
@@ -14,8 +19,8 @@ pipeline {
         branch 'develop'
       }
       steps {
-        sh 'npm install'
-        stash includes: '**', name: 'App' 
+        sh 'dd'
+        stash includes: '**', name: 'App'
       }
     }
     stage('Develop') {
