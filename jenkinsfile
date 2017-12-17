@@ -1,41 +1,30 @@
 pipeline {
   agent none
   stages {
-    stage('Build') {
-      agent any
+    when {
+      branch 'develop'
+    }
+    agent {
+      node {
+        label 'develop-stage'
+        customWorkspace '/var/git'
+      }
+    }
+    stage('Git') {
       steps {
         checkout scm
-        sh 'make'
-        stash includes: '**/target/*.jar', name: 'app' 
       }
     }
-    stage('Test on Linux') {
-      agent { 
-        label 'linux'
-      }
+    stage('Test') {
       steps {
-        unstash 'app' 
-        sh 'make check'
-      }
-      post {
-        always {
-          junit '**/target/*.xml'
-        }
+        sh 'npm install'
+        stash includes: '**', name: 'App'
       }
     }
-    stage('Test on Windows') {
-        agent {
-            label 'windows'
-        }
-        steps {
-            unstash 'app'
-            bat 'make check' 
-        }
-        post {
-            always {
-                junit '**/target/*.xml'
-            }
-        }
+    stage('Develop') {
+      steps {
+        sh ''
+      }
     }
   }
 }
