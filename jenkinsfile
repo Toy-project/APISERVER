@@ -10,17 +10,39 @@ pipeline {
         branch 'develop'
       }
       steps {
-        sh 'echo Building ${BRANCH_NAME}'
+        echo 'Building ${BRANCH_NAME}'
+        echo "Current workspace : ${workspace}"
 
-        // stash includes: 'ToyprojectApi_develop-2UFDQD7WCPHTEO7IOTUZKDZLQLLHAXLSLYVE4H3QDU4WJZY527SQ/**', name: 'app'
-        // docker connection
-        sh 'docker exec -i develop bash'
-        // sleep for connetion delay
-        sleep 1
-        // 
-        echo "develop docker container"
-        // git checkout
-        git branch: 'develop', changelog: false, credentialsId: 'd0c8a159-07f0-48ee-a6f6-1e18afc2f735', url: 'https://github.com/Toy-project/OutPlatformApi.git' 
+        // diretory clean
+        sh 'rm -rf /shared/*'
+
+        // copy diretory
+        sh 'cp -rf ./* /shared'
+
+        // copy config folder
+        sh 'cp -rf /config /shared'
+      }
+    }
+    stage('Develop Deploy') {
+      agent any
+      when {
+        branch 'develop'
+      }
+      steps {
+        // develop conatiner list
+        sh 'docker exec -i develop ls -al'
+
+        // copy shared -> workspace
+        sh 'docker exec -i develop cp -rf /shared/* /workspace'
+
+        // npm cache verify
+        // sh 'docker exec -i develop npm --prefix /workspace cahe verify'
+
+        // npm install
+        sh 'docker exec -i develop npm --prefix /workspace install /workspace'
+
+        // npm start
+        sh 'docker exec -i develop pm2 start /workspace/bin/www --name develop'
       }
     }
   }
