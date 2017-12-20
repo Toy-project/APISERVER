@@ -9,7 +9,7 @@ const swaggerUi = require('swagger-ui-express');
 
 // router
 const index = require('./routes');
-const users = require('./routes/users');
+const member = require('./routes/users/member.js');
 
 // app
 const app = express();
@@ -29,9 +29,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
 app.use(cookieParser());
 
-// router load 
+// router load
 app.use('/', index);
-app.use('/users', users);
+app.use('/member', member);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
