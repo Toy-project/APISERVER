@@ -4,23 +4,10 @@ pipeline {
     CI = 'true'
   }
   stages {
-    stage('Develop') {
+    stage('Checkout') {
       agent any
-      when {
-        branch 'develop'
-      }
       steps {
-        echo 'Building ${BRANCH_NAME}'
-        echo "Current workspace : ${workspace}"
-
-        // diretory clean
-        sh 'rm -rf /shared/*'
-
-        // copy diretory
-        sh 'cp -rf ./* /shared'
-
-        // copy config folder
-        sh 'cp -rf /config /shared'
+        sh './jenkins/checkout.sh'
       }
     }
     stage('Develop Deploy') {
@@ -29,20 +16,16 @@ pipeline {
         branch 'develop'
       }
       steps {
-        // develop conatiner list
-        sh 'docker exec -i develop ls -al'
-
-        // copy shared -> workspace
-        sh 'docker exec -i develop cp -rf /shared/* /workspace'
-
-        // npm cache verify
-        // sh 'docker exec -i develop npm --prefix /workspace cahe verify'
-
-        // npm install
-        sh 'docker exec -i develop npm --prefix /workspace install /workspace'
-
-        // npm start
-        sh 'docker exec -i develop pm2 start /workspace/bin/www --name develop'
+        sh './jenkins/devlopDeploy.sh'
+      }
+    }
+    stage('Develop Deploy') {
+      agent any
+      when {
+        branch 'master'
+      }
+      steps {
+        sh './jenkins/productDeploy.sh'
       }
     }
   }
