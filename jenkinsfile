@@ -78,7 +78,7 @@ pipeline {
         // pm2 delete & start
         echo 'pm2 product delete and start'
         sh 'docker exec -i product pm2 delete -s product || :'
-        sh 'docker exec -i product pm2 start /app/bin/www --name product'
+        sh 'docker exec -i product PORT=80 pm2 start /app/bin/www --name product'
       }
     }
   }
