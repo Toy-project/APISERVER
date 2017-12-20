@@ -3,7 +3,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const swaggerUi = require('swagger-ui-express');
 const Member = require(path.join(__dirname, '/model/member.js'));
 
 const app = express();
