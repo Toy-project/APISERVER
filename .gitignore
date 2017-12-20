@@ -3,12 +3,6 @@
 /tmp
 /out-tsc
 
-# dependencies
-/node_modules
-
-# config
-/config/*
-
 # IDEs and editors
 /.idea
 .project
@@ -44,9 +38,6 @@ yarn-error.log
 Thumbs.db
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-
 # testing
 /coverage
 
@@ -60,8 +51,6 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
-#config for db
-/config
 
 npm-debug.log*
 yarn-debug.log*
