@@ -19,7 +19,7 @@ pipeline {
         sh './jenkins/devlopDeploy.sh'
       }
     }
-    stage('Develop Deploy') {
+    stage('Product Deploy') {
       agent any
       when {
         branch 'master'
