@@ -5,7 +5,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render(swaggerUi.serve, swaggerUi.setup(null, null, null, null, null));
+  res.render();
 });
 
 module.exports = router;
