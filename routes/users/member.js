@@ -6,6 +6,9 @@ const router = express.Router();
 const swaggerUi = require('swagger-ui-express');
 const Member = require(path.join(__dirname, '/model/member.js'));
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const app = express();
 
 // get user list
@@ -43,10 +46,15 @@ router.get('/:id', function(req, res, next) {
 // create user
 router.post('/', function(req, res, next) {
   console.log("Create a user");
+
+  //encrypting data.
+  const salt = bcrypt.genSaltSync(saltRounds); //the cost of processing the data.
+  const hashedPassword = bcrypt.hashSync(req.body.pw, salt); //the data to be encrypted.
+
   Member.create({
     mem_email: req.body.email,
     mem_name: req.body.name,
-    mem_password: req.body.pw,
+    mem_password: hashedPassword,
     mem_phone: req.body.phone,
     mem_type: req.body.type,
     mem_mail_agree: req.body.mail_agree,
