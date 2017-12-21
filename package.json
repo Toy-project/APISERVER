@@ -17,8 +17,12 @@
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
     "sequelize": "^4.28.2",
+<<<<<<< HEAD
     "serve-favicon": "~2.4.5",
     "swagger-ui-express": "^2.0.13",
     "validator": "^9.2.0"
+=======
+    "serve-favicon": "~2.4.5"
+>>>>>>> origin
   }
 }
