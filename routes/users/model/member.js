@@ -9,7 +9,10 @@ const Member = sequelize.define('member', {
     autoIncrement: true
   },
   mem_email: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate : {
+      isEmail : true
+    }
   },
   mem_name: {
     type: Sequelize.STRING
@@ -18,7 +21,10 @@ const Member = sequelize.define('member', {
     type: Sequelize.STRING
   },
   mem_phone: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate : {
+      is : /^\d{3}-\d{4}-\d{4}$/i
+    }
   },
   mem_type: {
     type: Sequelize.INTEGER
