@@ -11,19 +11,35 @@ const Member = sequelize.define('member', {
   mem_email: {
     type: Sequelize.STRING,
     validate : {
-      isEmail : true
+      isEmail : true, // email check
+      notEmpty: {
+        msg: 'not empty'
+      }
     }
   },
   mem_name: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate : {
+      notEmpty: {
+        msg: 'not empty'
+      }
+    }
   },
   mem_password: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate : {
+      notEmpty: {
+        msg: 'not empty'
+      }
+    }
   },
   mem_phone: {
     type: Sequelize.STRING,
     validate : {
-      is : /^\d{3}-\d{4}-\d{4}$/i
+      is : /^\d{3}-\d{4}-\d{4}$/i,
+      notEmpty: {
+        msg: 'not empty'
+      }
     }
   },
   mem_type: {
@@ -33,10 +49,16 @@ const Member = sequelize.define('member', {
     type: Sequelize.INTEGER
   },
   mem_last_connect_date: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    validate : {
+      isDate: true
+    }
   },
   mem_update: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    validate : {
+      isDate: true
+    }
   }
 
 }, {

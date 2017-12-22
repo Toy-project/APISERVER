@@ -13,6 +13,4 @@ const sequelize = new Sequelize(db.name, db.user, db.password, {
   },
 });
 
-config.log("Test");
-
 module.exports = sequelize;
