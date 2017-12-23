@@ -8,7 +8,8 @@ const cors = require('cors');
 
 // router
 const index = require('./routes');
-const member = require('./routes/users/member.js');
+const member = require('./routes/api/member.js');
+const comment = require('./routes/api/comments.js');
 
 // app
 const app = express();
@@ -31,6 +32,7 @@ app.use(cookieParser());
 // router load
 app.use('/', index);
 app.use('/member', member);
+app.use('/comment', comment);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,5 @@
 const path = require('path');
-const sequelize = require(path.join(__dirname, '../../sequelize.js'));
+const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
 // define sequelize club table
@@ -41,7 +41,7 @@ const Club = sequelize.define('CLUB', {
   club_college: {
     type: Sequelize.STRING,
     allowNull : false
-    //Use career net open api 
+    //Use career net open api
   },
   category_id: {
     type: Sequelize.INTEGER,

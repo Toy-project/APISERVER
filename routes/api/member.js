@@ -3,7 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Member = require(path.join(__dirname, '/model/member.js'));
+const Member = require(path.join(__dirname, '../model/member.js'));
+const Comment = require(path.join(__dirname, '../model/comments.js'));
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;

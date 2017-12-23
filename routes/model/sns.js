@@ -1,16 +1,20 @@
 const path = require('path');
-const sequelize = require(path.join(__dirname, '../../sequelize.js'));
+const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
-// define sequelize club table
-const Category = sequelize.define('CATEGORY', {
-  cate_id: {
+// define sequelize sns table
+const Sns = sequelize.define('SNS', {
+  sns_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull : false
   },
-  cate_nm: {
+  sns_nm: {
+    type: Sequelize.STRING,
+    allowNull : false
+  },
+  sns_url: {
     type: Sequelize.STRING,
     allowNull : false
   }
@@ -19,4 +23,4 @@ const Category = sequelize.define('CATEGORY', {
   timestamps: false,
 });
 
-module.exports = Category;
+module.exports = Sns;

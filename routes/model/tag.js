@@ -1,5 +1,5 @@
 const path = require('path');
-const sequelize = require(path.join(__dirname, '../../sequelize.js'));
+const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
 // define sequelize tag table
