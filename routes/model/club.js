@@ -2,6 +2,8 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
+const Member = require(path.join(__dirname, '../model/member.js'));
+
 // define sequelize club table
 const Club = sequelize.define('CLUB', {
   club_id: {
@@ -12,7 +14,8 @@ const Club = sequelize.define('CLUB', {
   },
   mem_id: {
     type: Sequelize.INTEGER,
-    allowNull : false
+    allowNull : false,
+    references: {model:Member, key: 'mem_id'}
   },
   club_photo: {
     type: Sequelize.STRING
@@ -77,7 +80,6 @@ const Club = sequelize.define('CLUB', {
       type:Sequelize.FLOAT,
       allowNull : false
   },
-
 }, {
   freezeTableName: true,
   timestamps : true //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
