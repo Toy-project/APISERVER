@@ -1,8 +1,8 @@
 const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 
-const Member = require(path.join(__dirname, '../model/member.js'));
+const Member = require(path.join(__dirname, './member.js'));
 
 // define sequelize club table
 const Club = sequelize.define('CLUB', {
@@ -55,7 +55,7 @@ const Club = sequelize.define('CLUB', {
     allowNull : false
   },
   sns_id:{
-      type:Selection.INTEGER,
+      type:Sequelize.INTEGER,
       allowNull : false
   },
   club_history:{
@@ -72,7 +72,7 @@ const Club = sequelize.define('CLUB', {
       allowNull : false
   },
   union_enabled:{
-      type:Sequelize.Instance,
+      type:Sequelize.INTEGER,
       allowNull : false,
       comment : '1이면 연합'
   },
@@ -84,5 +84,7 @@ const Club = sequelize.define('CLUB', {
   freezeTableName: true,
   timestamps : true //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
 });
+
+Member.hasMany(Club, {foreignKey: 'mem_id'});
 
 module.exports = Club;

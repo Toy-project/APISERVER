@@ -1,6 +1,7 @@
 const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
+
 // define sequelize user table
 const Member = sequelize.define('member', {
   mem_id: {
@@ -25,7 +26,7 @@ const Member = sequelize.define('member', {
       }
     }
   },
-  mem_password: {
+  mem_pw: {
     type: Sequelize.STRING,
     validate : {
       notEmpty: {

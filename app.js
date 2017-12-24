@@ -10,8 +10,9 @@ const cors = require('cors');
 const index = require('./routes');
 const member = require('./routes/api/member.js');
 const comment = require('./routes/api/comments.js');
-const club = require('.routes/api/club.js');
-const category = require('.routes/api/category.js');
+const club = require('./routes/api/club.js');
+const category = require('./routes/api/category.js');
+const auth = require('./routes/api/auth');
 
 // app
 const app = express();
@@ -35,8 +36,9 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/member', member);
 app.use('/comment', comment);
-app.use('/club',club);
-app.use('/category',category);
+app.use('/club', club);
+app.use('/category', category);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

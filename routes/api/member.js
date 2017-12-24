@@ -54,7 +54,7 @@ router.post('/', function(req, res, next) {
   Member.create({
     mem_email: req.body.email,
     mem_name: req.body.name,
-    mem_password: hashedPassword,
+    mem_pw: hashedPassword,
     mem_phone: req.body.phone,
     mem_type: req.body.type,
     mem_mail_agree: req.body.mail_agree,
