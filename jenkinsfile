@@ -9,7 +9,7 @@ pipeline {
       steps {
         // start checkout
         echo 'start checkout'
-        echo 'Building ${BRANCH_NAME}'
+        echo "Building ${BRANCH_NAME}"
         echo "Current workspace : ${workspace}"
 
         // remove shared diretory
