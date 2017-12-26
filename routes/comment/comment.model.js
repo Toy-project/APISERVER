@@ -7,17 +7,27 @@ const Comment = sequelize.define('COMMENT', {
   comment_id : {
     type : Sequelize.INTEGER,
     primaryKey : true,
-    autoIncrement : true
+    autoIncrement : true,
+    allowNull : false
   },
   comment_contents : {
-    type : Sequelize.STRING
+    type : Sequelize.STRING,
+    allowNull : false
   },
   comment_update : {
     type : Sequelize.DATE,
-
+    allowNull : false,
+    validate: {
+      isDate : true
+    }
   },
   mem_id : {
-    type : Sequelize.INTEGER
+    type : Sequelize.INTEGER,
+    allowNull : false,
+    references: {
+      model: 'member',
+      key: 'mem_id'
+    }
   }
 }, {
   freezeTableName: true,

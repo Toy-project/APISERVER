@@ -8,8 +8,10 @@ const cors = require('cors');
 
 // router
 const index = require('./routes');
-const member = require('./routes/member/member.js');
-const comment = require('./routes/comment/comment.js');
+const member = require('./routes/member/');
+const comment = require('./routes/comment/');
+const site_statistic = require('./routes/site_statistic/');
+const session = require('./routes/session/');
 
 // app
 const app = express();
@@ -33,7 +35,8 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/member', member);
 app.use('/comment', comment);
-
+app.use('/site_statistic',site_statistic);
+app.use('/session', session);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('Not Found');

@@ -6,10 +6,12 @@ const Member = sequelize.define('member', {
   mem_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull : false
   },
   mem_email: {
     type: Sequelize.STRING,
+    allowNull : false,
     validate : {
       isEmail : true, // email check
       notEmpty: {
@@ -19,6 +21,7 @@ const Member = sequelize.define('member', {
   },
   mem_name: {
     type: Sequelize.STRING,
+    allowNull : false,
     validate : {
       notEmpty: {
         msg: 'not empty'
@@ -27,6 +30,7 @@ const Member = sequelize.define('member', {
   },
   mem_password: {
     type: Sequelize.STRING,
+    allowNull : false,
     validate : {
       notEmpty: {
         msg: 'not empty'
@@ -35,6 +39,7 @@ const Member = sequelize.define('member', {
   },
   mem_phone: {
     type: Sequelize.STRING,
+    allowNull : false,
     validate : {
       is : /^\d{3}-\d{4}-\d{4}$/i,
       notEmpty: {
@@ -43,19 +48,23 @@ const Member = sequelize.define('member', {
     }
   },
   mem_type: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull : false
   },
   mem_mail_agree: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull : false
   },
   mem_last_connect_date: {
     type: Sequelize.DATE,
+    allowNull : false,
     validate : {
       isDate: true
     }
   },
   mem_update: {
     type: Sequelize.DATE,
+    allowNull : false,
     validate : {
       isDate: true
     }
