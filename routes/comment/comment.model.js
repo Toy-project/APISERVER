@@ -16,11 +16,19 @@ const Comment = sequelize.define('COMMENT', {
   },
   comment_update : {
     type : Sequelize.DATE,
+<<<<<<< HEAD
     allowNull : false
+=======
+    allowNull : false,
+    validate: {
+      isDate : true
+    }
+>>>>>>> 20171226
   },
   mem_id : {
     type : Sequelize.INTEGER,
     allowNull : false,
+<<<<<<< HEAD
     references : {
       model:'MEMBER',
       key:'mem_id'
@@ -32,6 +40,11 @@ const Comment = sequelize.define('COMMENT', {
     references : {
       model:'CLUB',
       key:'club_id'
+=======
+    references: {
+      model: 'member',
+      key: 'mem_id'
+>>>>>>> 20171226
     }
   }
 }, {

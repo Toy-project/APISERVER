@@ -30,7 +30,7 @@ router.post('/:id', function(req, res, next){
   Comment.create({
     comment_contents : req.body.coments,
     comment_update : req.body.createAt,
-    mem_id : req.body.mem_id
+    mem_id : req.params.id
   })
   .then(result=>{
     res.send(result);
