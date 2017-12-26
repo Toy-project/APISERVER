@@ -3,14 +3,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Comments = require(path.join(__dirname, '../model/comments.js'));
+const Comment = require(path.join(__dirname, './comment.model.js'));
 
 const app = express();
 
 // get a comment
 router.get('/:id', function(req, res, next){
   console.log("get a comment");
-  Comments.findAll({
+  Comment.findAll({
     where : {
       mem_id :req.params.id
     }
@@ -27,7 +27,7 @@ router.get('/:id', function(req, res, next){
 router.post('/:id', function(req, res, next){
   console.log("Create a comment");
 
-  Comments.create({
+  Comment.create({
     comment_contents : req.body.coments,
     comment_update : req.body.createAt,
     mem_id : req.body.mem_id
@@ -47,7 +47,7 @@ router.put('/:id', function(req, res, next){
     comment_contents : req.body.contents
   }
 
-  Comments.update(updateList, {
+  Comment.update(updateList, {
     where: {
       comment_id: req.params.id,
     }
@@ -63,7 +63,7 @@ router.put('/:id', function(req, res, next){
 router.delete('/:id', function(req, res, next){
   console.log("Delete a comment");
 
-  Comments.destroy({
+  Comment.destroy({
     where : {
       comment_id: req.params.id
     }
