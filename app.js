@@ -9,7 +9,7 @@ const cors = require('cors');
 // router
 const index = require('./routes');
 const member = require('./routes/member/member.js');
-const comment = require('./routes/comment/comments.js');
+const comment = require('./routes/comment/comment.js');
 
 // app
 const app = express();
