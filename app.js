@@ -33,9 +33,6 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/member', member);
 app.use('/comment', comment);
-app.use('/club', club);
-app.use('/category', category);
-app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
