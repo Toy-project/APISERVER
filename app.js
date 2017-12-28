@@ -13,6 +13,7 @@ const comment = require('./routes/comment/');
 const site_statistic = require('./routes/site_statistic/');
 const session = require('./routes/session/');
 const cart = require('./routes/cart/')
+const club = require('./routes/club/')
 
 // app
 const app = express();
@@ -39,6 +40,7 @@ app.use('/comment', comment);
 app.use('/site_statistic',site_statistic);
 app.use('/session', session);
 app.use('/cart', cart);
+app.use('/club', club);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

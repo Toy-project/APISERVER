@@ -2,7 +2,7 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require('sequelize');
 
-const Session = sequelize.define('session', {
+const Session = sequelize.define('SESSION', {
   session_id : {
     type: Sequelize.INTEGER,
     primaryKey: true,

@@ -2,7 +2,7 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 // define sequelize user table
-const Member = sequelize.define('member', {
+const Member = sequelize.define('MEMBER', {
   mem_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
