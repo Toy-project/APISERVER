@@ -3,9 +3,18 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Club = require(path.join(__dirname, '../model/club.js'));
+const Club = require(path.join(__dirname, './club.model.js'));
+const Member = require(path.join(__dirname,'../member/member.model.js'));
+const Tag = require(path.join(__dirname,'../Tag/tag.model.js'));
+const Category = require(path.join(__dirname,'../Category/category.model.js'));
 
 const app = express();
+
+var regExpPhone = /^\d{2,3}-\d{3,4}-\d{4}$/; //지역번호가 될 수 있도록
+
+Member.hasMany(Club, {foreignKey: 'mem_id'}); //회원과 단체 1:N 관계
+Tag.hasMany(Club,{foreignKey:'tag_id'}); 
+Category.hasMany(Club,{foreignKey:'cate_id'}); 
 
 // get all club list
 router.get('/', function(req, res, next) {
@@ -26,9 +35,16 @@ router.get('/:cate_id', function(req, res, next) {
     console.log("get specific category club list");
     Club.findAll({
       where: {
-        category_id : req.params.cate_id
-        //??
-      },
+        category_id : req.params.cate_id 
+      }
+      // include:[
+      //   {
+      //     model:"CATEGORY",
+      //     where: {
+      //       category_id : req.params.cate_id 
+      //     }
+      //   }
+      // ]
     })
     .then(results => {
       res.status(200).json(results);
@@ -44,7 +60,6 @@ router.get('/:club_nm', function(req, res, next) {
     Club.findAndCount({
       where: {
         //search
-      
       },
     })
     .then(results => {
@@ -58,7 +73,7 @@ router.get('/:club_nm', function(req, res, next) {
 // get club
 router.get('/:club_id', function(req, res, next) {
   console.log("get a specific club");
-  Club.find({
+  Club.findOne({
     where: {
       club_id: req.params.club_id,
     },
@@ -87,7 +102,6 @@ router.post('/', function(req, res, next) {
     club_college:req.body.club_college,
     category_id:req.body.category_id,
     tag_id:req.body.tag_id,
-    sns_id:req.body.sns_id,
     club_history:req.body.club_history,
     club_career:req.body.club_career,
     club_price_du:req.body.club_price_du,
@@ -108,7 +122,7 @@ router.post('/', function(req, res, next) {
 // delete club
 router.delete('/:club_id', function(req, res, next) {
   console.log("Remove a club");
-  Member.destroy({
+  Club.destroy({
     where: {
       club_id: req.params.club_id
     }
@@ -136,7 +150,6 @@ router.put('/:club_id', function(req, res, next) {
     club_college:req.body.club_college,
     category_id:req.body.category_id,
     tag_id:req.body.tag_id,
-    sns_id:req.body.sns_id,
     club_history:req.body.club_history,
     club_career:req.body.club_career,
     club_price_du:req.body.club_price_du,

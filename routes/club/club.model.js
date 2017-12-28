@@ -38,7 +38,7 @@ const Club = sequelize.define('CLUB', {
   club_phone: {
     type: Sequelize.STRING,
     validate : {
-      is : /^\d{3}-\d{4}-\d{4}$/i
+      is : /^[\d{3}-\d{4}-\d{4}]$/
     }
   },
   club_email: {
