@@ -24,4 +24,35 @@ router.get('/', function(req,res,next){
   });
 });
 
+//get a specific Site_statistic
+router.get('/:id', function(req, res, next){
+  console.log("Get a specific site_statistic");
+
+  Site_statistic.find({
+    where : {
+      ~~
+    }
+  })
+  .then(result => {
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    res.send(err);
+  });
+});
+
+//create a site_statistic
+router.post('/', function(req, res, next){
+  console.log("Create a site statistic");
+});
+
+//update a site_statistic
+router.put('/:id', function(req, res, next){
+  console.log("Update a site statistic");
+});
+
+router.delete('/:id', function(req, res, next){
+  console.log("Delete a site statistic");
+});
+
 module.exports = router;

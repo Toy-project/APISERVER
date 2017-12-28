@@ -8,15 +8,16 @@ const Comment = require(path.join(__dirname, './comment.model.js'));
 const app = express();
 
 // get a comment
-router.get('/:id', function(req, res, next){
+router.get('/:mid/:cid', function(req, res, next){
   console.log("get a comment");
   Comment.findAll({
     where : {
-      mem_id :req.params.id
+      mem_id : req.params.mid,
+      club_id: req.params.cid
     }
   })
   .then(result=>{
-    res.send(result);
+    res.status(200).json(result);
   })
   .catch(err=>{
     res.send(err);
@@ -24,16 +25,17 @@ router.get('/:id', function(req, res, next){
 });
 
 // create a comment
-router.post('/:id', function(req, res, next){
+router.post('/:mid/:cid', function(req, res, next){
   console.log("Create a comment");
 
   Comment.create({
     comment_contents : req.body.coments,
-    comment_update : req.body.createAt,
-    mem_id : req.params.id
+    comment_update : new Date(),
+    mem_id : req.params.mid,
+    club_id: req.params.cid
   })
   .then(result=>{
-    res.send(result);
+    res.status(200).json(result);
   })
   .catch(err=>{
     res.send(err);
@@ -44,7 +46,8 @@ router.put('/:id', function(req, res, next){
   console.log("Update a comment");
 
   let updateList = {
-    comment_contents : req.body.contents
+    comment_contents : req.body.contents,
+    comment_update : new Date()
   }
 
   Comment.update(updateList, {
@@ -69,7 +72,7 @@ router.delete('/:id', function(req, res, next){
     }
   })
   .then(result => {
-    res.send(201);
+    res.status(200).json(result);
   })
   .catch(err => {
     res.send(err);

@@ -25,7 +25,7 @@ const Comment = sequelize.define('COMMENT', {
     type : Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'MEMBER',
+      model:'member',
       key:'mem_id'
     }
   },
@@ -33,7 +33,7 @@ const Comment = sequelize.define('COMMENT', {
     type : Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'CLUB',
+      model:'club',
       key:'club_id'
     }
   }
