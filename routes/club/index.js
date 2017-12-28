@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
+const Club = require(path.join(__dirname, './club.model.js'));
 
 // const regExpPhone = /^\d{2,3}-\d{3,4}-\d{4}$/; //지역번호가 될 수 있도록
 

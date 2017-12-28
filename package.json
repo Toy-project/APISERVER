@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "apidoc": "^0.17.6",
     "bcrypt": "^1.0.3",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
@@ -19,7 +20,6 @@
     "mysql2": "^1.5.1",
     "sequelize": "^4.28.2",
     "serve-favicon": "~2.4.5",
-    "swagger-ui-express": "^2.0.13",
     "validator": "^9.2.0"
   }
 }

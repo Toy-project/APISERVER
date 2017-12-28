@@ -8,6 +8,11 @@
 # config
 /config
 
+# views
+/views
+!/views/error.ejs
+!/views/index.ejs
+
 # dependencies
 /node_modules
 
