@@ -2,7 +2,11 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
-const Member = require(path.join(__dirname, '../model/member.js'));
+const Category = require(path.join(__dirname, '../category/category.model.js'));
+const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
+const Cart = require(path.join(__dirname, '../cart/cart.model.js'));
+const Comment = require(path.join(__dirname, '../comment/comment.model.js'));
+const Sns = require(path.join(__dirname, '../sns/sns.model.js'));
 
 // define sequelize club table
 const Club = sequelize.define('CLUB', {
@@ -79,7 +83,7 @@ const Club = sequelize.define('CLUB', {
       allowNull : false
   },
   union_enabled:{
-      type:Sequelize.Instance,
+      type:Sequelize.INTEGER,
       allowNull : false,
       comment : '1이면 연합'
   },
@@ -91,5 +95,11 @@ const Club = sequelize.define('CLUB', {
   freezeTableName: true,
   timestamps : true //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
 });
+
+Club.belongsTo(Category);
+Club.belongsTo(Tag);
+Club.hasMany(Cart, {foreignKey: 'cate_id'});
+Club.hasMany(Comment, {foreignKey: 'cate_id'});
+Club.hasMany(Sns, {foreignKey: 'cate_id'});
 
 module.exports = Club;

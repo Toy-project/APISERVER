@@ -3,18 +3,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Club = require(path.join(__dirname, './club.model.js'));
-const Member = require(path.join(__dirname,'../member/member.model.js'));
-const Tag = require(path.join(__dirname,'../Tag/tag.model.js'));
-const Category = require(path.join(__dirname,'../Category/category.model.js'));
-
 const app = express();
 
 var regExpPhone = /^\d{2,3}-\d{3,4}-\d{4}$/; //지역번호가 될 수 있도록
-
-Member.hasMany(Club, {foreignKey: 'mem_id'}); //회원과 단체 1:N 관계
-Tag.hasMany(Club,{foreignKey:'tag_id'}); 
-Category.hasMany(Club,{foreignKey:'cate_id'}); 
 
 // get all club list
 router.get('/', function(req, res, next) {

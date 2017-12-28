@@ -2,8 +2,6 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
-const Club = require(path.join(__dirname, '../model/club.js'));
-
 // define sequelize sns table
 const Sns = sequelize.define('SNS', {
   sns_id: {

@@ -91,7 +91,7 @@ router.delete('/:sns_id', function(req, res, next) {
 });
 
 // update Sns
-router.put('/:id', function(req, res, next) {
+router.put('/:sns_id', function(req, res, next) {
   // update list
   let updateList = {
     sns_id: req.body.sns_id,

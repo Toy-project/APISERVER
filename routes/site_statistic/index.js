@@ -30,7 +30,7 @@ router.get('/:id', function(req, res, next){
 
   Site_statistic.find({
     where : {
-      ~~
+      // ~~
     }
   })
   .then(result => {

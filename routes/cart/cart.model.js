@@ -2,7 +2,7 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
-const Cart = sequelize.define('cart', {
+const Cart = sequelize.define('CART', {
   cart_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -13,7 +13,7 @@ const Cart = sequelize.define('cart', {
     type: Sequelize.INTEGER,
     allowNULL: false,
     references : {
-      model:'member',
+      model:'MEMBER',
       key:'mem_id'
     }
   },
@@ -21,7 +21,7 @@ const Cart = sequelize.define('cart', {
     type: Sequelize.INTEGER,
     allowNULL: false,
     references : {
-      model:'club',
+      model:'CLUB',
       key:'club_id'
     }
   }
