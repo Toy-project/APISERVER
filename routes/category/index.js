@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 router.get('/:nm', function(req, res, next) {
   console.log("get all category name list");
   Category.findAll({
-    attributes: ['cate_nm']
+    attributes: ['cate_name']
   })
   .then(results => {
     res.status(200).json(results);
@@ -59,7 +59,7 @@ router.post('/', function(req, res, next) {
 
   Category.create({
     cate_id: req.body.cate_id,
-    cate_nm: req.body.cate_nm
+    cate_name: req.body.cate_name
     //...
   })
   .then(result => {
@@ -91,7 +91,7 @@ router.put('/:id', function(req, res, next) {
   // update list
   let updateList = {
     cate_id: req.body.cate_id,
-    cate_nm: req.body.cate_nm
+    cate_name: req.body.cate_name
     //...
   };
 

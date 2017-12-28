@@ -27,7 +27,7 @@ const Club = sequelize.define('CLUB', {
   club_photo: {
     type: Sequelize.STRING
   },
-  club_nm: {
+  club_name: {
     type: Sequelize.STRING,
     allowNull : false
   },
@@ -42,7 +42,7 @@ const Club = sequelize.define('CLUB', {
   club_phone: {
     type: Sequelize.STRING,
     validate : {
-      is : /^[\d{3}-\d{4}-\d{4}]$/
+      is : /^\d{3}-\d{4}-\d{4}$/i
     }
   },
   club_email: {
@@ -75,25 +75,24 @@ const Club = sequelize.define('CLUB', {
   club_career:{
       type: Sequelize.BLOB('tiny') //use text editor
   },
-  club_price_du:{
+  club_price_duration:{
       type:Sequelize.STRING
   },
   club_views:{
-      type:Sequelize.INTEGER,
-      allowNull : false
+      type:Sequelize.INTEGER
   },
   union_enabled:{
       type:Sequelize.INTEGER,
       allowNull : false,
       comment : '1이면 연합'
   },
-  club_ratings:{
+  club_rating:{
       type:Sequelize.FLOAT,
       allowNull : false
   },
 }, {
   freezeTableName: true,
-  timestamps : true //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
+  timestamps : false //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
 });
 
 Club.belongsTo(Category);

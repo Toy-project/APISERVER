@@ -10,7 +10,7 @@ const Tag = sequelize.define('TAG', {
     autoIncrement: true,
     allowNull : false
   },
-  tag_nm: {
+  tag_name: {
     type: Sequelize.STRING,
     allowNull : false
   }

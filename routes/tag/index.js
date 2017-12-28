@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const Tag = require(path.join(__dirname, './tag.model.js'));
 
-const app = express();
-
 // get all tag list
 router.get('/', function(req, res, next) {
   console.log("get all tag list");
@@ -45,7 +43,7 @@ router.post('/', function(req, res, next) {
 
   Category.create({
     tag_id: req.body.tag_id,
-    tag_nm: req.body.tag_nm
+    tag_name: req.body.tag_name
     //...
   })
   .then(result => {
@@ -73,11 +71,11 @@ router.delete('/:tag_id', function(req, res, next) {
 });
 
 // update tag
-router.put('/:id', function(req, res, next) {
+router.put('/:tag_id', function(req, res, next) {
   // update list
   let updateList = {
     tag_id: req.body.tag_id,
-    tag_nm: req.body.tag_nm
+    tag_name: req.body.tag_name
     //...
   };
 

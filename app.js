@@ -12,11 +12,16 @@ const member = require('./routes/member/');
 const comment = require('./routes/comment/');
 const site_statistic = require('./routes/site_statistic/');
 const session = require('./routes/session/');
+<<<<<<< HEAD
 const cart = require('./routes/cart/');
 const auth = require('./routes/auth/');
 
 // authController
 const authController = require(path.join(__dirname, './routes/auth/auth.controller'));
+=======
+const cart = require('./routes/cart/')
+const club = require('./routes/club/')
+>>>>>>> develop
 
 // app
 const app = express();
@@ -44,7 +49,11 @@ app.use('/comment', comment);
 app.use('/site_statistic',site_statistic);
 app.use('/session', session);
 app.use('/cart', cart);
+<<<<<<< HEAD
 app.use('/auth', auth);
+=======
+app.use('/club', club);
+>>>>>>> develop
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

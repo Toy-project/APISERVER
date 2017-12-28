@@ -27,11 +27,11 @@ router.get('/', function(req, res, next) {
 });
 
 // get user
-router.get('/:id', function(req, res, next) {
+router.get('/:mem_id', function(req, res, next) {
   console.log("get a specific user");
   Member.find({
     where: {
-      mem_id: req.params.id,
+      mem_id: req.params.mem_id,
     },
   })
   .then(result => {
@@ -70,11 +70,11 @@ router.post('/', function(req, res, next) {
 });
 
 // delete user
-router.delete('/:id', function(req, res, next) {
+router.delete('/:mem_id', function(req, res, next) {
   console.log("Remove a user");
   Member.destroy({
     where: {
-      mem_id: req.params.id,
+      mem_id: req.params.mem_id,
     }
   })
   .then(result => {
@@ -86,7 +86,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 // update user
-router.put('/:id', function(req, res, next) {
+router.put('/:mem_id', function(req, res, next) {
 
   //encrypting data.
   const salt = bcrypt.genSaltSync(saltRounds); //the cost of processing the data.
@@ -106,7 +106,7 @@ router.put('/:id', function(req, res, next) {
 
   Member.update(updateList, {
     where: {
-      mem_id: req.params.id,
+      mem_id: req.params.mem_id,
     }
   })
   .then(result => {

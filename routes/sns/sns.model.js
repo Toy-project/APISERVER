@@ -10,7 +10,7 @@ const Sns = sequelize.define('SNS', {
     autoIncrement: true,
     allowNull : false
   },
-  sns_nm: {
+  sns_name: {
     type: Sequelize.STRING,
     allowNull : false
   },

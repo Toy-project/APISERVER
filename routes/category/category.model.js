@@ -10,7 +10,7 @@ const Category = sequelize.define('CATEGORY', {
     autoIncrement: true,
     allowNull : false
   },
-  cate_nm: {
+  cate_name: {
     type: Sequelize.STRING,
     allowNull : false
   }

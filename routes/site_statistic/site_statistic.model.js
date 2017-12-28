@@ -2,7 +2,7 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require('sequelize');
 
-const Site_statistic = sequelize.define('site_statistic', {
+const Site_statistic = sequelize.define('SITE_STATISTIC', {
   date : {
     type: Sequelize.DATE,
     primaryKey: true,

@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const Session = require(path.join(__dirname, './session.model.js'));
 
-const app = express();
-
 // get session list
 router.get('/', function(req, res, next) {
   console.log("get all users");
@@ -24,11 +22,11 @@ router.get('/', function(req, res, next) {
 });
 
 // get a session
-router.get('/:id', function(req, res, next) {
+router.get('/:session_id', function(req, res, next) {
   console.log("get a session");
   Session.find({
     where: {
-      session_id: req.params.id,
+      session_id: req.params.session_id,
     },
   })
   .then(result => {
@@ -57,11 +55,11 @@ router.post('/', function(req, res, next) {
 });
 
 // delete session
-router.delete('/:id', function(req, res, next) {
+router.delete('/:session_id', function(req, res, next) {
   console.log("Remove a session");
   Session.destroy({
     where: {
-      session_id: req.params.id,
+      session_id: req.params.session_id,
     }
   })
   .then(result => {
@@ -73,7 +71,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 // update session
-router.put('/:id', function(req, res, next) {
+router.put('/:session_id', function(req, res, next) {
   // update list
   let updateList = {
     ip_address: req.body.ip_address,
@@ -83,7 +81,7 @@ router.put('/:id', function(req, res, next) {
 
   Session.update(updateList, {
     where: {
-      session_id: req.params.id,
+      session_id: req.params.session_id,
     }
   })
   .then(result => {

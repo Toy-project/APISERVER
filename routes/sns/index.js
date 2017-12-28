@@ -61,7 +61,7 @@ router.post('/', function(req, res, next) {
 
   Sns.create({
     sns_id: req.body.sns_id,
-    sns_nm: req.body.sns_nm,
+    sns_name: req.body.sns_name,
     sns_url: req.body.sns_url,
     club_id: req.body.club_id
     //...
@@ -95,7 +95,7 @@ router.put('/:sns_id', function(req, res, next) {
   // update list
   let updateList = {
     sns_id: req.body.sns_id,
-    sns_nm: req.body.sns_nm,
+    sns_name: req.body.sns_name,
     sns_url: req.body.sns_url,
     club_id: req.body.club_id
     //...
