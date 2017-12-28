@@ -53,7 +53,7 @@ const Club = sequelize.define('CLUB', {
     allowNull : false
     //Use career net open api
   },
-  category_id: {
+  cate_id: {
     type: Sequelize.INTEGER,
     allowNull : false,
     references : {

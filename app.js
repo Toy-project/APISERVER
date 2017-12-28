@@ -15,6 +15,10 @@ const session = require('./routes/session/');
 const cart = require('./routes/cart/');
 const club = require('./routes/club/');
 const auth = require('./routes/auth/');
+const sns = require('./routes/sns/');
+const category = require('./routes/category/');
+const tag = require('./routes/tag/');
+ 
 
 // authController
 const authController = require(path.join(__dirname, './routes/auth/auth.controller'));
@@ -50,6 +54,9 @@ app.use('/session', session);
 app.use('/cart', cart);
 app.use('/club', club);
 app.use('/auth', auth);
+app.use('/tag',tag);
+app.use('/category',category);
+app.use('/sns',sns)
 
 
 // catch 404 and forward to error handler

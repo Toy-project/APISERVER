@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Category = require(path.join(__dirname, '../model/category.js'));
+const Category = require(path.join(__dirname, './category.model.js'));
 
 const app = express();
 
@@ -31,22 +31,6 @@ router.get('/:nm', function(req, res, next) {
   })
   .then(results => {
     res.status(200).json(results);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
-
-// get category
-router.get('/:cate_id', function(req, res, next) {
-  console.log("get a specific club");
-  Club.find({
-    where: {
-        cate_id: req.params.cate_id,
-    },
-  })
-  .then(result => {
-    res.send(result);
   })
   .catch(err => {
     res.send(err);

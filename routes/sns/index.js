@@ -28,7 +28,7 @@ router.get('/:club_id', function(req, res, next) {
     console.log("get all sns list");
     Sns.findAll({
       where: {
-        club_id : req.params.cate_id
+        club_id : req.params.club_id
       },
     })
     .then(results => {
@@ -38,22 +38,6 @@ router.get('/:club_id', function(req, res, next) {
       res.send(err);
     });
   });
-
-// get one sns 
-router.get('/:sns_id', function(req, res, next) {
-  console.log("get a specific club");
-  Sns.find({
-    where: {
-        sns_id: req.params.sns_id,
-    },
-  })
-  .then(result => {
-    res.send(result);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
 
 // create Sns table
 router.post('/', function(req, res, next) {

@@ -26,7 +26,7 @@ router.get('/:cate_id', function(req, res, next) {
     console.log("get specific category club list");
     Club.findAll({
       where: {
-        category_id : req.params.cate_id
+        cate_id : req.params.cate_id
       }
       // include:[
       //   {
@@ -58,7 +58,7 @@ router.post('/', function(req, res, next) {
     club_phone:req.body.club_phone,
     club_email:req.body.club_email,
     club_college:req.body.club_college,
-    category_id:req.body.category_id,
+    cate_id:req.body.cate_id,
     tag_id:req.body.tag_id,
     club_history:req.body.club_history,
     club_career:req.body.club_career,
@@ -104,7 +104,7 @@ router.put('/:club_id', function(req, res, next) {
     club_phone:req.body.club_phone,
     club_email:req.body.club_email,
     club_college:req.body.club_college,
-    category_id:req.body.category_id,
+    cate_id:req.body.cate_id,
     tag_id:req.body.tag_id,
     club_history:req.body.club_history,
     club_career:req.body.club_career,
