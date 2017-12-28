@@ -57,8 +57,8 @@ router.post('/', function(req, res, next) {
     mem_phone: req.body.phone,
     mem_type: req.body.type,
     mem_mail_agree: req.body.mail_agree,
-    mem_last_connect_date: req.body.lcd,
-    mem_update: req.body.update
+    mem_last_connect_date: new Date(),
+    mem_update: new Date()
     //...
   })
   .then(result => {
@@ -87,16 +87,20 @@ router.delete('/:id', function(req, res, next) {
 
 // update user
 router.put('/:id', function(req, res, next) {
+
+  //encrypting data.
+  const salt = bcrypt.genSaltSync(saltRounds); //the cost of processing the data.
+  const hashedPassword = bcrypt.hashSync(req.body.pw, salt); //the data to be encrypted.
+
   // update list
   let updateList = {
     mem_email: req.body.email,
     mem_name: req.body.name,
-    mem_password: req.body.pw,
+    mem_pw: hashedPassword,
     mem_phone: req.body.phone,
     mem_type: req.body.type,
     mem_mail_agree: req.body.mail_agree,
-    mem_last_connect_date: req.body.lcd,
-    mem_update: req.body.update
+    mem_last_connect_date: new Date()
     //...
   };
 
