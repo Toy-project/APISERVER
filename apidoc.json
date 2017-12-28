@@ -1,0 +1,8 @@
+{
+  "name": "OutPlatForm API",
+  "version": "0.0.1",
+  "description": "OutPlatForm API Documentation",
+  "apidoc": {
+    "title": "OutPlatForm API"
+  }
+}
