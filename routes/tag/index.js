@@ -30,7 +30,7 @@ router.get('/:tag_id', function(req, res, next) {
     },
   })
   .then(result => {
-    res.send(result);
+    res.status(200).json(results);
   })
   .catch(err => {
     res.send(err);
@@ -63,7 +63,7 @@ router.delete('/:tag_id', function(req, res, next) {
     }
   })
   .then(result => {
-    res.send(201);
+    res.send(200);
   })
   .catch(err => {
     res.send(err);

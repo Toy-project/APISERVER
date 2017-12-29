@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const Sns = require(path.join(__dirname, './sns.model.js'));
 
-const app = express();
+//const app = express();
 
 // get all sns list
 router.get('/', function(req, res, next) {
@@ -67,7 +67,7 @@ router.delete('/:sns_id', function(req, res, next) {
     }
   })
   .then(result => {
-    res.send(201);
+    res.send(200);
   })
   .catch(err => {
     res.send(err);

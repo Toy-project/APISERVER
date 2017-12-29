@@ -4,8 +4,9 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 const Category = require(path.join(__dirname, './category.model.js'));
+const Club = require(path.join(__dirname, '../club/club.model.js'));
 
-const app = express();
+//const app = express();
 
 // get all category list
 router.get('/', function(req, res, next) {
@@ -14,20 +15,6 @@ router.get('/', function(req, res, next) {
     where: {
       // todo
     },
-  })
-  .then(results => {
-    res.status(200).json(results);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
-
-//get all category name list
-router.get('/:nm', function(req, res, next) {
-  console.log("get all category name list");
-  Category.findAll({
-    attributes: ['cate_name']
   })
   .then(results => {
     res.status(200).json(results);
@@ -63,7 +50,7 @@ router.delete('/:cate_id', function(req, res, next) {
     }
   })
   .then(result => {
-    res.send(201);
+    res.send(200);
   })
   .catch(err => {
     res.send(err);
@@ -71,7 +58,7 @@ router.delete('/:cate_id', function(req, res, next) {
 });
 
 // update category
-router.put('/:id', function(req, res, next) {
+router.put('/:cate_id', function(req, res, next) {
   // update list
   let updateList = {
     cate_id: req.body.cate_id,

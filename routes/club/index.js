@@ -32,7 +32,7 @@ router.get('/:cate_id', function(req, res, next) {
       //   {
       //     model:"CATEGORY",
       //     where: {
-      //       category_id : req.params.cate_id
+      //       cate_id : req.params.cate_id
       //     }
       //   }
       // ]
@@ -85,7 +85,7 @@ router.delete('/:club_id', function(req, res, next) {
     }
   })
   .then(result => {
-    res.send(201);
+    res.send(200);
   })
   .catch(err => {
     res.send(err);
