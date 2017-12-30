@@ -10,6 +10,12 @@ const sequelize = new Sequelize(db.name, db.user, db.password,{
     min: 0,
     idle: 5
   },
+  define: {
+    charset: 'utf8',
+    dialectOptions: {
+      collate: 'utf8_general_ci'
+    },
+  },
 });
 
 module.exports = sequelize;
