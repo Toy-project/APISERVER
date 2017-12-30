@@ -1,5 +1,5 @@
 /**
- * @api {get} /Category/ 모든 카테고리 조회
+ * @api {get} /category/ 모든 카테고리 조회
  * @apiName GetAllCategory
  * @apiGroup Category
  * 
@@ -7,7 +7,7 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiSuccess {Number} cate_id 카테고리 기본키
+ * @apiSuccess {Number} cate_id 카테고리 아이디
  * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
@@ -48,7 +48,7 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  * 
- * @apiParam {Number} cate_id 카테고리 키본키
+ * @apiParam {Number} cate_id 카테고리 아이디
  * 
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
@@ -88,7 +88,7 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  * 
- * @apiParam {String} cate_id 카테고리 기본키
+ * @apiParam {String} cate_id 카테고리 아이디
  * @apiParam {String} cate_name 카테고리 이름
  * 
  * @apiSuccessExample Success-Response:
@@ -130,7 +130,7 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  * 
- * @apiParam {Number} cate_id 카테고리 키본키
+ * @apiParam {Number} cate_id 카테고리 아이디
  * @apiParam {String} cate_name 카테고리 이름
  * 
  * @apiSuccessExample Success-Response:
