@@ -205,7 +205,7 @@
 
  /**
  * @api {put} /member/:mem_id 회원 수정
- * @apiName ModifyMember
+ * @apiName UpdateMember
  * @apiGroup Member
  * 
  * @apiHeader {String} Authorization bearer token
