@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
 
 const router = express.Router();
 const Member = require(path.join(__dirname, '../member/member.model'));
@@ -9,8 +10,8 @@ const bcrypt = require('bcrypt');
 const authCotroller = require(path.join(__dirname, './auth.controller'));
 
 router.post('/login', function(req, res, next) {
-  const email = req.body.email;
-  const pw = req.body.pw;
+  const email = req.body.mem_email;
+  const pw = req.body.mem_pw;
 
   Member.find({
     where: {
@@ -21,8 +22,7 @@ router.post('/login', function(req, res, next) {
     const resultData = result;
     
     // set error
-    let err = new Error('Unauthorized');
-    err.status = 401;
+    let err = error(401);
     
     if(!resultData) return next(err);
 

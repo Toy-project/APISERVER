@@ -1,4 +1,7 @@
+const path = require('path');
 const jwt = require('jsonwebtoken');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
+
 const TOKEN_SECRET = 'secret';
 
 // Generate Token
@@ -43,18 +46,17 @@ function isAuthenticated(token) {
 // Ensure Authorized
 function ensureAuthorized(req, res, next) {
   // set error
-  let err = new Error('Unauthorized');
-  err.status = 401;
+  let err = error(401);
 
   // request header
-  const Authorization = req.headers.authorization || req.headers.Authorization;
+  const authorization = req.headers.authorization || req.headers.Authorization;
   
-  if(!Authorization) {
+  if(!authorization) {
     next(err);
   }
   else {
-    const AuthorizationToken = Authorization.split(' ')[1] || null;
-    const isAuthenticated = AuthorizationToken ? module.exports.isAuthenticated(AuthorizationToken) : null;
+    const authorizationToken = authorization.split(' ')[1] || null;
+    const isAuthenticated = authorizationToken ? module.exports.isAuthenticated(authorizationToken) : null;
 
     if(isAuthenticated.isValid) {
       next();
