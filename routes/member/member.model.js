@@ -6,6 +6,8 @@ const Club = require(path.join(__dirname, '../club/club.model.js'));
 const Comment = require(path.join(__dirname, '../comment/comment.model.js'));
 const Cart = require(path.join(__dirname, '../cart/cart.model.js'));
 
+const bcrypt = require('bcrypt');
+
 // define sequelize user table
 const Member = sequelize.define('MEMBER', {
   mem_id: {
@@ -77,10 +79,39 @@ const Member = sequelize.define('MEMBER', {
 }, {
   freezeTableName: true,
   timestamps: false,
+  hooks: {
+    beforeCreate: (user, option) => {
+      console.log("Hooking with beforeCreate");
+      //encrypting data.
+      console.log(user);
+      user.mem_pw = hashedPassword(user.mem_pw);
+    },
+    beforeUpdate : (user, option) => {
+      console.log("Hooking with beforeUpdate");
+      user.mem_pw = hashedPassword(user.mem_pw);
+    }
+  }
 });
 
 Member.hasMany(Club, {foreignKey: 'mem_id'}); //회원과 단체 1:N 관계
 Member.hasMany(Comment, {foreignKey: 'mem_id'});
 Member.hasMany(Cart, {foreignKey: 'mem_id'});
+
+Member.findOneUserByEmail = (mem_email) => {
+  return Member.findOne({
+    where : {
+      mem_email : mem_email
+    }
+  })
+}
+
+hashedPassword = (pw) => {
+  if(user){
+    const salt = bcrypt.genSaltSync(10); //the cost of processing the data.
+    return bcrypt.hashSync(pw, salt); //the data to be encrypted.
+  } else {
+    throw new Error("Can't find user");
+  }
+}
 
 module.exports = Member;
