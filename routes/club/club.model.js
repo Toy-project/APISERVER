@@ -3,6 +3,7 @@ const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
 const Category = require(path.join(__dirname, '../category/category.model.js'));
+const Member = require(path.join(__dirname, '../member/member.model.js'));
 const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
 const Cart = require(path.join(__dirname, '../cart/cart.model.js'));
 const Comment = require(path.join(__dirname, '../comment/comment.model.js'));
@@ -20,8 +21,8 @@ const Club = sequelize.define('CLUB', {
     type: Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'MEMBER',
-      key:'mem_id'
+      model: Member,
+      key: 'mem_id'
     }
   },
   club_photo: {
@@ -42,7 +43,7 @@ const Club = sequelize.define('CLUB', {
   club_phone: {
     type: Sequelize.STRING,
     validate : {
-      is : /^\d{3}-\d{4}-\d{4}$/i
+      is : /^\d{2,3}-\d{3,4}-\d{4}$/i
     }
   },
   club_email: {
@@ -57,16 +58,16 @@ const Club = sequelize.define('CLUB', {
     type: Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'CATEGORY',
-      key:'cate_id'
+      model: Category,
+      key: 'cate_id'
     }
   },
   tag_id: {
     type: Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'TAG',
-      key:'tag_id'
+      model: Tag,
+      key: 'tag_id'
     }
   },
   club_history:{
@@ -83,22 +84,21 @@ const Club = sequelize.define('CLUB', {
   },
   union_enabled:{
       type:Sequelize.INTEGER,
-      allowNull : false,
-      comment : '1이면 연합'
+      allowNull: false,
+      comment: '1이면 연합'
   },
   club_rating:{
-      type:Sequelize.FLOAT,
-      allowNull : false
+      type:Sequelize.FLOAT
   },
 }, {
   freezeTableName: true,
   timestamps : false //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
 });
 
-Club.belongsTo(Category);
-Club.belongsTo(Tag);
-Club.hasMany(Cart, {foreignKey: 'cate_id'});
-Club.hasMany(Comment, {foreignKey: 'cate_id'});
-Club.hasMany(Sns, {foreignKey: 'cate_id'});
+Club.belongsTo(Category, {foreignKey: 'cate_id', as: 'category'});
+Club.belongsTo(Tag, {foreignKey: 'tag_id', as: 'tag'});
+Club.hasMany(Cart, {foreignKey: 'clud_id'});
+Club.hasMany(Comment, {foreignKey: 'clud_id'});
+Club.hasMany(Sns, {foreignKey: 'clud_id'});
 
 module.exports = Club;
