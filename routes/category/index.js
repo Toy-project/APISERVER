@@ -35,7 +35,7 @@ router.post('/', function(req, res, next) {
   })
   .spread((category, created) => {
     if(created) {
-      res.status(201).json(created);
+      res.status(201).json(category);
     }
     else {
       next(error(400));
