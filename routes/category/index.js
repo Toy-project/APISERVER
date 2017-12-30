@@ -23,6 +23,23 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// get category
+router.get('/:cate_id', function(req, res, next) {
+  console.log("get a specific category");
+
+  Category.findOne({
+    where: {
+      cate_id: req.params.cate_id,
+    },
+  })
+  .then(result => {
+    result ? res.status(200).json(result) : next(error(400));
+  })
+  .catch(err => {
+    next(err);
+  });
+});
+
 // create category
 router.post('/', function(req, res, next) {
   console.log("Create a category");
@@ -31,6 +48,7 @@ router.post('/', function(req, res, next) {
     where: {
       cate_id: req.body.cate_id,
       cate_name: req.body.cate_name
+      //...
     }
   })
   .spread((category, created) => {
