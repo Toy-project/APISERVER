@@ -12,7 +12,8 @@ const Category = sequelize.define('CATEGORY', {
   },
   cate_name: {
     type: Sequelize.STRING,
-    allowNull : false
+    allowNull : false,
+    unique: true
   }
 }, {
   freezeTableName: true,
