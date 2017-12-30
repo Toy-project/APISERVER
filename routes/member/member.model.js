@@ -83,12 +83,20 @@ const Member = sequelize.define('MEMBER', {
     beforeCreate: (user, option) => {
       console.log("Hooking with beforeCreate");
       //encrypting data.
-      console.log(user);
+      console.log(user.mem_pw);
       user.mem_pw = hashedPassword(user.mem_pw);
     },
     beforeUpdate : (user, option) => {
       console.log("Hooking with beforeUpdate");
-      user.mem_pw = hashedPassword(user.mem_pw);
+      const old_pw = user._previousDataValues.mem_pw;
+
+      //console.log(old_pw + " " + user.mem_pw);
+
+      //when false, change the password
+      if(!bcrypt.compareSync(user.mem_pw, old_pw)){
+        console.log("Password has been changed")
+        user.mem_pw = hashedPassword(user.mem_pw);
+      }
     }
   }
 });
@@ -105,8 +113,39 @@ Member.findOneUserByEmail = (mem_email) => {
   })
 }
 
+Member.findOneUserByMemId = (mem_id) => {
+  return Member.findOne({
+    where : {
+      mem_id : mem_id
+    }
+  })
+}
+
+Member.createMember = (createList) => {
+  return Member.create({
+    mem_email: createList.mem_email,
+    mem_name: createList.mem_name,
+    mem_pw: createList.mem_pw,
+    mem_phone: createList.mem_phone,
+    mem_type: createList.mem_type,
+    mem_mail_agree: createList.mem_mail_agree,
+    mem_last_connect_date: new Date(),
+    mem_update: new Date()
+    //...
+  })
+}
+
+Member.updateMember = (updateList, mem_id) => {
+  return Member.update(updateList, {
+    individualHooks: true,
+    where : {
+      mem_id : mem_id
+    }
+  });
+}
+
 hashedPassword = (pw) => {
-  if(user){
+  if(pw){
     const salt = bcrypt.genSaltSync(10); //the cost of processing the data.
     return bcrypt.hashSync(pw, salt); //the data to be encrypted.
   } else {
