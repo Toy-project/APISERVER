@@ -22,6 +22,8 @@ exports.getAllMember = function(req, res, next) {
 exports.getMember = function(req, res, next) {
   console.log("get a specific user");
 
+  const mem_id = req.params.mem_id;
+
   const respond = (results) => {
     res.status(200).json(results);
   }
@@ -32,39 +34,27 @@ exports.getMember = function(req, res, next) {
     });
   }
 
-  Member.find({
-    where: {
-      mem_id: req.params.mem_id,
-    },
-  })
+  Member.findOneUserByMemId(mem_id)
   .then(respond)
   .catch(onError);
 }
 
 exports.register = function(req, res, next) {
-  console.log("Create a user")
-  const { mem_email, mem_name, mem_pw, mem_phone, mem_type, mem_mail_agree } = req.body
+  console.log("Create a user");
+  const createList = { mem_email, mem_name, mem_pw, mem_phone, mem_type, mem_mail_agree } = req.body;
 
   const create = (user) => {
-    console.log(user)
+    console.log(user);
     if(user){
-      throw new Error('mem_email exists')
+      throw new Error('mem_email exists');
     } else {
-      Member.create({
-        mem_email: mem_email,
-        mem_name: mem_name,
-        mem_pw: mem_pw,
-        mem_phone: mem_phone,
-        mem_type: mem_type,
-        mem_mail_agree: mem_mail_agree,
-        mem_last_connect_date: new Date(),
-        mem_update: new Date()
-        //...
-      })
-      res.status(200).json({
-        Message : "Registed Successfully"
-      })
+      return Member.createMember(createList);
     }
+  }
+
+  const respond = (results) => {
+    console.log("respond");
+    res.status(200).json(results);
   }
 
   const onError = (err) => {
@@ -75,6 +65,7 @@ exports.register = function(req, res, next) {
 
   Member.findOneUserByEmail(mem_email)
   .then(create)
+  .then(respond)
   .catch(onError)
 }
 
@@ -107,11 +98,10 @@ exports.updateMember = (req, res, next) => {
   console.log("Update a member");
 
   const updateList = { mem_name, mem_pw, mem_phone, mem_type, mem_mail_agree } = req.body;
+  const mem_id = req.params.mem_id;
 
   const respond = (results) => {
-    res.status(200).json({
-      message : "Updated Successfully"
-    });
+    res.status(200).json(results);
   }
 
   const onError = (err) => {
@@ -120,12 +110,7 @@ exports.updateMember = (req, res, next) => {
     });
   }
 
-  Member.update(updateList, {
-    individualHooks: true,
-    where : {
-      mem_id : req.params.mem_id
-    }
-  })
+  Member.updateMember(updateList, mem_id)
   .then(respond)
   .catch(onError)
 }
