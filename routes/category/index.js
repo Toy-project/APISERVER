@@ -34,12 +34,7 @@ router.post('/', function(req, res, next) {
     }
   })
   .spread((category, created) => {
-    if(created) {
-      res.status(201).json(category);
-    }
-    else {
-      next(error(400));
-    }
+    created ? res.status(201).json(category) : next(error(400));
   })
   .catch(err => {
     next(err);
@@ -71,7 +66,6 @@ router.delete('/:cate_id', function(req, res, next) {
     }
   })
   .catch(err => {
-    console.log(err);
     next(err);
   });
 });
@@ -94,10 +88,10 @@ router.put('/:cate_id', function(req, res, next) {
         }
       })
       .then(result => {
-        // result[0] is number (o or 1)
+        // result is number (o or 1)
         // 0: 기존 데이터와 동일
         // 1: 기존 데이터와 달라 업데이트 성공
-        res.status(201).send(result[0]);
+        res.status(201).send(result);
       })
       .catch(err => {
         next(err);
