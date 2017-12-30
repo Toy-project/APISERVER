@@ -68,9 +68,10 @@ app.use(function(req, res, next) {
 
 // error send handler
 app.use(function(err, req, res, next) {
+  let errors = err.status ? error(err.status) : error(err.status, err);
+  
   // send json
-  res.status(err.status || 500);
-  res.json(err);
+  res.status(errors.status).json(errors);
 });
 
 module.exports = app;
