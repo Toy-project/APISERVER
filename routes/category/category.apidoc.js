@@ -13,7 +13,7 @@
  *     HTTP/1.1 200 Ok
  *     [{
  *       "cate_id": 1,
- *       "cate_email": "IT",
+ *       "cate_name": "IT",
  *     }]
  *
  * @apiError BadRequest 잘못된 요청
