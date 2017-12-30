@@ -1,6 +1,9 @@
 const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
+
+const bcrypt = require('bcrypt');
+
 // define sequelize user table
 const Member = sequelize.define('MEMBER', {
   mem_id: {
@@ -72,6 +75,35 @@ const Member = sequelize.define('MEMBER', {
 }, {
   freezeTableName: true,
   timestamps: false,
+  hooks: {
+    beforeCreate: (user, option) => {
+      console.log("Hooking with beforeCreate");
+      //encrypting data.
+      console.log(user);
+      user.mem_pw = hashedPassword(user.mem_pw);
+    },
+    beforeUpdate : (user, option) => {
+      console.log("Hooking with beforeUpdate");
+      user.mem_pw = hashedPassword(user.mem_pw);
+    }
+  }
 });
+
+Member.findOneUserByEmail = (mem_email) => {
+  return Member.findOne({
+    where : {
+      mem_email : mem_email
+    }
+  })
+}
+
+hashedPassword = (pw) => {
+  if(user){
+    const salt = bcrypt.genSaltSync(10); //the cost of processing the data.
+    return bcrypt.hashSync(pw, salt); //the data to be encrypted.
+  } else {
+    throw new Error("Can't find user");
+  }
+}
 
 module.exports = Member;
