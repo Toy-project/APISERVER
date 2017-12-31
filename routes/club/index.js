@@ -1,47 +1,60 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
 
 const router = express.Router();
 const Club = require(path.join(__dirname, './club.model.js'));
-
-// const regExpPhone = /^\d{2,3}-\d{3,4}-\d{4}$/; //지역번호가 될 수 있도록
+const Category = require(path.join(__dirname, '../category/category.model.js'));
+const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
 
 // get all club list
 router.get('/', function(req, res, next) {
   console.log("get all club list");
-  Club.findAll({
 
-    })
+  Club.findAll({
+    where: {
+      // todo
+    },
+  })
   .then(results => {
     res.status(200).json(results);
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
-// get specific_category club list
-router.get('/:cate_id', function(req, res, next) {
-    console.log("get specific category club list");
-    Club.findAll({
+// get a specific club 
+router.get('/:club_id', function(req, res, next) {
+    console.log("get a specific club");
+
+    Club.findOne({
       where: {
-        cate_id : req.params.cate_id
-      }
-      // include:[
-      //   {
-      //     model:"CATEGORY",
-      //     where: {
-      //       cate_id : req.params.cate_id
-      //     }
-      //   }
-      // ]
+        club_id: req.params.club_id
+      },
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          where: {
+            cate_id: req.params.cate_id || req.query.cate_id
+          }
+        },
+        {
+          model: Tag,
+          as: 'tag',
+          where: {
+            tag_id: req.params.tag_id || req.query.tag_id
+          }
+        }
+      ]
     })
-    .then(results => {
-      res.status(200).json(results);
+    .then(result => {
+      result ? res.status(200).json(result) : next(error(400));
     })
     .catch(err => {
-      res.send(err);
+      next(err);
     });
 });
 
@@ -49,79 +62,121 @@ router.get('/:cate_id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log("Create a club");
 
-  Club.create({
-    mem_id: req.body.mem_id,
-    club_photo: req.body.club_photo,
-    club_name:req.body.club_name,
-    club_ex: req.body.club_ex,
-    club_copyright: req.body.club_copyright,
-    club_phone:req.body.club_phone,
-    club_email:req.body.club_email,
-    club_college:req.body.club_college,
-    cate_id:req.body.cate_id,
-    tag_id:req.body.tag_id,
-    club_history:req.body.club_history,
-    club_career:req.body.club_career,
-    club_price_duration:req.body.club_price_duration,
-    club_views:req.body.club_views,
-    union_enabled:req.body.union_enabled,
-    club_rating:req.body.club_rating
-    //...
+  Club.findOne({
+    where: {
+      mem_id: req.body.mem_id
+    }
   })
-  .then(result => {
-    res.status(201).json(result);
+  .then(find => {
+    if(!find) {
+      Club.create({
+        mem_id: req.body.mem_id,
+        club_photo: req.body.club_photo,
+        club_name: req.body.club_name,
+        club_ex: req.body.club_ex,
+        club_copyright: req.body.club_copyright,
+        club_phone: req.body.club_phone,
+        club_email: req.body.club_email,
+        club_college: req.body.club_college,
+        cate_id: req.body.cate_id,
+        tag_id: req.body.tag_id,
+        club_history: req.body.club_history || '',
+        club_career: req.body.club_career || '',
+        club_price_duration: req.body.club_price_duration || '',
+        union_enabled: req.body.union_enabled,
+        //...
+      })
+      .then(result => {
+        res.status(201).json(result);
+      })
+      .catch(err => {
+        next(err);
+      })
+    }
+    else {
+      next(error(400));
+    }
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
-//
+
 // delete club
 router.delete('/:club_id', function(req, res, next) {
   console.log("Remove a club");
-  Club.destroy({
-    where: {
-      club_id: req.params.club_id
+
+  Club.findById(req.params.club_id)
+  .then(num => {
+    // number (0 or 1)
+    if(num) {
+      Club.destroy({
+        where: {
+          club_id: req.params.club_id
+        }
+      })
+      .then(result => {
+        res.send(200);
+      })
+      .catch(err => {
+        next(err);
+      });
+    }
+    else {
+      next(error(400));
     }
   })
-  .then(result => {
-    res.send(200);
-  })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
-//
+
 // update club
 router.put('/:club_id', function(req, res, next) {
   // update list
   let updateList = {
     mem_id: req.body.mem_id,
     club_photo: req.body.club_photo,
-    club_name:req.body.club_name,
+    club_name: req.body.club_name,
     club_ex: req.body.club_ex,
     club_copyright: req.body.club_copyright,
-    club_phone:req.body.club_phone,
-    club_email:req.body.club_email,
-    club_college:req.body.club_college,
-    cate_id:req.body.cate_id,
-    tag_id:req.body.tag_id,
-    club_history:req.body.club_history,
-    club_career:req.body.club_career,
-    club_price_duration:req.body.club_price_du,
-    club_views:req.body.club_view,
-    uion_enabled:req.body.uion_enabled,
-    club_rating:req.body.club_rating
+    club_phone: req.body.club_phone,
+    club_email: req.body.club_email,
+    club_college: req.body.club_college,
+    cate_id: req.body.cate_id,
+    tag_id: req.body.tag_id,
+    club_history: req.body.club_history,
+    club_career: req.body.club_career,
+    club_price_duration: req.body.club_price_du,
+    uion_enabled: req.body.uion_enabled,
     //...
   };
 
-  Club.update(updateList, {
-    where: {
-      club_id: req.params.club_id
+  Club.findById(req.params.club_id)
+  .then(num => {
+    // number (0 or 1)
+    if(num) {
+      Club.update(updateList, {
+        where: {
+          club_id: req.params.club_id
+        }
+      })
+      .then(result => {
+        // result is number (o or 1)
+        // 0: 기존 데이터와 동일
+        // 1: 기존 데이터와 달라 업데이트 성공
+        res.status(201).json(result);
+      })
+      .catch(err => {
+        next(err);
+      });
+    }
+    else {
+      next(error(400));
     }
   })
-  .then(result => {
-    res.status(201).json(result);
+  .catch(err => {
+    next(err);
   });
 });
 

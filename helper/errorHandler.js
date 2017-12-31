@@ -1,9 +1,10 @@
 // Error Handler
-function errorHandler(status) {
+function errorHandler(status, errors) {
   let err = {};
+  let errorObj = errors || {};
 
   // set statusCode
-  err.status = status;
+  err.status = status || 500;
 
   // set error detail
   switch(status) {
@@ -27,7 +28,10 @@ function errorHandler(status) {
 
     // default
     default:
-      err.message = 'Server Error';
+      err.message = errorObj.errors && errorObj.errors[0].message ? errorObj.errors[0].message : 'Server Error';
+      err.errno = errorObj.original && errorObj.original.errno ? errorObj.original.errno : '';
+      err.sqlState = errorObj.original && errorObj.original.sqlState ? errorObj.original.sqlState : '';
+      //...
       break;
   }
 

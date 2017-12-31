@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
 
 const router = express.Router();
 const Tag = require(path.join(__dirname, './tag.model.js'));
@@ -8,6 +9,7 @@ const Tag = require(path.join(__dirname, './tag.model.js'));
 // get all tag list
 router.get('/', function(req, res, next) {
   console.log("get all tag list");
+
   Tag.findAll({
     where: {
       // todo
@@ -17,23 +19,24 @@ router.get('/', function(req, res, next) {
     res.status(200).json(results);
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
 // get tag
 router.get('/:tag_id', function(req, res, next) {
   console.log("get a specific tag");
-  Club.find({
+
+  Tag.findOne({
     where: {
-        tag_id: req.params.tag_id,
+      tag_id: req.params.tag_id,
     },
   })
   .then(result => {
-    res.status(200).json(results);
+    result ? res.status(200).json(result) : next(error(400));
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
@@ -41,32 +44,47 @@ router.get('/:tag_id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log("Create a tag");
 
-  Category.create({
-    tag_id: req.body.tag_id,
-    tag_name: req.body.tag_name
-    //...
+  Tag.findOrCreate({
+    where: {
+      tag_id: req.body.tag_id,
+      tag_name: req.body.tag_name
+      //...
+    }
   })
-  .then(result => {
-    res.status(201).json(result);
+  .spread((tag, created) => {
+    created ? res.status(201).json(tag) : next(error(400));
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
 // delete tag
 router.delete('/:tag_id', function(req, res, next) {
   console.log("Remove a tag");
-  Tag.destroy({
-    where: {
-        tag_id: req.params.tag_id,
+  
+  Tag.findById(req.params.tag_id)
+  .then(num => {
+    // number (0 or 1)
+    if(num) {
+      Tag.destroy({
+        where: {
+          tag_id: req.params.tag_id,
+        }
+      })
+      .then(result => {
+        res.send(200);
+      })
+      .catch(err => {
+        next(err);
+      });
+    }
+    else {
+      next(error(400));
     }
   })
-  .then(result => {
-    res.send(200);
-  })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
@@ -74,18 +92,35 @@ router.delete('/:tag_id', function(req, res, next) {
 router.put('/:tag_id', function(req, res, next) {
   // update list
   let updateList = {
-    tag_id: req.body.tag_id,
     tag_name: req.body.tag_name
     //...
   };
 
-  Tag.update(updateList, {
-    where: {
-      tag_id: req.params.tag_id,
+  Tag.findById(req.params.tag_id)
+  .then(num => {
+    // number (0 or 1)
+    if(num) {
+      Tag.update(updateList, {
+        where: {
+          tag_id: req.params.tag_id,
+        }
+      })
+      .then(result => {
+        // result is number (o or 1)
+        // 0: 기존 데이터와 동일
+        // 1: 기존 데이터와 달라 업데이트 성공
+        res.status(201).send(result);
+      })
+      .catch(err => {
+        next(err);
+      }); 
+    }
+    else {
+      next(error(400));
     }
   })
-  .then(result => {
-    res.status(201).json(result);
+  .catch(err => {
+    next(err);
   });
 });
 
