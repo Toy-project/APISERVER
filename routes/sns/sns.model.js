@@ -10,22 +10,22 @@ const Sns = sequelize.define('SNS', {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull : false
+    allowNull: false
   },
   sns_name: {
     type: Sequelize.STRING,
-    allowNull : false
+    allowNull: false
   },
   sns_url: {
     type: Sequelize.STRING,
-    allowNull : false
+    allowNull: false
   },
   club_id: {
     type: Sequelize.INTEGER,
-    allowNull : false,
-    references : {
-      model:'CLUB',
-      key:'club_id'
+    allowNull: false,
+    references: {
+      model: Club,
+      key: 'club_id'
     }
   }
 }, {
