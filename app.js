@@ -19,7 +19,7 @@ const auth = require('./routes/auth/');
 const sns = require('./routes/sns/');
 const category = require('./routes/category/');
 const tag = require('./routes/tag/');
- 
+
 
 // authController
 const authController = require(path.join(__dirname, './routes/auth/auth.controller'));
@@ -69,7 +69,7 @@ app.use(function(req, res, next) {
 // error send handler
 app.use(function(err, req, res, next) {
   let errors = err.status ? error(err.status) : error(err.status, err);
-  
+
   // send json
   res.status(errors.status).json(errors);
 });

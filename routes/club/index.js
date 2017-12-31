@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-// get a specific club 
+// get a specific club
 router.get('/:club_id', function(req, res, next) {
     console.log("get a specific club");
 

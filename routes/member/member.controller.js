@@ -9,9 +9,7 @@ exports.getAllMember = function(req, res, next) {
   }
 
   const onError = (err) => {
-    res.status(500).json({
-      message: err.message
-    });
+    next(err);
   }
 
   Member.findAll()
@@ -29,9 +27,7 @@ exports.getMember = function(req, res, next) {
   }
 
   const onError = (err) => {
-    res.status(500).json({
-      message: err.message
-    });
+    next(err);
   }
 
   Member.findOneUserByMemId(mem_id)
@@ -58,9 +54,7 @@ exports.register = function(req, res, next) {
   }
 
   const onError = (err) => {
-    res.status(500).json({
-      Message : err.message
-    });
+    next(err);
   }
 
   Member.findOneUserByEmail(mem_email)
@@ -80,9 +74,7 @@ exports.removeMember = (req, res, next) => {
   }
 
   const onError = (err) => {
-    res.status(500).json({
-      message: err.message
-    });
+    next(err);
   }
 
   Member.destroy({
@@ -105,9 +97,7 @@ exports.updateMember = (req, res, next) => {
   }
 
   const onError = (err) => {
-    res.status(500).json({
-      message: err.message
-    });
+    next(err);
   }
 
   Member.updateMember(updateList, mem_id)

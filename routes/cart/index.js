@@ -36,7 +36,7 @@ router.get('/:mem_id/:club_id', function(req, res, next) {
     res.status(200).json(results);
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
@@ -52,7 +52,7 @@ router.post('/', function(req, res, next){
     res.status(201).json(result);
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
@@ -68,7 +68,7 @@ router.delete('/:cart_id', function(req, res, next) {
     res.send(201);
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 
