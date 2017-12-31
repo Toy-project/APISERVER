@@ -19,7 +19,7 @@ router.get('/:mem_id', function(req, res, next){
     res.status(200).json(results);
   })
   .catch(err => {
-    res.send(err);
+    next(err);
   });
 });
 

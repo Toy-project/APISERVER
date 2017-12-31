@@ -19,7 +19,7 @@ router.get('/club/:club_id', function(req, res, next){
     res.status(200).json(result);
   })
   .catch(err=>{
-    res.send(err);
+    res.status(201).json(err);
   });
 });
 
@@ -35,7 +35,7 @@ router.get('/member/:mem_id', function(req, res, next){
     res.status(200).json(result);
   })
   .catch(err=>{
-    res.send(err);
+    res.status(201).json(err);
   });
 });
 
@@ -52,7 +52,7 @@ router.get('/:mem_id/:club_id', function(req, res, next){
     res.status(200).json(result);
   })
   .catch(err=>{
-    res.send(err);
+    res.status(201).json(err);
   });
 });
 
@@ -67,7 +67,7 @@ router.post('/', function(req, res, next){
     club_id: req.body.club_id
   })
   .then(result=>{
-    res.status(200).json(result);
+    res.status(201).json(result);
   })
   .catch(err=>{
     res.send(err);

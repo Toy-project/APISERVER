@@ -54,7 +54,7 @@ exports.register = function(req, res, next) {
 
   const respond = (results) => {
     console.log("respond");
-    res.status(200).json(results);
+    res.status(201).json(results);
   }
 
   const onError = (err) => {
@@ -101,7 +101,7 @@ exports.updateMember = (req, res, next) => {
   const mem_id = req.params.mem_id;
 
   const respond = (results) => {
-    res.status(200).json(results);
+    res.status(201).json(results);
   }
 
   const onError = (err) => {
