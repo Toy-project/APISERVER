@@ -15,81 +15,89 @@ const Club = sequelize.define('CLUB', {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull : false
+    allowNull: false
   },
-  mem_id: {
-    type: Sequelize.INTEGER,
-    allowNull : false,
-    references : {
-      model: Member,
-      key: 'mem_id'
+  club_email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
+  club_pw: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  club_name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
+  club_profile_photo: {
+    type: Sequelize.STRING
+  },
+  club_phone: {
+    type: Sequelize.STRING,
+    validate: {
+      is: /^\d{2,3}-\d{3,4}-\d{4}$/i
     }
   },
   club_photo: {
     type: Sequelize.STRING
   },
-  club_name: {
-    type: Sequelize.STRING,
-    allowNull : false
-  },
-  club_ex:{
+  club_ex: {
       type: Sequelize.STRING,
-      allowNull : false
+      allowNull: false
   },
-  club_copyright:{
-      type : Sequelize.STRING,
-      allowNull : false
-  },
-  club_phone: {
-    type: Sequelize.STRING,
-    validate : {
-      is : /^\d{2,3}-\d{3,4}-\d{4}$/i
-    }
-  },
-  club_email: {
-    type: Sequelize.STRING
+  club_copyright: {
+      type: Sequelize.STRING,
+      allowNull: false
   },
   club_college: {
     type: Sequelize.STRING,
-    allowNull : false
-    //Use career net open api
+    allowNull: false
+    // Use career net open api
   },
   cate_id: {
     type: Sequelize.INTEGER,
-    allowNull : false,
-    references : {
+    allowNull: false,
+    references: {
       model: Category,
       key: 'cate_id'
     }
   },
   tag_id: {
     type: Sequelize.INTEGER,
-    allowNull : false,
-    references : {
+    allowNull: false,
+    references: {
       model: Tag,
       key: 'tag_id'
     }
   },
-  club_history:{
-      type:Sequelize.STRING
+  club_history: {
+    type: Sequelize.TEXT
   },
-  club_career:{
-      type: Sequelize.BLOB('tiny') //use text editor
+  club_price_duration: {
+    type: Sequelize.STRING
   },
-  club_price_duration:{
-      type:Sequelize.STRING
+  club_views: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
-  club_views:{
-      type:Sequelize.INTEGER
+  union_enabled: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    comment: '1이면 연합'
   },
-  union_enabled:{
-      type:Sequelize.INTEGER,
-      allowNull: false,
-      comment: '1이면 연합'
+  club_rating: {
+    type: Sequelize.FLOAT,
+    defaultValue: 0
   },
-  club_rating:{
-      type:Sequelize.FLOAT
-  },
+  club_update: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW,
+    validate : {
+      isDate: true
+    }
+  }
 }, {
   freezeTableName: true,
   timestamps : false //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
@@ -97,8 +105,8 @@ const Club = sequelize.define('CLUB', {
 
 Club.belongsTo(Category, {foreignKey: 'cate_id', as: 'category'});
 Club.belongsTo(Tag, {foreignKey: 'tag_id', as: 'tag'});
-Club.hasMany(Cart, {foreignKey: 'clud_id'});
-Club.hasMany(Comment, {foreignKey: 'clud_id'});
-Club.hasMany(Sns, {foreignKey: 'clud_id'});
+Club.hasMany(Cart, {foreignKey: 'club_id'});
+Club.hasMany(Comment, {foreignKey: 'club_id'});
+Club.hasMany(Sns, {foreignKey: 'club_id'});
 
 module.exports = Club;
