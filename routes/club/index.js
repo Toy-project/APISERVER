@@ -45,6 +45,9 @@ router.get('/:cate_id', function(req, res, next) {
     });
 });
 
+//get search result club list
+//..
+
 // create club
 router.post('/', function(req, res, next) {
   console.log("Create a club");
