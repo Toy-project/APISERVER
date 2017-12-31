@@ -81,7 +81,7 @@ const Member = sequelize.define('MEMBER', {
   timestamps: false
 });
 
-Member.hasMany(Club, {foreignKey: 'mem_id'}); //회원과 단체 1:N 관계
+
 Member.hasMany(Comment, {foreignKey: 'mem_id'});
 Member.hasMany(Cart, {foreignKey: 'mem_id'});
 
