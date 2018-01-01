@@ -50,7 +50,7 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/member', member);
 app.use('/comment', comment);
-app.use('/site_statistic',site_statistic);
+app.use('/site-statistic',site_statistic);
 app.use('/session', session);
 app.use('/cart', cart);
 app.use('/club', club);

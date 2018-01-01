@@ -1,92 +1,57 @@
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Session = require(path.join(__dirname, './session.model.js'));
+const Controller = require(path.join(__dirname, './session.controller.js'));
 
-// get session list
-router.get('/', function(req, res, next) {
-  console.log("get all users");
-  Session.findAll({
-    where: {
-      // todo
-    },
-  })
-  .then(results => {
-    res.status(200).json(results);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
+//Get All Session
+router.get('/', Controller.GetAllSession);
 
-// get a session
-router.get('/:session_id', function(req, res, next) {
-  console.log("get a session");
-  Session.find({
-    where: {
-      session_id: req.params.session_id,
-    },
-  })
-  .then(result => {
-    res.send(result);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
+//Get a Session
+router.get('/:session_id', Controller.GetSession);
 
-// create session
-router.post('/', function(req, res, next) {
-  console.log("Create a session");
+//Create a session
+router.post('/', Controller.createSession);
 
-  Session.create({
-    ip_address: req.body.ip_address,
-    user_agent: req.body.user_agent
-    //...
-  })
-  .then(result => {
-    res.status(201).json(result);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
+//Update a session
+router.put('/:session_id', Controller.updateSession);
 
-// delete session
-router.delete('/:session_id', function(req, res, next) {
-  console.log("Remove a session");
-  Session.destroy({
-    where: {
-      session_id: req.params.session_id,
-    }
-  })
-  .then(result => {
-    res.send(201);
-  })
-  .catch(err => {
-    res.send(err);
-  });
-});
+//Remove a session
+router.delete('/:session_id', Controller.removeSession);
 
-// update session
-router.put('/:session_id', function(req, res, next) {
-  // update list
-  let updateList = {
-    ip_address: req.body.ip_address,
-    user_agent: req.body.user_agent
-    //...
-  };
-
-  Session.update(updateList, {
-    where: {
-      session_id: req.params.session_id,
-    }
-  })
-  .then(result => {
-    res.status(201).json(result);
-  });
-});
+// // delete session
+// router.delete('/:session_id', function(req, res, next) {
+//   console.log("Remove a session");
+//   Session.destroy({
+//     where: {
+//       session_id: req.params.session_id,
+//     }
+//   })
+//   .then(result => {
+//     res.send(201);
+//   })
+//   .catch(err => {
+//     res.send(err);
+//   });
+// });
+//
+// // update session
+// router.put('/:session_id', function(req, res, next) {
+//   // update list
+//   let updateList = {
+//     ip_address: req.body.ip_address,
+//     user_agent: req.body.user_agent
+//     //...
+//   };
+//
+//   Session.update(updateList, {
+//     where: {
+//       session_id: req.params.session_id,
+//     }
+//   })
+//   .then(result => {
+//     res.status(201).json(result);
+//   });
+// });
 
 module.exports = router;

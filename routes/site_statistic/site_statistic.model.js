@@ -6,9 +6,9 @@ const Site_statistic = sequelize.define('SITE_STATISTIC', {
   date : {
     type: Sequelize.DATE,
     primaryKey: true,
+    allowNull : false,
     validate: {
       isDate: true,
-      allowNull : false
     }
   },
   site_connect_count: {
