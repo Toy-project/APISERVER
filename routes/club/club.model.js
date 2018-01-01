@@ -73,7 +73,10 @@ const Club = sequelize.define('CLUB', {
     }
   },
   club_history: {
-    type: Sequelize.TEXT
+    type: Sequelize.BLOB, //use editor,
+    get(){
+      return this.getDataValue('club_history').toString('utf8');
+    }
   },
   club_price_duration: {
     type: Sequelize.STRING
@@ -102,6 +105,7 @@ const Club = sequelize.define('CLUB', {
   freezeTableName: true,
   timestamps : false //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
 });
+
 
 Club.belongsTo(Category, {foreignKey: 'cate_id', as: 'category'});
 Club.belongsTo(Tag, {foreignKey: 'tag_id', as: 'tag'});

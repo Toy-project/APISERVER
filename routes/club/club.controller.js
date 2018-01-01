@@ -8,7 +8,7 @@ const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
 
 exports.getAllClub = function(req, res, next) {
   console.log("get all club list");
-
+  
   const respond = results => {
     res.status(200).json(results);
   };
@@ -75,7 +75,7 @@ exports.createClub = function(req, res, next) {
     tag_id,
     club_history,
     club_price_duration,
-    union_enabled,
+    union_enabled
     //...
   } = req.body;
 
