@@ -14,6 +14,10 @@ const Comment = sequelize.define('COMMENT', {
     type : Sequelize.STRING,
     allowNull : false
   },
+  club_rating : {
+    type : Sequelize.FLOAT,
+    allowNull : false
+  },
   comment_update : {
     type : Sequelize.DATE,
     allowNull : false,

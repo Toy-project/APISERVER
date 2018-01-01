@@ -4,72 +4,17 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 const Cart = require(path.join(__dirname, './cart.model.js'));
+const Controller = require(path.join(__dirname, './cart.controller.js'));
 
 const app = express();
 
 // get all cart with mem_id
-router.get('/:mem_id', function(req, res, next){
-  console.log("get all Carts");
-  Cart.findAll({
-    where: {
-      mem_id: req.params.mem_id
-    }
-  })
-  .then(results => {
-    res.status(200).json(results);
-  })
-  .catch(err => {
-    next(err);
-  });
-});
-
-// get a specific Cart with mem_id, club_id
-router.get('/:mem_id/:club_id', function(req, res, next) {
-  console.log("get a specific Cart");
-  Cart.find({
-    where: {
-      mem_id: req.params.mem_id,
-      club_id: req.params.club_id
-    },
-  })
-  .then(result => {
-    res.status(200).json(results);
-  })
-  .catch(err => {
-    next(err);
-  });
-});
+router.get('/get/:mem_id', Controller.getAllCartByMemId);
 
 // create a cart
-router.post('/', function(req, res, next){
-  console.log("Create a cart");
-
-  Cart.create({
-    mem_id: req.body.mem_id,
-    club_id: req.body.club_id
-  })
-  .then(result => {
-    res.status(201).json(result);
-  })
-  .catch(err => {
-    next(err);
-  });
-});
+router.post('/', Controller.createCart);
 
 // delete cart
-router.delete('/:cart_id', function(req, res, next) {
-  console.log("Remove a cart");
-  Cart.destroy({
-    where: {
-      cart_id: req.params.cart_id,
-    }
-  })
-  .then(result => {
-    res.send(201);
-  })
-  .catch(err => {
-    next(err);
-  });
-});
+router.delete('/:cart_id', Controller.removeCart);
 
 module.exports = router;
