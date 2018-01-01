@@ -110,6 +110,6 @@ Club.belongsTo(Category, {foreignKey: 'cate_id', as: 'category'});
 Club.belongsTo(Tag, {foreignKey: 'tag_id', as: 'tag'});
 Club.hasMany(Cart, {foreignKey: 'club_id'});
 Club.hasMany(Comment, {foreignKey: 'club_id'});
-Club.hasMany(Sns, {foreignKey: 'club_id'});
+Club.hasMany(Sns, {foreignKey: 'club_id', as: 'sns'});
 
 module.exports = Club;

@@ -5,6 +5,7 @@ const hash = require(path.join(__dirname, '../../helper/hashPassword'));
 const Club = require(path.join(__dirname, './club.model.js'));
 const Category = require(path.join(__dirname, '../category/category.model.js'));
 const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
+const Sns = require(path.join(__dirname, '../sns/sns.model.js'));
 
 exports.getAllClub = function(req, res, next) {
   console.log("get all club list");
@@ -51,7 +52,14 @@ exports.getClub = function(req, res, next) {
           where: {
             tag_id: req.params.tag_id || req.query.tag_id
           }
-        }
+        },
+        {
+          model: Sns,
+          as: 'sns',
+          where: {
+            club_id: req.params.club_id
+          }
+        },
       ]
     })
     .then(respond)
@@ -77,7 +85,7 @@ exports.createClub = function(req, res, next) {
     club_price_duration,
     union_enabled
     //...
-  } = req.body;
+  };
 
   // hash password
   createList.club_pw = hash.createPw(createList.club_pw);
@@ -132,22 +140,22 @@ exports.updateClub = function(req, res, next) {
 
   // update list
   const updateList = {
-    club_email,
-    club_pw,
-    club_name,
-    club_profile_photo,
-    club_phone,
-    club_photo,
-    club_ex,
-    club_copyright,
-    club_college,
-    cate_id,
-    tag_id,
-    club_history,
-    club_price_duration,
-    union_enabled,
+    club_email: req.body.club_email,
+    club_pw: req.body.club_pw,
+    club_name: req.body.club_name,
+    club_profile_photo: req.body.club_profile_photo,
+    club_phone: req.body.club_phone,
+    club_photo: req.body.club_photo,
+    club_ex: req.body.club_ex,
+    club_copyright: req.body.club_copyright,
+    club_college: req.body.club_college,
+    cate_id: req.body.cate_id,
+    tag_id: req.body.tag_id,
+    club_history: req.body.club_history,
+    club_price_duration: req.body.club_price_duration,
+    union_enabled: req.body.union_enabled,
     //...
-  } = req.body;
+  };
 
   const respond = find => {
     if(find) {

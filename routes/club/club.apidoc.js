@@ -8,42 +8,44 @@
  *     "Authorization": "bearer token"
  *
  * @apiSuccess {Number} club_id 단체 아이디
- * @apiSuccess {Number} mem_id 회원 아이디
- * @apiSuccess {String} club_photo 단체 사진
+ * @apiSuccess {String} club_email 단체 이메일
+ * @apiSuccess {String} club_pw 단체 비밀번호
  * @apiSuccess {String} club_name 단체 이름
+ * @apiSuccess {String} club_profile_photo 단체 프로필 사진
+ * @apiSuccess {String} club_phone 단체 전화번호
+ * @apiSuccess {String} club_photo 단체 사진
  * @apiSuccess {String} club_ex 단체 설명
  * @apiSuccess {String} club_copyright 단체 카피라이트
- * @apiSuccess {String} club_phone 단체 전화번호
- * @apiSuccess {String} club_email 단체 이메일
- * @apiSuccess {String} club_college 단체 대학교
+ * @apiSuccess {String} club_college 단체 소속대학
  * @apiSuccess {Number} cate_id 카테고리 아이디
  * @apiSuccess {Number} tag_id 태그 아이디
  * @apiSuccess {String} club_history 단체 연혁
- * @apiSuccess {String} club_career 단체 경력
  * @apiSuccess {String} club_price_duration 단체 금액 작업기간
  * @apiSuccess {Number} club_views 단체 조회수
  * @apiSuccess {Number} union_enabled 연합 여부 (1이면 연합)
  * @apiSuccess {Number} club_rating 단체 등급
+ * @apiSuccess {Date} club_update 단체 등록일
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
  *     [{
  *       "club_id": 1,
- *       "mem_id": 1,
- *       "club_photo": "사진.jpg",
+ *       "club_email": "test@gmail.com",
+ *       "club_pw": "2a$10$joHMvS9CO/MSTgIPQ3K.pO...",
  *       "club_name": "유쾌한 단체",
+ *       "club_profile_photo": "사진.jpg",
+ *       "club_phone": "000-0000-0000",
+ *       "club_photo": "사진.jpg",
  *       "club_ex": "이러한 단체입니다.",
  *       "club_copyright": "유쾌한 아이들",
- *       "club_phone": "000-0000-0000",
- *       "club_email": "test@gamil.com",
  *       "club_college": "유쾌한 대학교",
  *       "cate_id": 1,
  *       "tag_id": 1,
  *       "club_history": "연혁",
- *       "club_career": "경력",
  *       "club_price_duration": "작업기간",
  *       "club_views": 1,
  *       "union_enabled": 1,
  *       "club_rating": 0.5,
+ *       "club_update": "0000-00-00T00:00:00.000Z"
  *     }]
  *
  * @apiError BadRequest 잘못된 요청
@@ -201,54 +203,60 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} mem_id 회원 아이디
- * @apiParam {String} club_photo 단체 사진
+ * @apiParam {String} club_email 단체 이메일
+ * @apiParam {String} club_pw 단체 비밀번호
  * @apiParam {String} club_name 단체 이름
+ * @apiParam {String} club_profile_photo 단체 프로필 사진
+ * @apiParam {String} club_phone 단체 전화번호
+ * @apiParam {String} club_photo 단체 사진
  * @apiParam {String} club_ex 단체 설명
  * @apiParam {String} club_copyright 단체 카피라이트
- * @apiParam {String} club_phone 단체 전화번호
- * @apiParam {String} club_email 단체 이메일
- * @apiParam {String} club_college 단체 대학교
+ * @apiParam {String} club_college 단체 소속대학
  * @apiParam {Number} cate_id 카테고리 아이디
  * @apiParam {Number} tag_id 태그 아이디
  * @apiParam {String} club_history 단체 연혁
- * @apiParam {String} club_career 단체 경력
  * @apiParam {String} club_price_duration 단체 금액 작업기간
  * @apiParam {Number} union_enabled 연합 여부 (1이면 연합)
  *  
  * @apiSuccess {Number} club_id 단체 아이디
- * @apiSuccess {Number} mem_id 회원 아이디
- * @apiSuccess {String} club_photo 단체 사진
+ * @apiSuccess {String} club_email 단체 이메일
+ * @apiSuccess {String} club_pw 단체 비밀번호
  * @apiSuccess {String} club_name 단체 이름
+ * @apiSuccess {String} club_profile_photo 단체 프로필 사진
+ * @apiSuccess {String} club_phone 단체 전화번호
+ * @apiSuccess {String} club_photo 단체 사진
  * @apiSuccess {String} club_ex 단체 설명
  * @apiSuccess {String} club_copyright 단체 카피라이트
- * @apiSuccess {String} club_phone 단체 전화번호
- * @apiSuccess {String} club_email 단체 이메일
- * @apiSuccess {String} club_college 단체 대학교
+ * @apiSuccess {String} club_college 단체 소속대학
  * @apiSuccess {Number} cate_id 카테고리 아이디
  * @apiSuccess {Number} tag_id 태그 아이디
  * @apiSuccess {String} club_history 단체 연혁
- * @apiSuccess {String} club_career 단체 경력
  * @apiSuccess {String} club_price_duration 단체 금액 작업기간
+ * @apiSuccess {Number} club_views 단체 조회수
  * @apiSuccess {Number} union_enabled 연합 여부 (1이면 연합)
+ * @apiSuccess {Number} club_rating 단체 등급
+ * @apiSuccess {Date} club_update 단체 등록일
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     {
  *       "club_id": 1,
- *       "mem_id": 1,
- *       "club_photo": "사진.jpg",
+ *       "club_email": "test@gmail.com",
+ *       "club_pw": "2a$10$joHMvS9CO/MSTgIPQ3K.pO...",
  *       "club_name": "유쾌한 단체",
+ *       "club_profile_photo": "사진.jpg",
+ *       "club_phone": "000-0000-0000",
+ *       "club_photo": "사진.jpg",
  *       "club_ex": "이러한 단체입니다.",
  *       "club_copyright": "유쾌한 아이들",
- *       "club_phone": "000-0000-0000",
- *       "club_email": "test@gamil.com",
  *       "club_college": "유쾌한 대학교",
  *       "cate_id": 1,
  *       "tag_id": 1,
  *       "club_history": "연혁",
- *       "club_career": "경력",
  *       "club_price_duration": "작업기간",
+ *       "club_views": 0,
  *       "union_enabled": 1,
+ *       "club_rating": 0,
+ *       "club_update": "0000-00-00T00:00:00.000Z"
  *     }
  * 
  * @apiError BadRequest 잘못된 요청
@@ -284,18 +292,18 @@
  *     "Authorization": "bearer token"
  * 
  * @apiParam {Number} club_id 단체 아이디
- * @apiParam {Number} mem_id 회원 아이디
- * @apiParam {String} club_photo 단체 사진
+ * @apiParam {String} club_email 단체 이메일
+ * @apiParam {String} club_pw 단체 비밀번호
  * @apiParam {String} club_name 단체 이름
+ * @apiParam {String} club_profile_photo 단체 프로필 사진
+ * @apiParam {String} club_phone 단체 전화번호
+ * @apiParam {String} club_photo 단체 사진
  * @apiParam {String} club_ex 단체 설명
  * @apiParam {String} club_copyright 단체 카피라이트
- * @apiParam {String} club_phone 단체 전화번호
- * @apiParam {String} club_email 단체 이메일
- * @apiParam {String} club_college 단체 대학교
+ * @apiParam {String} club_college 단체 소속대학
  * @apiParam {Number} cate_id 카테고리 아이디
  * @apiParam {Number} tag_id 태그 아이디
  * @apiParam {String} club_history 단체 연혁
- * @apiParam {String} club_career 단체 경력
  * @apiParam {String} club_price_duration 단체 금액 작업기간
  * @apiParam {Number} union_enabled 연합 여부 (1이면 연합)
  * 
