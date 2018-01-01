@@ -1,72 +1,49 @@
 const path = require('path');
-const jwt = require('jsonwebtoken');
 const error = require(path.join(__dirname, '../../helper/errorHandler'));
+const hash = require(path.join(__dirname, '../../helper/hashPassword'));
+const auth = require(path.join(__dirname, '../../helper/authHelper'));
 
-const TOKEN_SECRET = 'secret';
+const Member = require(path.join(__dirname, '../member/member.model'));
 
-// Generate Token
-function tokenGenerator(result) {
-  const resultData = result;
+exports.login = function(req, res, next) {
+  console.log('login');
 
-  return jwt.sign(resultData, TOKEN_SECRET, {
-    algorithm: 'HS256',
-    expiresIn: 60 * 60 // 1hour
-  });
-}
+  const loginList = {
+    mem_email: req.body.mem_email,
+    mem_pw: req.body.mem_pw
+  };
 
-// isAuthenticated
-function isAuthenticated(token) {
-  const result = jwt.verify(token, TOKEN_SECRET, (err, decode) => {
-    if(err) {
-      return {
-        isValid: false
+  const respond = result => {
+    if(result) {
+      const tokenList = {
+        mem_email: result.mem_email,
+        mem_name: result.mem_name,
+        //...
       };
+
+      hash.comparePw(loginList.mem_pw, result.mem_pw) 
+      ? res.json({
+        isValid: true,
+        token_type: 'bearer',
+        access_token: auth.tokenGenerator(tokenList),
+        //...
+      })
+      : next(error(401));
     }
     else {
-      const exp = new Date(decode.exp * 1000);
-      const now = Date.now();
-      
-      if(now < exp) {
-        return {
-          isValid: true,
-          userInfo: decode
-        };
-      }
-      else {
-        return {
-          isValid: false
-        };
-      }
+      next(error(401));
     }
-  });
+  };
 
-  return result;
-}
-
-// Ensure Authorized
-function ensureAuthorized(req, res, next) {
-  // set error
-  let err = error(401);
-
-  // request header
-  const authorization = req.headers.authorization || req.headers.Authorization;
-  
-  if(!authorization) {
+  const onError = err => {
     next(err);
-  }
-  else {
-    const authorizationToken = authorization.split(' ')[1] || null;
-    const isAuthenticated = authorizationToken ? module.exports.isAuthenticated(authorizationToken) : null;
+  };
 
-    if(isAuthenticated.isValid) {
-      next();
+  Member.findOne({
+    where: {
+      mem_email: loginList.mem_email
     }
-    else {
-      next(err);
-    }
-  }
-}
-
-exports.tokenGenerator = tokenGenerator;
-exports.isAuthenticated = isAuthenticated;
-exports.ensureAuthorized = ensureAuthorized;
+  })
+  .then(respond)
+  .catch(onError);
+};

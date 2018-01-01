@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const error = require(path.join(__dirname, './helper/errorHandler'));
+const authHelper = require(path.join(__dirname, './helper/authHelper'));
 
 // router
 const index = require('./routes');
@@ -19,10 +20,6 @@ const auth = require('./routes/auth/');
 const sns = require('./routes/sns/');
 const category = require('./routes/category/');
 const tag = require('./routes/tag/');
-
-
-// authController
-const authController = require(path.join(__dirname, './routes/auth/auth.controller'));
 
 // app
 const app = express();
@@ -46,7 +43,7 @@ app.use(logger('dev'));
 app.use(cookieParser());
 
 // router load
-// auth 인증 시 authController.ensureAuthorized 추가
+// auth 인증 시 authHelper.ensureAuthorized 추가
 app.use('/', index);
 app.use('/member', member);
 app.use('/comment', comment);
