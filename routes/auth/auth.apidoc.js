@@ -12,19 +12,20 @@
  *       "token_type": "bearer",
  *       "access_token": "token value"
  *     }
- * @apiSuccessExample Failure-Response:
- *     HTTP/1.1 200 Ok
- *     {
- *       "isValid": false
- *     }
  *
  * @apiError BadRequest 잘못된 요청
+ * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 400 Bad Requset
  *     {
  *       "status": 400,
  *       "message": "Bad Request"
+ *     }
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "status": 401,
+ *       "message": "Unauthorized"
  *     }
  *     HTTP/1.1 404 Not Found
  *     {
