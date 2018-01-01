@@ -11,6 +11,9 @@ router.get('/', Controller.getAllClub);
 // get a specific club
 router.get('/:club_id', Controller.getClub);
 
+//get search result club list
+//..
+
 // create club
 router.post('/', Controller.createClub);
 

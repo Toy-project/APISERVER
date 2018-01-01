@@ -106,7 +106,6 @@ const Club = sequelize.define('CLUB', {
   timestamps : false //createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
 });
 
-
 Club.belongsTo(Category, {foreignKey: 'cate_id', as: 'category'});
 Club.belongsTo(Tag, {foreignKey: 'tag_id', as: 'tag'});
 Club.hasMany(Cart, {foreignKey: 'club_id'});
