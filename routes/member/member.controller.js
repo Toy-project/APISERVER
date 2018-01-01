@@ -1,6 +1,6 @@
 const path = require('path');
 const Member = require(path.join(__dirname, './member.model.js'));
-
+const hashPassword = require(path.join(__dirname, '../../helper/hashPassword.js'));
 const bcrypt = require('bcrypt');
 
 exports.getAllMember = function(req, res, next) {
@@ -51,7 +51,7 @@ exports.register = function(req, res, next) {
   createList.mem_update = new Date();
 
   //Hashing password
-  createList.mem_pw = hashedPassword(mem_pw);
+  createList.mem_pw = hashPassword.createPw(mem_pw);
 
   const create = (user, created) => {
     console.log("User : " + user);
@@ -118,13 +118,8 @@ exports.updateMember = (req, res, next) => {
     console.log('Hasing Password And Updating');
     //console.log('results : ' + results.mem_pw);
 
-    //If false, hashing
-    if(!bcrypt.compareSync(updateList.mem_pw, oldList.mem_pw)){
-      console.log("Password has been changed")
-      updateList.mem_pw = hashedPassword(updateList.mem_pw);
-    } else {
-      updateList.mem_pw = oldList.mem_pw;
-    }
+    //Checking password with hashed one.
+    updateList.mem_pw = hashPassword.updatePw(updateList.mem_pw, oldList.mem_pw);
 
     //Updating
     Member.update(updateList, {
@@ -158,13 +153,4 @@ exports.updateMember = (req, res, next) => {
   })
   .then(HasingAndUpdating)
   .catch(onError)
-}
-
-hashedPassword = (pw) => {
-  if(pw){
-    const salt = bcrypt.genSaltSync(10); //the cost of processing the data.
-    return bcrypt.hashSync(pw, salt); //the data to be encrypted.
-  } else {
-    throw new Error("Can't find Password");
-  }
 }
