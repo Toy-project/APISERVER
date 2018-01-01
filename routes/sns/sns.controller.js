@@ -43,11 +43,11 @@ exports.createSns = function(req, res, next) {
   console.log("Create a sns");
 
   const createList = {
-    sns_name,
-    sns_url,
-    club_id,
+    sns_name: req.body.sns_name,
+    sns_url: req.body.sns_url,
+    club_id: req.body.club_id,
     //...
-  } = req.body;
+  };
 
   const respond = result => {
     res.status(201).json(result);
@@ -99,10 +99,10 @@ exports.updateSns = function(req, res, next) {
   console.log("Update a sns");
 
   const updateList = {
-    sns_name,
-    sns_url,
+    sns_name: req.body.sns_name,
+    sns_url: req.body.sns_url,
     //...
-  } = req.body;
+  };
 
   const respond = num => {
     // number (0 or 1)
