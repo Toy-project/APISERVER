@@ -43,10 +43,10 @@ exports.createCategory = function(req, res, next) {
   console.log("Create a category");
 
   const createList = {
-    cate_id,
-    cate_name
+    cate_id: req.body.cate_id,
+    cate_name: req.body.cate_name,
     //...
-  } = req.body;
+  };
 
   const respond = (category, created) => {
     created ? res.status(201).json(category) : next(error(400));
@@ -99,9 +99,9 @@ exports.updateCategory = function(req, res, next) {
   console.log("Update a category");
 
   const updateList = {
-    cate_name,
+    cate_name: req.body.cate_name,
     //...
-  } = req.body;
+  };
 
   const respond = num => {
     // number (0 or 1)

@@ -43,10 +43,10 @@ exports.createTag = function(req, res, next) {
   console.log("Create a tag");
 
   const createList = {
-    tag_id,
-    tag_name
+    tag_id: req.body.tag_id,
+    tag_name: req.body.tag_name,
     //...
-  } = req.body;
+  };
 
   const respond = (tag, created) => {
     created ? res.status(201).json(tag) : next(error(400));
@@ -99,9 +99,9 @@ exports.updateTag = function(req, res, next) {
   console.log("Update a tag");
 
   const updateList = {
-    tag_name,
+    tag_name: req.body.tag_name,
     //...
-  } = req.body;
+  };
 
   const respond = num => {
     // number (0 or 1)
