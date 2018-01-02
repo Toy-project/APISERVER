@@ -10,11 +10,11 @@ const Session = sequelize.define('SESSION', {
     allowNull : false
   },
   ip_address: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull : false
   },
   user_agent: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull : false
   }
 }, {
