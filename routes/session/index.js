@@ -17,6 +17,6 @@ router.post('/', Controller.createSession);
 router.put('/:session_id', Controller.updateSession);
 
 //Remove a session
-router.delete('/:session_id', Controller.removeSession);
+router.delete('/:session_id', Controller.deleteSession);
 
 module.exports = router;

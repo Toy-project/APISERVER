@@ -31,6 +31,9 @@ const Member = sequelize.define('MEMBER', {
       }
     }
   },
+  mem_profile_photo: {
+    type: Sequelize.STRING,
+  },
   mem_pw: {
     type: Sequelize.STRING,
     allowNull : false,

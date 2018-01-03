@@ -1,123 +1,102 @@
 const path = require('path');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
 const Session = require(path.join(__dirname, './session.model.js'));
 
 exports.GetAllSession = (req, res, next) => {
-  console.log("get GetAllSession");
 
   const respond = (results) => {
-    console.log("Respond at GetAllSession");
-    res.status(200).json(results);
+    (results) ? res.status(200).json(results) : next(error(400));
   }
 
-  const onErorr = (err) => {
-    console.log("Error At Get GetAllSession");
+  const onError = (err) => {
     next(err);
   }
 
   Session.findAll()
   .then(respond)
-  //.catch(onError);
+  .catch(onError);
 }
 
 exports.GetSession = (req, res, next) => {
-  console.log("get GetSession");
-
-  const session_id = req.params.session_id;
-
   const respond = (results) => {
-    console.log("Respond at GetSession");
-    res.status(200).json(results);
+    results ? res.status(200).json(results) : next(error(400));
   }
 
-  const onErorr = (err) => {
-    console.log("Error At Get GetSession");
+  const onError = (err) => {
     next(err);
   }
 
-  Session.findOne({
-    session_id : session_id
-  })
+  Session.findById(req.params.session_id)
   .then(respond)
-  //.catch(onError);
+  .catch(onError);
 }
 
 exports.createSession = (req, res, next) => {
-  console.log("get createSession");
-
-  const { ip_address, user_agent } = req.body;
   const createList = {
-    ip_address : ip_address,
-    user_agent : user_agent
+    ip_address : req.body.ip_address,
+    user_agent : req.body.user_agent
   }
 
   const respond = (results) => {
-    console.log("Respond at createSession");
-    res.status(200).json({
-      isCreated: true
-    });
+    results ? res.status(200).json(results) : next(error(400));
   }
 
-  const onErorr = (err) => {
-    console.log("Error At Get createSession");
+  const onError = (err) => {
     next(err);
   }
 
   Session.create(createList)
   .then(respond)
-  //.catch(onError);
+  .catch(onError);
 }
 
 exports.updateSession = (req, res, next) => {
-  console.log("get updateSession");
 
-  const session_id = req.params.session_id;
-  const { ip_address, user_agent } = req.body;
   const updateList = {
-    ip_address : ip_address,
-    user_agent : user_agent
+    ip_address : req.body.ip_address,
+    user_agent : req.body.user_agent
   }
 
   const respond = (results) => {
-    console.log("Respond at updateSession");
-    res.status(201).json(results);
+    results ? res.status(201).json(results) : next(error(400));
   }
 
-  const onErorr = (err) => {
-    console.log("Error At Get updateSession");
+  const onError = (err) => {
     next(err);
   }
 
   Session.update(updateList, {
     where : {
-      session_id : session_id
+      session_id : req.params.session_id
     }
   })
   .then(respond)
-  //.catch(onError);
+  .catch(onError);
 }
 
-exports.removeSession = (req, res, next) => {
-  console.log("get removeSession");
-
-  const session_id = req.params.session_id;
+exports.deleteSession = (req, res, next) => {
 
   const respond = (results) => {
-    console.log("Respond at removeSession");
-    res.status(201).json({
-      isDeleted : true
-    });
+    if(results){
+      Session.destroy({
+        where : {
+          session_id : req.params.session_id
+        }
+      })
+      .then((results) => {
+        res.send(200);
+      })
+      .catch(onError);
+    } else {
+      next(error(400));
+    }
   }
 
-  const onErorr = (err) => {
-    console.log("Error At Get removeSession");
+  const onError = (err) => {
     next(err);
   }
 
-  Session.destroy({
-    where : {
-      session_id : session_id
-    }
-  })
+  Session.findById(req.params.session_id)
   .then(respond)
-  //.catch(onError);
+  .catch(onError);
 }

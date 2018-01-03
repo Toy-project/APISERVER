@@ -4,10 +4,8 @@ const error = require(path.join(__dirname, '../../helper/errorHandler'));
 const Site_statistic = require(path.join(__dirname, './Site_statistic.model.js'));
 
 exports.getAllSite_statistic = (req, res, next) => {
-  console.log("get GetAllSite_statistic");
-
   const respond = (results) => {
-    res.status(200).json(results);
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   const onError = (err) => {
@@ -20,38 +18,31 @@ exports.getAllSite_statistic = (req, res, next) => {
 };
 
 exports.getSite_statistic = (req, res, next) => {
-  console.log("get GetSite_statistic");
-
-  const date = req.params.date;
 
   const respond = (results) => {
-    res.status(200).json(results);
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Site_statistic.findOne({
-    date : date
-  })
+  Site_statistic.findById(req.params.date)
   .then(respond)
   .catch(onError);
 };
 
 exports.createSite_statistic = (req, res, next) => {
-  console.log("get createSite_statistic");
 
-  const { site_connect_count, site_pc_connect_count, site_mobile_connect_count } = req.body;
   const createList = {
     date : new Date(),
-    site_connect_count : site_connect_count,
-    site_pc_connect_count : site_pc_connect_count,
-    site_mobile_connect_count : site_mobile_connect_count
+    site_connect_count : req.body.site_connect_count,
+    site_pc_connect_count : req.body.site_pc_connect_count,
+    site_mobile_connect_count : req.body.site_mobile_connect_count
   };
 
-  const respond = (result) => {
-    res.status(200).json(result);
+  const respond = (results) => {
+    results ? res.status(201).json(results) : next(error(400));
   };
 
   const onError = (err) => {
@@ -64,18 +55,15 @@ exports.createSite_statistic = (req, res, next) => {
 };
 
 exports.updateSite_statistic = (req, res, next) => {
-  console.log("get updateSite_statistic");
 
-  const date = req.params.date;
-  const { site_connect_count, site_pc_connect_count, site_mobile_connect_count } = req.body;
   const updateList = {
-    site_connect_count : site_connect_count,
-    site_pc_connect_count : site_pc_connect_count,
-    site_mobile_connect_count : site_mobile_connect_count
+    site_connect_count : req.body.site_connect_count,
+    site_pc_connect_count : req.body.site_pc_connect_count,
+    site_mobile_connect_count : req.body.site_mobile_connect_count
   };
 
   const respond = (results) => {
-    res.status(201).json(results);
+    results ? res.status(201).json(results) : next(error(400));
   };
 
   const onError = (err) => {
@@ -84,7 +72,7 @@ exports.updateSite_statistic = (req, res, next) => {
 
   Site_statistic.update(updateList, {
     where : {
-      date : date
+      date : req.params.date
     }
   })
   .then(respond)
@@ -92,25 +80,28 @@ exports.updateSite_statistic = (req, res, next) => {
 };
 
 exports.deleteSite_statistic = (req, res, next) => {
-  console.log("get removeSite_statistic");
-
-  const date = req.params.date;
 
   const respond = (results) => {
-    res.status(201).json({
-      isDeleted : true
-    });
+    if(results){
+      Site_statistic.destroy({
+        where : {
+          date : req.params.date
+        }
+      })
+      .then((results) => {
+        res.send(200);
+      })
+      .catch(onError);
+    } else {
+      next(error(400));
+    }
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Site_statistic.destroy({
-    where : {
-      date : date
-    }
-  })
+  Site_statistic.findById(req.params.date)
   .then(respond)
   .catch(onError);
 };
