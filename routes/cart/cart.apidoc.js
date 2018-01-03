@@ -41,11 +41,11 @@
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
-  *     [{
+  *     {
   *       "cart_id" : 1,
   *       "mem_id" : 1,
   *       "club_id" : 1
-  *     }]
+  *     }
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
   * @apiError NotFound 잘못된 경로 요청

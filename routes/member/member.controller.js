@@ -1,23 +1,22 @@
 const path = require('path');
 const Member = require(path.join(__dirname, './member.model.js'));
 const hashPassword = require(path.join(__dirname, '../../helper/hashPassword.js'));
-const bcrypt = require('bcrypt');
 
 exports.getAllMember = function(req, res, next) {
   console.log("get all users");
 
   const respond = (results) => {
     res.status(200).json(results);
-  }
+  };
 
   const onError = (err) => {
     next(err);
-  }
+  };
 
   Member.findAll()
   .then(respond)
   .catch(onError);
-}
+};
 
 exports.getMember = function(req, res, next) {
   console.log("get a specific user");
@@ -25,12 +24,10 @@ exports.getMember = function(req, res, next) {
   const mem_id = req.params.mem_id;
 
   const respond = (results) => {
-    console.log("Respond");
     res.status(200).json(results);
   }
 
   const onError = (err) => {
-    console.log("OnError");
     next(err);
   }
 
@@ -41,11 +38,11 @@ exports.getMember = function(req, res, next) {
   })
   .then(respond)
   .catch(onError);
-}
+};
 
-exports.register = function(req, res, next) {
+exports.createMember = function(req, res, next) {
   console.log("Create a user");
-  const createList = { mem_email, mem_name, mem_pw, mem_phone, mem_type, mem_mail_agree, mem_last_connect_date, mem_update} = req.body;
+  const createList = { mem_email, mem_name, mem_pw, mem_phone, mem_mail_agree, mem_last_connect_date, mem_update} = req.body;
 
   createList.mem_last_connect_date = new Date();
   createList.mem_update = new Date();
@@ -54,24 +51,20 @@ exports.register = function(req, res, next) {
   createList.mem_pw = hashPassword.createPw(mem_pw);
 
   const create = (user, created) => {
-    console.log("User : " + user);
-    console.log("Created : " + created);
     if(!created){
-      throw new Error('mem_email exists');
+      next(error(400));
     } else {
       return user;
     }
   }
 
   const respond = (user) => {
-    console.log("respond");
     res.status(201).json(user.dataValues);
-  }
+  };
 
   const onError = (err) => {
-    console.log("onError");
     next(err);
-  }
+  };
 
   Member.findOrCreate({
     defaults : createList,
@@ -81,23 +74,20 @@ exports.register = function(req, res, next) {
   })
   .spread(create)
   .then(respond)
-  .catch(onError)
-}
+  .catch(onError);
+};
 
-exports.removeMember = (req, res, next) => {
+exports.deleteMember = (req, res, next) => {
   console.log("Remove a member");
   const mem_id = req.params.mem_id;
 
   const respond = (results) => {
-    res.status(200).json({
-      isDeleted : true
-    });
-  }
+    res.send(200);
+  };
 
   const onError = (err) => {
-    console.log("onError");
     next(err);
-  }
+  };
 
   Member.destroy({
     where : {
@@ -105,19 +95,16 @@ exports.removeMember = (req, res, next) => {
     }
   })
   .then(respond)
-  .catch(onError)
-}
+  .catch(onError);
+};
 
 exports.updateMember = (req, res, next) => {
   console.log("Update a member");
 
-  const updateList = { mem_name, mem_pw, mem_phone, mem_type, mem_mail_agree } = req.body;
+  const updateList = { mem_name, mem_pw, mem_phone, mem_mail_agree } = req.body;
   const mem_id = req.params.mem_id;
 
   const HasingAndUpdating = (oldList) => {
-    console.log('Hasing Password And Updating');
-    //console.log('results : ' + results.mem_pw);
-
     //Checking password with hashed one.
     updateList.mem_pw = hashPassword.updatePw(updateList.mem_pw, oldList.mem_pw);
 
@@ -128,21 +115,16 @@ exports.updateMember = (req, res, next) => {
       }
     })
     .then(respond)
-    .catch(onError)
-
-  }
+    .catch(onError);
+  };
 
   const respond = (results) => {
-    console.log('Respond');
-    res.status(201).json({
-      isUpdated : true
-    });
-  }
+    res.status(201).json(results);
+  };
 
   const onError = (err) => {
-    console.log('OnError');
     next(err);
-  }
+  };
 
   //Hashing and Updating
   Member.findOne({
@@ -152,5 +134,5 @@ exports.updateMember = (req, res, next) => {
     }
   })
   .then(HasingAndUpdating)
-  .catch(onError)
-}
+  .catch(onError);
+};

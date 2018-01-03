@@ -1,44 +1,42 @@
 const path = require('path');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
+
 const Comment = require(path.join(__dirname, './comment.model.js'));
 
-exports.GetCommentByClubId = (req, res, next) => {
+exports.getCommentByClubId = function(req, res, next) {
   console.log("get a comment by club id");
 
   const club_id = req.params.club_id;
 
-  const respond = (results) => {
-    console.log("Respond at GetComment");
+  const respond = results => {
     res.status(200).json(results);
-  }
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At Get Comment");
+  const onError = err => {
     next(err);
-  }
+  };
 
   Comment.findAll({
-    where : {
-      club_id: club_id
+    where: {
+      club_id: club_id,
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.GetCommentByMemId = (req, res, next) => {
+exports.getCommentByMemId = (req, res, next) => {
   console.log("get a comment by mem_id");
 
   const mem_id = req.params.mem_id;
 
-  const respond = (results) => {
-    console.log("Respond at GetComment");
+  const respond = results => {
     res.status(200).json(results);
-  }
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At Get Comment");
+  const onError = err => {
     next(err);
-  }
+  };
 
   Comment.findAll({
     where : {
@@ -46,24 +44,22 @@ exports.GetCommentByMemId = (req, res, next) => {
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.GetCommentByMemIdClubId = (req, res, next) => {
+exports.getCommentByMemIdClubId = (req, res, next) => {
   console.log("get a comment by mem_id club_id");
 
   const mem_id = req.params.mem_id;
   const club_id = req.params.club_id;
 
-  const respond = (results) => {
-    console.log("Respond at GetComment");
+  const respond = results => {
     res.status(200).json(results);
-  }
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At Get Comment");
+  const onError = err => {
     next(err);
-  }
+  };
 
   Comment.findAll({
     where : {
@@ -72,8 +68,8 @@ exports.GetCommentByMemIdClubId = (req, res, next) => {
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
 exports.createComment = (req, res, next) => {
   console.log("Create a comment");
@@ -85,24 +81,20 @@ exports.createComment = (req, res, next) => {
     comment_update : new Date(),
     mem_id : mem_id,
     club_id : club_id
-  }
+  };
 
-  const respond = (results) => {
-    console.log("Respond at createComment");
-    res.status(200).json({
-      isCreated : true
-    });
-  }
+  const respond = (result) => {
+    res.status(201).json(result);
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At createComment");
+  const onError = (err) => {
     next(err);
-  }
+  };
 
   Comment.create(createList)
   .then(respond)
-  //.catch(onError)
-}
+  .catch(onError);
+};
 
 exports.updateComment = (req, res, next) => {
   console.log("Create a updateComment");
@@ -112,19 +104,17 @@ exports.updateComment = (req, res, next) => {
     comment_contents : comment_contents,
     club_rating : club_rating,
     comment_update : new Date()
-  }
+  };
 
   const comment_id = req.params.comment_id;
 
   const respond = (results) => {
-    console.log("Respond at updateComment");
     res.status(201).json(results);
-  }
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At updateComment");
+  const onError = (err) => {
     next(err);
-  }
+  };
 
   Comment.update(updateList, {
     where : {
@@ -132,24 +122,20 @@ exports.updateComment = (req, res, next) => {
     }
   })
   .then(respond)
-  //.catch(onError)
+  .catch(onError);
 }
 
-exports.removeComment = (req, res, next) => {
-  console.log("Create a removeComment");
+exports.deleteComment = (req, res, next) => {
+  console.log("Create a deleteComment");
   const comment_id = req.params.comment_id;
 
   const respond = (results) => {
-    console.log("Respond at removeComment");
-    res.status(201).json({
-      isRemoved : true
-    });
-  }
+    res.send(200);
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At removeComment");
+  const onError = (err) => {
     next(err);
-  }
+  };
 
   Comment.destroy({
     where : {
@@ -157,5 +143,5 @@ exports.removeComment = (req, res, next) => {
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};

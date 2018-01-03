@@ -12,10 +12,10 @@ router.get('/', Controller.getAllMember);
 router.get('/:mem_id', Controller.getMember);
 
 // create user
-router.post('/', Controller.register);
+router.post('/', Controller.createMember);
 
 // Delete user
-router.delete('/:mem_id', Controller.removeMember);
+router.delete('/:mem_id', Controller.deleteMember);
 
 // update user
 router.put('/:mem_id', Controller.updateMember);

@@ -54,8 +54,7 @@ app.use('/club', club);
 app.use('/auth', auth);
 app.use('/tag',tag);
 app.use('/category',category);
-app.use('/sns',sns)
-
+app.use('/sns',sns);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
