@@ -1,8 +1,7 @@
 const express = require('express');
-const path = require('path');
 
 const router = express.Router();
-const Controller = require(path.join(__dirname, './comment.controller.js'));
+const Controller = require('./comment.controller.js');
 
 // get a sepecific comment with club_id
 router.get('/club/:club_id', Controller.getCommentByClubId);

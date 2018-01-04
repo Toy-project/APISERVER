@@ -3,11 +3,11 @@
   * @apiName GetSpecificCart
   * @apiGroup Cart
   *
-  * @apiParam {Number} mem_id 회원 외부키
+  * @apiParam {Number} mem_id 회원 아이디
   *
-  * @apiSuccess {Number} cart_id 장바구니 기본키
-  * @apiSuccess {Number} mem_id 회원 외부키
-  * @apiSuccess {Number} club_id 단체 외부키
+  * @apiSuccess {Number} cart_id 장바구니 아이디
+  * @apiSuccess {Number} mem_id 회원 아이디
+  * @apiSuccess {Number} club_id 단체 아이디
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
   *     [{
@@ -15,6 +15,7 @@
   *       "mem_id" : 1,
   *       "club_id" : 1
   *     }]
+  *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
   * @apiError NotFound 잘못된 경로 요청
@@ -31,13 +32,14 @@
   *     }
 */
 
+
 /**
   * @api {post} /cart/ 장바구니 생성
   * @apiName PostCart
   * @apiGroup Cart
   *
-  * @apiParam {Number} mem_id 회원 외부키
-  * @apiParam {Number} club_id 단체 외부키
+  * @apiParam {Number} mem_id 회원 아이디
+  * @apiParam {Number} club_id 단체 아이디
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
@@ -46,6 +48,7 @@
   *       "mem_id" : 1,
   *       "club_id" : 1
   *     }
+  *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
   * @apiError NotFound 잘못된 경로 요청
@@ -67,12 +70,13 @@
   *     }
 */
 
+
 /**
   * @api {delete} /cart/:cart_id 장바구니 삭제
   * @apiName deleteCart
   * @apiGroup Cart
   *
-  * @apiParam {Number} mem_id 회원 외부키
+  * @apiParam {Number} cart_id 장바구니 아이디
 
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok

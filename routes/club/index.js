@@ -1,9 +1,7 @@
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Controller = require(path.join(__dirname, './club.controller.js'));
+const Controller = require('./club.controller.js');
 
 // get all club list
 router.get('/', Controller.getAllClub);
@@ -11,8 +9,8 @@ router.get('/', Controller.getAllClub);
 // get a specific club
 router.get('/:club_id', Controller.getClub);
 
-//get search result club list
-//..
+// get search result club list
+// ..
 
 // create club
 router.post('/', Controller.createClub);

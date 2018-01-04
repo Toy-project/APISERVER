@@ -32,5 +32,5 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */

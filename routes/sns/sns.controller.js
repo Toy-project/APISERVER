@@ -1,16 +1,12 @@
-const path = require('path');
-const error = require(path.join(__dirname, '../../helper/errorHandler'));
+const error = require('../../helper/errorHandler');
+const Sns = require('./sns.model.js');
 
-const Sns = require(path.join(__dirname, './sns.model.js'));
-
-exports.getAllSns = function(req, res, next) {
-  console.log("get all sns list");
-
-  const respond = results => {
+exports.getAllSns = function (req, res, next) {
+  const respond = (results) => {
     res.status(200).json(results);
   };
 
-  const onError = err => {
+  const onError = (err) => {
     res.send(err);
   };
 
@@ -19,42 +15,37 @@ exports.getAllSns = function(req, res, next) {
   .catch(onError);
 };
 
-exports.getSns = function(req, res, next) {
-  console.log("get a specific sns");
-
-  const respond = result => {
+exports.getSns = function (req, res, next) {
+  const respond = (result) => {
     result ? res.status(200).json(result) : next(error(400));
   };
 
-  const onError = err => {
+  const onError = (err) => {
     res.send(err);
   };
 
   Sns.findOne({
     where: {
-      sns_id: req.params.sns_id
+      sns_id: req.params.sns_id,
     },
   })
   .then(respond)
   .catch(onError);
 };
 
-exports.createSns = function(req, res, next) {
-  console.log("Create a sns");
-
+exports.createSns = function (req, res, next) {
   const createList = {
     sns_name: req.body.sns_name,
     sns_url: req.body.sns_url,
     club_id: req.body.club_id,
-    //...
+    // ...
   };
 
-  const respond = result => {
+  const respond = (result) => {
     res.status(201).json(result);
   };
 
-  const onError = err => {
-    console.log(err);
+  const onError = (err) => {
     next(err);
   };
 
@@ -63,30 +54,27 @@ exports.createSns = function(req, res, next) {
   .catch(onError);
 };
 
-exports.deleteSns = function(req, res, next) {
-  console.log("Remove a sns");
-
-  const respond = num => {
+exports.deleteSns = function (req, res, next) {
+  const respond = (num) => {
     // number (0 or 1)
-    if(num) {
+    if (num) {
       Sns.destroy({
         where: {
           sns_id: req.params.sns_id,
-        }
+        },
       })
-      .then(result => {
+      .then((result) => {
         res.send(200);
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
       });
-    }
-    else {
+    } else {
       next(error(400));
     }
   };
 
-  const onError = err => {
+  const onError = (err) => {
     next(err);
   };
 
@@ -95,39 +83,36 @@ exports.deleteSns = function(req, res, next) {
   .catch(onError);
 };
 
-exports.updateSns = function(req, res, next) {
-  console.log("Update a sns");
-
+exports.updateSns = function (req, res, next) {
   const updateList = {
     sns_name: req.body.sns_name,
     sns_url: req.body.sns_url,
-    //...
+    // ...
   };
 
-  const respond = num => {
+  const respond = (num) => {
     // number (0 or 1)
-    if(num) {
+    if (num) {
       Sns.update(updateList, {
         where: {
           sns_id: req.params.sns_id,
-        }
+        },
       })
-      .then(result => {
+      .then((result) => {
         // result is number (o or 1)
         // 0: 기존 데이터와 동일
         // 1: 기존 데이터와 달라 업데이트 성공
         res.status(201).send(result);
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
-      }); 
-    }
-    else {
+      });
+    } else {
       next(error(400));
     }
   };
 
-  const onError = err => {
+  const onError = (err) => {
     next(err);
   };
 

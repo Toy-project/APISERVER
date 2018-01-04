@@ -1,8 +1,7 @@
-const path = require('path');
-const sequelize = require(path.join(__dirname, '../sequelize.js'));
-const Sequelize = require("sequelize");
+const sequelize = require('../sequelize.js');
+const Sequelize = require('sequelize');
 
-const Club =  require(path.join(__dirname,'../club/club.model.js'));
+const Club = require('../club/club.model.js');
 
 // define sequelize sns table
 const Sns = sequelize.define('SNS', {
@@ -10,24 +9,24 @@ const Sns = sequelize.define('SNS', {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
+    allowNull: false,
   },
   sns_name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   sns_url: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   club_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: Club,
-      key: 'club_id'
-    }
-  }
+      key: 'club_id',
+    },
+  },
 }, {
   freezeTableName: true,
   timestamps: false,

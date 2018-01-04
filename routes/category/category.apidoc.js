@@ -2,7 +2,7 @@
  * @api {get} /category/ 모든 카테고리 조회
  * @apiName GetAllCategory
  * @apiGroup Category
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
@@ -35,19 +35,19 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {get} /category/:cate_id 특정 카테고리 조회
  * @apiName GetSpecificCategory
  * @apiGroup Category
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} cate_id 카테고리 아이디
  *
  * @apiSuccess {Number} cate_id 카테고리 아이디
@@ -78,27 +78,27 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {delete} /category/:cate_id 카테고리 삭제
  * @apiName DeleteCategory
  * @apiGroup Category
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} cate_id 카테고리 아이디
- * 
+ *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
  *     {
  *       //...
  *     }
- * 
+ *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
@@ -118,29 +118,29 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {post} /category/ 카테고리 생성
  * @apiName CreateCategory
  * @apiGroup Category
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {number} cate_id 카테고리 아이디
  * @apiParam {String} cate_name 카테고리 이름
- * 
+ *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     {
  *       "cate_id": 1,
  *       "cate_name": "IT",
  *     }
- * 
+ *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
@@ -160,29 +160,29 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {put} /category/:cate_id 카테고리 수정
  * @apiName UpdateCategory
  * @apiGroup Category
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} cate_id 카테고리 아이디
  * @apiParam {String} cate_name 카테고리 이름
- * 
+ *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     0
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     1
- * 
+ *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
@@ -202,5 +202,5 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */

@@ -3,9 +3,9 @@
   * @apiName GetSession
   * @apiGroup Session
   *
-  * @apiSuccess {Number} session_id 세션 기본키
+  * @apiSuccess {Number} session_id 세션 아이디
   * @apiSuccess {STRING} ip_address 아이피 주소
-  * @apiSuccess {STRING} user_agent 유저 에이젼트
+  * @apiSuccess {STRING} user_agent 사용자 에이젼트
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
@@ -41,19 +41,18 @@
   * @apiName GetSpecificSession
   * @apiGroup Session
   *
-  * @apiParam {Number} session_id 세션 기본키
+  * @apiParam {Number} session_id 세션 아이디
   *
-  * @apiSuccess {Number} session_id 세션 기본키
+  * @apiSuccess {Number} session_id 세션 아이디
   * @apiSuccess {STRING} ip_address 아이피 주소
-  * @apiSuccess {STRING} user_agent 유저 에이젼트
-  *
+  * @apiSuccess {STRING} user_agent 사용자 에이젼트
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
-  *     [{
+  *     {
   *       "session_id" : 1,
   *       "ip_address" : "172.1.1.1",
   *       "user_agent" : "test"
-  *     }]
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -82,15 +81,15 @@
   * @apiGroup Session
   *
   * @apiParam {STRING} ip_address 아이피 주소
-  * @apiParam {STRING} user_agent 유저 에이젼트
+  * @apiParam {STRING} user_agent 사용자 에이젼트
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
-  *     [{
+  *     {
   *       "session_id" : 1,
   *       "ip_address" : "172.1.1.1",
   *       "user_agent" : "test"
-  *     }]
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -118,18 +117,17 @@
   * @apiName PutSession
   * @apiGroup Session
   *
-  * @apiParam {Number} session_id 세션 기본키
+  * @apiParam {Number} session_id 세션 아이디
   *
   * @apiParam {STRING} ip_address 아이피 주소
-  * @apiParam {STRING} user_agent 유저 에이젼트
+  * @apiParam {STRING} user_agent 사용자 에이젼트
   *
-  * @apiSuccessExample Success-Response :
-  *     HTTP/1.1 201 Updated
-  *     [{
-  *       "session_id" : 1,
-  *       "ip_address" : "172.1.1.1",
-  *       "user_agent" : "test"
-  *     }]
+  * @apiSuccessExample Success-Response:
+  *     HTTP/1.1 201 Created
+  *     0
+  * @apiSuccessExample Success-Response:
+  *     HTTP/1.1 201 Created
+  *     1
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -157,7 +155,7 @@
   * @apiName DeleteSession
   * @apiGroup Session
   *
-  * @apiParam {Number} session_id 세션 기본키
+  * @apiParam {Number} session_id 세션 아이디
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok

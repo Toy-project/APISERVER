@@ -2,7 +2,7 @@
  * @api {get} /club/ 모든 단체 조회
  * @apiName GetAllClub
  * @apiGroup Club
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
@@ -67,7 +67,7 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
@@ -75,11 +75,11 @@
  * @api {get} /club/:club_id?cate_id=value&tag_id=value 특정 단체 조회
  * @apiName GetSpecificClub
  * @apiGroup Club
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} club_id 단체 아이디
  * @apiParam {Number} cate_id 카테고리 아이디
  * @apiParam {Number} tag_id 태그 아이디
@@ -150,27 +150,27 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {delete} /club/:club_id 단체 삭제
  * @apiName DeleteClub
  * @apiGroup Club
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} club_id 단체 아이디
- * 
+ *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
  *     {
  *       //...
  *     }
- * 
+ *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
@@ -190,15 +190,15 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {post} /club/ 단체 생성
  * @apiName CreateClub
  * @apiGroup Club
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
@@ -217,7 +217,7 @@
  * @apiParam {String} club_history 단체 연혁
  * @apiParam {String} club_price_duration 단체 금액 작업기간
  * @apiParam {Number} union_enabled 연합 여부 (1이면 연합)
- *  
+ *
  * @apiSuccess {Number} club_id 단체 아이디
  * @apiSuccess {String} club_email 단체 이메일
  * @apiSuccess {String} club_pw 단체 비밀번호
@@ -258,7 +258,7 @@
  *       "club_rating": 0,
  *       "club_update": "0000-00-00T00:00:00.000Z"
  *     }
- * 
+ *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
@@ -278,19 +278,19 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */
 
 
- /**
+/**
  * @api {put} /club/:club_id 단체 수정
  * @apiName UpdateClub
  * @apiGroup Club
- * 
+ *
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} club_id 단체 아이디
  * @apiParam {String} club_email 단체 이메일
  * @apiParam {String} club_pw 단체 비밀번호
@@ -306,14 +306,14 @@
  * @apiParam {String} club_history 단체 연혁
  * @apiParam {String} club_price_duration 단체 금액 작업기간
  * @apiParam {Number} union_enabled 연합 여부 (1이면 연합)
- * 
+ *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     0
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     1
- * 
+ *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
  * @apiError NotFound 잘못된 경로 요청
@@ -333,5 +333,5 @@
  *       "status": 404,
  *       "error": "Not Found"
  *     }
- * 
+ *
  */

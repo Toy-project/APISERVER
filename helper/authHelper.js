@@ -1,7 +1,5 @@
-const path = require('path');
 const jwt = require('jsonwebtoken');
-
-const error = require(path.join(__dirname, './errorHandler'));
+const error = require('./errorHandler');
 
 const TOKEN_SECRET = 'secret';
 

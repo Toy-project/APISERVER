@@ -1,9 +1,7 @@
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
 
 const router = express.Router();
-const Controller = require(path.join(__dirname, './category.controller.js'));
+const Controller = require('./category.controller.js');
 
 // get all category list
 router.get('/', Controller.getAllCategory);

@@ -1,6 +1,5 @@
-const path = require('path');
-const sequelize = require(path.join(__dirname, '../sequelize.js'));
-const Sequelize = require("sequelize");
+const sequelize = require('../sequelize.js');
+const Sequelize = require('sequelize');
 
 // define sequelize tag table
 const Tag = sequelize.define('TAG', {
@@ -8,12 +7,12 @@ const Tag = sequelize.define('TAG', {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull : false
+    allowNull: false,
   },
   tag_name: {
     type: Sequelize.STRING,
-    allowNull : false
-  }
+    allowNull: false,
+  },
 }, {
   freezeTableName: true,
   timestamps: false,

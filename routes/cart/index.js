@@ -1,8 +1,7 @@
 const express = require('express');
-const path = require('path');
 
 const router = express.Router();
-const Controller = require(path.join(__dirname, './cart.controller.js'));
+const Controller = require('./cart.controller.js');
 
 // get all cart with mem_id
 router.get('/:mem_id', Controller.getAllCartByMemId);

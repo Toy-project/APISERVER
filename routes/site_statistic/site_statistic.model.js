@@ -1,31 +1,30 @@
-const path = require('path');
-const sequelize = require(path.join(__dirname, '../sequelize.js'));
+const sequelize = require('../sequelize.js');
 const Sequelize = require('sequelize');
 
-const Site_statistic = sequelize.define('SITE_STATISTIC', {
-  date : {
+const SiteStatistic = sequelize.define('SITE_STATISTIC', {
+  date: {
     type: Sequelize.DATE,
     primaryKey: true,
-    allowNull : false,
+    allowNull: false,
     validate: {
       isDate: true,
-    }
+    },
   },
   site_connect_count: {
     type: Sequelize.INTEGER,
-    allowNull : false
+    allowNull: false,
   },
   site_pc_connect_count: {
     type: Sequelize.INTEGER,
-    allowNull : false
+    allowNull: false,
   },
   site_mobile_connect_count: {
     type: Sequelize.INTEGER,
-    allowNull : false
-  }
+    allowNull: false,
+  },
 }, {
   freezeTableName: true,
-  timestamps: false
+  timestamps: false,
 });
 
-module.exports = Site_statistic;
+module.exports = SiteStatistic;

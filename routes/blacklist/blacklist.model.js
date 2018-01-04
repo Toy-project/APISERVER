@@ -1,24 +1,23 @@
-const path = require('path');
-const sequelize = require(path.join(__dirname, '../sequelize.js'));
-const Sequelize = require("sequelize");
+const sequelize = require('../sequelize.js');
+const Sequelize = require('sequelize');
 
-const Member = require(path.join(__dirname, '../member/member.model'));
+const Member = require('../member/member.model');
 
-// define sequelize club table
+// define sequelize blacklist table
 const Blacklist = sequelize.define('BLACKLIST', {
   mem_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    allowNull : false,
+    allowNull: false,
     references: {
       model: Member,
-      key: 'mem_id'
-    }
+      key: 'mem_id',
+    },
   },
   black_type: {
     type: Sequelize.STRING,
-    allowNull : false
-  }
+    allowNull: false,
+  },
 }, {
   freezeTableName: true,
   timestamps: false,
