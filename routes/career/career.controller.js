@@ -1,6 +1,6 @@
 const path = require('path');
 const error = require(path.join(__dirname, '../../helper/errorHandler'));
-  
+
 const Career = require(path.join(__dirname,'../career/career.model.js'));
 
 
@@ -8,7 +8,7 @@ exports.getAllCareer = function(req,res,next) {
     const respond = results => {
       res.status(200).json(results);
     };
-  
+
     const onError = err => {
       next(err);
     };
@@ -40,7 +40,7 @@ exports.getCareer = function(req, res, next) {
 
 exports.deleteCareer = function(req, res, next) {
     console.log("Remove a career");
-  
+
     const respond = num => {
         Career.destroy({
           where: {
@@ -53,23 +53,23 @@ exports.deleteCareer = function(req, res, next) {
         .catch(err => {
           next(err);
         });
-    
+
     };
-  
+
     const onError = err => {
       next(err);
     };
-  
+
     Career.findById(req.params.career_id)
     .then(respond)
     .catch(onError);
   };
-  
-  
-  
+
+
+
 exports.updateCareer = function(req, res, next) {
     console.log("Update a career");
-  
+
     // update list
     const updateList = {
       career_name: req.body.career_name,
@@ -79,10 +79,10 @@ exports.updateCareer = function(req, res, next) {
 
       //...
     };
-  
+
     const respond = find => {
       if(find) {
-  
+
         Career.update(updateList, {
           where: {
             career_id: req.params.career_id
@@ -99,11 +99,11 @@ exports.updateCareer = function(req, res, next) {
         next(error(400));
       }
     };
-  
+
     const onError = err => {
       next(err);
     };
-  
+
     Career.findOne({
       where: {
         career_id: req.params.career_id
@@ -122,8 +122,8 @@ exports.createCareer = function(req, res, next) {
     club_id: req.body.club_id
   };
 
-  const respond = (career, created) => {
-    created ? res.status(201).json(career) : next(error(400));
+  const respond = (career) => {
+    career ? res.status(201).json(career) : next(error(400));
   };
 
   const onError = err => {
@@ -135,6 +135,3 @@ exports.createCareer = function(req, res, next) {
   .then(respond)
   .catch(onError);
 };
-
-
-  
