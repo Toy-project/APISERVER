@@ -90,7 +90,7 @@ exports.deleteSite_statistic = (req, res, next) => {
       .then((results) => {
         res.send(200);
       })
-      .catch(err -> {
+      .catch(err => {
         next(err);
       });
     } else {
