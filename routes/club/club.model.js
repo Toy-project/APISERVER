@@ -8,6 +8,7 @@ const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
 const Cart = require(path.join(__dirname, '../cart/cart.model.js'));
 const Comment = require(path.join(__dirname, '../comment/comment.model.js'));
 const Sns = require(path.join(__dirname, '../sns/sns.model.js'));
+const Career = require(path.join(__dirname, '../career/career.model.js'));
 
 // define sequelize club table
 const Club = sequelize.define('CLUB', {
@@ -111,5 +112,6 @@ Club.belongsTo(Tag, {foreignKey: 'tag_id', as: 'tag'});
 Club.hasMany(Cart, {foreignKey: 'club_id'});
 Club.hasMany(Comment, {foreignKey: 'club_id'});
 Club.hasMany(Sns, {foreignKey: 'club_id'});
+Club.hasMany(Career,{foreignKey: 'club_id'});
 
 module.exports = Club;

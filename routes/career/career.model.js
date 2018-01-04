@@ -2,17 +2,19 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
+const Club = require(path.join(__dirname, '../club/club.model.js'));
+
 const Career = sequelize.define('CAREER', {
     career_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,  
     },
     career_name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique:true
     },
     career_ex: {
         type: Sequelize.STRING,
@@ -34,5 +36,8 @@ const Career = sequelize.define('CAREER', {
         }
     }
 }, {
-    freezeTableName: true
+    freezeTableName: true,
+    timestamps : false
 });
+
+module.exports = Career;
