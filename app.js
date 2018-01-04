@@ -5,14 +5,14 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const error = require(path.join(__dirname, './helper/errorHandler'));
-const authHelper = require(path.join(__dirname, './helper/authHelper'));
+const error = require('./helper/errorHandler');
+const authHelper = require('./helper/authHelper');
 
 // router
 const index = require('./routes');
 const member = require('./routes/member/');
 const comment = require('./routes/comment/');
-const site_statistic = require('./routes/site_statistic/');
+const siteStatistic = require('./routes/site_statistic/');
 const session = require('./routes/session/');
 const cart = require('./routes/cart/');
 const club = require('./routes/club/');
@@ -47,14 +47,14 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/member', member);
 app.use('/comment', comment);
-app.use('/site-statistic',site_statistic);
+app.use('/site-statistic', siteStatistic);
 app.use('/session', session);
 app.use('/cart', cart);
 app.use('/club', club);
 app.use('/auth', auth);
-app.use('/tag',tag);
-app.use('/category',category);
-app.use('/sns',sns);
+app.use('/tag', tag);
+app.use('/category', category);
+app.use('/sns', sns);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
