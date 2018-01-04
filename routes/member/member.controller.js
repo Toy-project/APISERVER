@@ -55,7 +55,9 @@ exports.createMember = function(req, res, next) {
       .then((results) => {
         res.status(201).json(results);
       })
-      .catch(onError)
+      .catch(err => {
+        next(err);
+      })
     } else {
       next(error(400));
     }
@@ -86,7 +88,9 @@ exports.deleteMember = (req, res, next) => {
       .then((results) => {
         res.send(200);
       })
-      .catch(onError);
+      .catch(err => {
+        next(err);
+      });
     } else {
       next(error(400));
     }
@@ -125,7 +129,9 @@ exports.updateMember = (req, res, next) => {
       .then((results) => {
         res.status(201).json(results);
       })
-      .catch(onError);
+      .catch(err => {
+        next(err);
+      });
     } else {
       next(error(400));
     }

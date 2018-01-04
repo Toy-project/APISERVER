@@ -53,7 +53,9 @@ exports.deleteCart = (req, res, next) => {
       .then(results => {
         res.send(200);
       })
-      .catch(onError);
+      .catch(err => {
+        next(err);
+      });
     } else {
       next(error(400));
     }
