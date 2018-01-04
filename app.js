@@ -20,6 +20,7 @@ const auth = require('./routes/auth/');
 const sns = require('./routes/sns/');
 const category = require('./routes/category/');
 const tag = require('./routes/tag/');
+const career = require('./routes/career/');
 
 // app
 const app = express();
@@ -54,7 +55,8 @@ app.use('/club', club);
 app.use('/auth', auth);
 app.use('/tag',tag);
 app.use('/category',category);
-app.use('/sns',sns)
+app.use('/sns',sns);
+app.use('/career',career);
 
 
 // catch 404 and forward to error handler
