@@ -14,7 +14,7 @@ exports.getAllCartByMemId = (req, res, next) => {
 
   Cart.findOne({
     where : {
-      req.params.mem_id
+      mem_id : req.params.mem_id
     }
   })
   .then(respond)
