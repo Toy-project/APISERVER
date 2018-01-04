@@ -35,55 +35,48 @@ exports.getClub = function(req, res, next) {
   };
 
   Club.findOne({
-      where: {
-        club_id: req.params.club_id
+    where: {
+      club_id: req.params.club_id
+    },
+    include: [
+      {
+        model: Category,
+        as: 'category',
+        where: {
+          cate_id: req.params.cate_id || req.query.cate_id
+        }
       },
-      include: [
-        {
-          model: Category,
-          as: 'category',
-          where: {
-            cate_id: req.params.cate_id || req.query.cate_id
-          }
-        },
-        {
-          model: Tag,
-          as: 'tag',
-          where: {
-            tag_id: req.params.tag_id || req.query.tag_id
-          }
-        },
-        {
-          model: Sns,
-          as: 'sns',
-          where: {
-            club_id: req.params.club_id
-          }
-        },
-      ]
-    })
-    .then(respond)
-    .catch(onError);
+      {
+        model: Tag,
+        as: 'tag',
+        where: {
+          tag_id: req.params.tag_id || req.query.tag_id
+        }
+      },
+    ]
+  })
+  .then(respond)
+  .catch(onError);
 };
 
 exports.createClub = function(req, res, next) {
   console.log("Create a club");
 
   const createList = {
-    club_email,
-    club_pw,
-    club_name,
-    club_profile_photo,
-    club_phone,
-    club_photo,
-    club_ex,
-    club_copyright,
-    club_college,
-    cate_id,
-    tag_id,
-    club_history,
-    club_price_duration,
-    union_enabled
+    club_email: req.body.club_email,
+    club_pw: req.body.club_pw,
+    club_name: req.body.club_name,
+    club_profile_photo: req.body.club_profile_photo,
+    club_phone: req.body.club_phone,
+    club_photo: req.body.club_photo,
+    club_ex: req.body.club_ex,
+    club_copyright: req.body.club_copyright,
+    club_college: req.body.club_college,
+    cate_id: req.body.cate_id,
+    tag_id: req.body.tag_id,
+    club_history: req.body.club_history,
+    club_price_duration: req.body.club_price_duration,
+    union_enabled: req.body.union_enabled,
     //...
   };
 
@@ -215,7 +208,6 @@ exports.updateClubViews = function(req, res, next) {
         res.status(201).json(updateList);
       })
       .catch(err => {
-        console.log(err);
         next(err);
       });
     }

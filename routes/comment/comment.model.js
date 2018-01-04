@@ -2,6 +2,9 @@ const path = require('path');
 const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require('sequelize');
 
+const Member = require(path.join(__dirname, '../member/member.model.js'));
+const Club = require(path.join(__dirname, '../club/club.model.js'));
+
 //Define sequelize comments table
 const Comment = sequelize.define('COMMENT', {
   comment_id : {
@@ -29,16 +32,16 @@ const Comment = sequelize.define('COMMENT', {
     type : Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'MEMBER',
-      key:'mem_id'
+      model: Member,
+      key: 'mem_id'
     }
   },
   club_id : {
     type : Sequelize.INTEGER,
     allowNull : false,
     references : {
-      model:'CLUB',
-      key:'club_id'
+      model: Club,
+      key: 'club_id'
     }
   }
 }, {

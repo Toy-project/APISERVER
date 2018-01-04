@@ -1,126 +1,108 @@
 const path = require('path');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
+const dateFormat = require('dateformat');
+
 const Site_statistic = require(path.join(__dirname, './Site_statistic.model.js'));
 
-exports.GetAllSite_statistic = (req, res, next) => {
-  console.log("get GetAllSite_statistic");
-
+exports.getAllSite_statistic = (req, res, next) => {
   const respond = (results) => {
-    console.log("Respond at GetAllSite_statistic");
-    res.status(200).json(results);
-  }
+    results ? res.status(200).json(results) : next(error(400));
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At Get GetAllSite_statistic");
+  const onError = (err) => {
     next(err);
-  }
+  };
 
   Site_statistic.findAll()
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.GetSite_statistic = (req, res, next) => {
-  console.log("get GetSite_statistic");
-
-  const date = req.params.date;
+exports.getSite_statistic = (req, res, next) => {
 
   const respond = (results) => {
-    console.log("Respond at GetSite_statistic");
-    res.status(200).json(results);
-  }
+    results ? res.status(200).json(results) : next(error(400));
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At Get GetSite_statistic");
+  const onError = (err) => {
     next(err);
-  }
+  };
 
-  Site_statistic.findOne({
-    date : date
-  })
+  Site_statistic.findById(req.params.date)
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.createSite_statistic = (req, res, next) => {
-  console.log("get createSite_statistic");
+exports.createOrUpdateSite_statistic = (req, res, next) => {
 
-  const { site_connect_count, site_pc_connect_count, site_mobile_connect_count } = req.body;
-  const createList = {
-    date : new Date(),
-    site_connect_count : site_connect_count,
-    site_pc_connect_count : site_pc_connect_count,
-    site_mobile_connect_count : site_mobile_connect_count
-  }
-
-  const respond = (results) => {
-    console.log("Respond at createSite_statistic");
-    res.status(200).json({
-      isCreated: true
-    });
-  }
-
-  const onErorr = (err) => {
-    console.log("Error At Get createSite_statistic");
-    next(err);
-  }
-
-  Site_statistic.create(createList)
-  .then(respond)
-  //.catch(onError);
-}
-
-exports.updateSite_statistic = (req, res, next) => {
-  console.log("get updateSite_statistic");
-
-  const date = req.params.date;
-  const { site_connect_count, site_pc_connect_count, site_mobile_connect_count } = req.body;
   const updateList = {
-    site_connect_count : site_connect_count,
-    site_pc_connect_count : site_pc_connect_count,
-    site_mobile_connect_count : site_mobile_connect_count
-  }
+    site_connect_count : req.body.site_connect_count,
+    site_pc_connect_count : req.body.site_pc_connect_count,
+    site_mobile_connect_count : req.body.site_mobile_connect_count
+  };
 
   const respond = (results) => {
-    console.log("Respond at updateSite_statistic");
-    res.status(201).json(results);
-  }
+    //When finding one, updating
+    if(results){
+      Site_statistic.update(updateList, {
+        where : {
+          date : req.params.date
+        }
+      })
+      .then(results => {
+        res.status(201).json(results);
+      })
+      .catch(err => {
+        next(err);
+      });
+    } else {
+    //If not, creating
+      updateList["date"] = req.params.date;
 
-  const onErorr = (err) => {
-    console.log("Error At Get updateSite_statistic");
-    next(err);
-  }
-
-  Site_statistic.update(updateList, {
-    where : {
-      date : date
+      Site_statistic.create(updateList)
+      .then(results => {
+        res.status(201).json(results);
+      })
+      .catch(err => {
+        next(err);
+      });
     }
-  })
+  };
+
+  const onError = (err) => {
+    next(err);
+  };
+
+  Site_statistic.findById(req.params.date)
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.removeSite_statistic = (req, res, next) => {
-  console.log("get removeSite_statistic");
-
-  const date = req.params.date;
+exports.deleteSite_statistic = (req, res, next) => {
 
   const respond = (results) => {
-    console.log("Respond at removeSite_statistic");
-    res.status(201).json({
-      isDeleted : true
-    });
-  }
-
-  const onErorr = (err) => {
-    console.log("Error At Get removeSite_statistic");
-    next(err);
-  }
-
-  Site_statistic.destroy({
-    where : {
-      date : date
+    if(results){
+      Site_statistic.destroy({
+        where : {
+          date : req.params.date
+        }
+      })
+      .then((results) => {
+        res.send(200);
+      })
+      .catch(err => {
+        next(err);
+      });
+    } else {
+      next(error(400));
     }
-  })
+  };
+
+  const onError = (err) => {
+    next(err);
+  };
+
+  Site_statistic.findById(req.params.date)
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};

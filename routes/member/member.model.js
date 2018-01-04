@@ -6,8 +6,6 @@ const Club = require(path.join(__dirname, '../club/club.model.js'));
 const Comment = require(path.join(__dirname, '../comment/comment.model.js'));
 const Cart = require(path.join(__dirname, '../cart/cart.model.js'));
 
-const bcrypt = require('bcrypt');
-
 // define sequelize user table
 const Member = sequelize.define('MEMBER', {
   mem_id: {
@@ -22,9 +20,6 @@ const Member = sequelize.define('MEMBER', {
     unique: true,
     validate : {
       isEmail : true, // email check
-      notEmpty: {
-        msg: 'not empty'
-      }
     }
   },
   mem_name: {
@@ -35,6 +30,9 @@ const Member = sequelize.define('MEMBER', {
         msg: 'not empty'
       }
     }
+  },
+  mem_profile_photo: {
+    type: Sequelize.STRING,
   },
   mem_pw: {
     type: Sequelize.STRING,
@@ -55,10 +53,6 @@ const Member = sequelize.define('MEMBER', {
       }
     }
   },
-  mem_type: {
-    type: Sequelize.INTEGER,
-    allowNull : false
-  },
   mem_mail_agree: {
     type: Sequelize.INTEGER,
     allowNull : false
@@ -75,12 +69,10 @@ const Member = sequelize.define('MEMBER', {
       isDate: true
     }
   }
-
 }, {
   freezeTableName: true,
   timestamps: false
 });
-
 
 Member.hasMany(Comment, {foreignKey: 'mem_id'});
 Member.hasMany(Cart, {foreignKey: 'mem_id'});

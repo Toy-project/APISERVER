@@ -3,7 +3,6 @@ const sequelize = require(path.join(__dirname, '../sequelize.js'));
 const Sequelize = require("sequelize");
 
 const Category = require(path.join(__dirname, '../category/category.model.js'));
-const Member = require(path.join(__dirname, '../member/member.model.js'));
 const Tag = require(path.join(__dirname, '../tag/tag.model.js'));
 const Cart = require(path.join(__dirname, '../cart/cart.model.js'));
 const Comment = require(path.join(__dirname, '../comment/comment.model.js'));
@@ -21,7 +20,10 @@ const Club = sequelize.define('CLUB', {
   club_email: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
+    validate : {
+      isEmail : true, // email check
+    }
   },
   club_pw: {
     type: Sequelize.STRING,
@@ -74,10 +76,7 @@ const Club = sequelize.define('CLUB', {
     }
   },
   club_history: {
-    type: Sequelize.BLOB, //use editor,
-    get(){
-      return this.getDataValue('club_history').toString('utf8');
-    }
+    type: Sequelize.BLOB //use editor,
   },
   club_price_duration: {
     type: Sequelize.STRING

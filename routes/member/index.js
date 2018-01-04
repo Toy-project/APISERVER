@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const router = express.Router();
 const Controller = require(path.join(__dirname, './member.controller.js'));
@@ -12,10 +11,10 @@ router.get('/', Controller.getAllMember);
 router.get('/:mem_id', Controller.getMember);
 
 // create user
-router.post('/', Controller.register);
+router.post('/', Controller.createMember);
 
 // Delete user
-router.delete('/:mem_id', Controller.removeMember);
+router.delete('/:mem_id', Controller.deleteMember);
 
 // update user
 router.put('/:mem_id', Controller.updateMember);

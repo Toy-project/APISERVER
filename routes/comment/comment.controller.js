@@ -1,161 +1,149 @@
 const path = require('path');
+const error = require(path.join(__dirname, '../../helper/errorHandler'));
+
 const Comment = require(path.join(__dirname, './comment.model.js'));
 
-exports.GetCommentByClubId = (req, res, next) => {
-  console.log("get a comment by club id");
+exports.getCommentByClubId = function(req, res, next) {
+  const respond = results => {
+    results ? res.status(200).json(results) : next(error(400));
+  };
 
-  const club_id = req.params.club_id;
-
-  const respond = (results) => {
-    console.log("Respond at GetComment");
-    res.status(200).json(results);
-  }
-
-  const onErorr = (err) => {
-    console.log("Error At Get Comment");
+  const onError = err => {
     next(err);
-  }
+  };
 
   Comment.findAll({
-    where : {
-      club_id: club_id
+    where: {
+      club_id: req.params.club_id,
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.GetCommentByMemId = (req, res, next) => {
-  console.log("get a comment by mem_id");
+exports.getCommentByMemId = (req, res, next) => {
 
-  const mem_id = req.params.mem_id;
+  const respond = results => {
+    results ? res.status(200).json(results) : next(error(400));
+  };
 
-  const respond = (results) => {
-    console.log("Respond at GetComment");
-    res.status(200).json(results);
-  }
-
-  const onErorr = (err) => {
-    console.log("Error At Get Comment");
+  const onError = err => {
     next(err);
-  }
+  };
 
   Comment.findAll({
     where : {
-      mem_id: mem_id
+      mem_id: req.params.mem_id
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
-exports.GetCommentByMemIdClubId = (req, res, next) => {
-  console.log("get a comment by mem_id club_id");
+exports.getCommentByMemIdClubId = (req, res, next) => {
 
-  const mem_id = req.params.mem_id;
-  const club_id = req.params.club_id;
+  const respond = results => {
+    results ? res.status(200).json(results) : next(error(400));
+  };
 
-  const respond = (results) => {
-    console.log("Respond at GetComment");
-    res.status(200).json(results);
-  }
-
-  const onErorr = (err) => {
-    console.log("Error At Get Comment");
+  const onError = err => {
     next(err);
-  }
+  };
 
   Comment.findAll({
     where : {
-      mem_id: mem_id,
-      club_id : club_id
+      mem_id: req.params.mem_id,
+      club_id : req.params.club_id
     }
   })
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
 
 exports.createComment = (req, res, next) => {
-  console.log("Create a comment");
 
-  const { comment_contents, club_rating, mem_id, club_id, comment_update } = req.body;
   const createList = {
-    comment_contents : comment_contents,
-    club_rating : club_rating,
+    comment_contents : req.body.comment_contents,
+    club_rating : req.body.club_rating,
     comment_update : new Date(),
-    mem_id : mem_id,
-    club_id : club_id
-  }
+    mem_id : req.body.mem_id,
+    club_id : req.body.club_id
+  };
 
   const respond = (results) => {
-    console.log("Respond at createComment");
-    res.status(200).json({
-      isCreated : true
-    });
-  }
+    results ? res.status(200).json(results) : next(error(400));
+  };
 
-  const onErorr = (err) => {
-    console.log("Error At createComment");
+  const onError = (err) => {
     next(err);
-  }
+  };
 
   Comment.create(createList)
   .then(respond)
-  //.catch(onError)
-}
+  .catch(onError);
+};
 
 exports.updateComment = (req, res, next) => {
-  console.log("Create a updateComment");
 
-  const { comment_contents, club_rating, comment_update } = req.body;
   const updateList = {
-    comment_contents : comment_contents,
-    club_rating : club_rating,
+    comment_contents : req.body.comment_contents,
+    club_rating : req.body.club_rating,
     comment_update : new Date()
-  }
-
-  const comment_id = req.params.comment_id;
+  };
 
   const respond = (results) => {
-    console.log("Respond at updateComment");
-    res.status(201).json(results);
-  }
-
-  const onErorr = (err) => {
-    console.log("Error At updateComment");
-    next(err);
-  }
-
-  Comment.update(updateList, {
-    where : {
-      comment_id : comment_id
+    if(results){
+      Comment.update(updateList, {
+        where : {
+          comment_id : req.params.comment_id
+        }
+      })
+      .then(results => {
+        res.status(201).json(results);
+      })
+      .catch(err => {
+        next(err);
+      });
+    } else {
+      next(error(400));
     }
-  })
+  };
+
+  const onError = (err) => {
+    next(err);
+  };
+
+  Comment.findById(req.params.comment_id)
   .then(respond)
-  //.catch(onError)
+  .catch(onError);
 }
 
-exports.removeComment = (req, res, next) => {
-  console.log("Create a removeComment");
-  const comment_id = req.params.comment_id;
+exports.deleteComment = (req, res, next) => {
 
   const respond = (results) => {
-    console.log("Respond at removeComment");
-    res.status(201).json({
-      isRemoved : true
-    });
-  }
+    if(results){
 
-  const onErorr = (err) => {
-    console.log("Error At removeComment");
-    next(err);
-  }
-
-  Comment.destroy({
-    where : {
-      comment_id: comment_id
+      Comment.destroy({
+        where : {
+          comment_id: req.params.comment_id,
+        }
+      })
+      .then(results => {
+        res.send(200);
+      })
+      .catch(err => {
+        next(err);
+      });
+    } else {
+      next(error(400));
     }
-  })
+  };
+
+  const onError = (err) => {
+    next(err);
+  };
+
+  Comment.findById(req.params.comment_id)
   .then(respond)
-  //.catch(onError);
-}
+  .catch(onError);
+};
