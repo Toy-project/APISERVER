@@ -4,22 +4,25 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('outplatformapi:server');
-var http = require('http');
-var sequelize = require('../routes/sequelize.js')
+const app = require('../app');
+const debug = require('debug')('outplatformapi:server');
+const http = require('http');
+const sequelize = require('../routes/sequelize.js');
+//const schedule = require('node-schedule');
+//const rp = require('request-promise');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8000');
+const port = normalizePort(process.env.PORT || '8000');
+
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -29,6 +32,9 @@ sequelize.sync().then(function(){
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
+
+  //매일 통계 테이블에 하루 데이터를 저장할 레코드를 생성
+  //onPostRequestToSite_statistic("localhost", port);
 });
 
 /**
@@ -36,7 +42,7 @@ sequelize.sync().then(function(){
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -84,9 +90,27 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  const addr = server.address();
+  const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+// function onPostRequestToSite_statistic(addres, port) {
+//   const options = {
+//     method: 'POST',
+//     uri : "".concat("http://", addres, ":", port, "/site-statistic/"),
+//     resolveWithFullResponse: true
+//   };
+//
+//   const createStatisticRecordEveryDay = schedule.scheduleJob('00 00 * * *', () => {
+//     rp(options)
+//       .then((response) => {
+//         console.log("Success : ", response.statusCode);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       })
+//   });
+// }

@@ -1,20 +1,18 @@
 const express = require('express');
 
 const router = express.Router();
-const Controller = require('./Site_statistic.controller.js');
+const Controller = require('./site_statistic.controller.js');
 
 // get Site_statistic list
-router.get('/', Controller.getAllSite_statistic);
+router.get('/', Controller.getAllSiteStatistic);
 
 // get a specific Site_statistic
-router.get('/:date', Controller.getSite_statistic);
-
-// create a site_statistic
-router.post('/', Controller.createSite_statistic);
+router.get('/:date', Controller.getSiteStatistic);
 
 // update a site_statistic
-router.put('/:date', Controller.updateSite_statistic);
+router.put('/:date', Controller.createOrUpdateSiteStatistic);
 
-router.delete('/:date', Controller.deleteSite_statistic);
+// delete a site_statistic
+router.delete('/:date', Controller.deleteSiteStatistic);
 
 module.exports = router;

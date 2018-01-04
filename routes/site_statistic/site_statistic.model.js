@@ -3,12 +3,9 @@ const Sequelize = require('sequelize');
 
 const SiteStatistic = sequelize.define('SITE_STATISTIC', {
   date: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     primaryKey: true,
     allowNull: false,
-    validate: {
-      isDate: true,
-    },
   },
   site_connect_count: {
     type: Sequelize.INTEGER,

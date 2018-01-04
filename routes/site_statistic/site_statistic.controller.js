@@ -1,10 +1,7 @@
-const path = require('path');
+const error = require('../../helper/errorHandler');
+const SiteStatistic = require('./site_statistic.model.js');
 
-const error = require(path.join(__dirname, '../../helper/errorHandler'));
-
-const Site_statistic = require(path.join(__dirname, './Site_statistic.model.js'));
-
-exports.getAllSite_statistic = (req, res, next) => {
+exports.getAllSiteStatistic = (req, res, next) => {
   const respond = (results) => {
     results ? res.status(200).json(results) : next(error(400));
   };
@@ -13,82 +10,83 @@ exports.getAllSite_statistic = (req, res, next) => {
     next(err);
   };
 
-  Site_statistic.findAll()
+  SiteStatistic.findAll()
   .then(respond)
   .catch(onError);
 };
 
-exports.getSite_statistic = (req, res, next) => {
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
+exports.getSiteStatistic = (req, res, next) => {
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Site_statistic.findById(req.params.date)
+  SiteStatistic.findById(req.params.date)
   .then(respond)
   .catch(onError);
 };
 
-exports.createSite_statistic = (req, res, next) => {
-  const createList = {
-    date: new Date(),
-    site_connect_count: req.body.site_connect_count,
-    site_pc_connect_count: req.body.site_pc_connect_count,
-    site_mobile_connect_count: req.body.site_mobile_connect_count,
-  };
-
-  const respond = (results) => {
-    results ? res.status(201).json(results) : next(error(400));
-  };
-
-  const onError = (err) => {
-    next(err);
-  };
-
-  Site_statistic.create(createList)
-  .then(respond)
-  .catch(onError);
-};
-
-exports.updateSite_statistic = (req, res, next) => {
+exports.createOrUpdateSiteStatistic = (req, res, next) => {
   const updateList = {
     site_connect_count: req.body.site_connect_count,
     site_pc_connect_count: req.body.site_pc_connect_count,
     site_mobile_connect_count: req.body.site_mobile_connect_count,
   };
 
-  const respond = (results) => {
-    results ? res.status(201).json(results) : next(error(400));
+  const respond = (num) => {
+    // When finding one, updating
+    if (num) {
+      SiteStatistic.update(updateList, {
+        where: {
+          date: req.params.date,
+        },
+      })
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch((err) => {
+        next(err);
+      });
+    } else {
+      // If not, creating
+      updateList.date = req.params.date;
+
+      SiteStatistic.create(updateList)
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch((err) => {
+        next(err);
+      });
+    }
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Site_statistic.update(updateList, {
-    where: {
-      date: req.params.date,
-    },
-  })
+  SiteStatistic.findById(req.params.date)
   .then(respond)
   .catch(onError);
 };
 
-exports.deleteSite_statistic = (req, res, next) => {
-  const respond = (results) => {
-    if (results) {
-      Site_statistic.destroy({
+exports.deleteSiteStatistic = (req, res, next) => {
+  const respond = (num) => {
+    if (num) {
+      SiteStatistic.destroy({
         where: {
           date: req.params.date,
         },
       })
-      .then((results) => {
+      .then((result) => {
         res.send(200);
       })
-      .catch(onError);
+      .catch((err) => {
+        next(err);
+      });
     } else {
       next(error(400));
     }
@@ -98,7 +96,7 @@ exports.deleteSite_statistic = (req, res, next) => {
     next(err);
   };
 
-  Site_statistic.findById(req.params.date)
+  SiteStatistic.findById(req.params.date)
   .then(respond)
   .catch(onError);
 };
