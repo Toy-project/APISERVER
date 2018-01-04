@@ -2,7 +2,7 @@ const path = require('path');
 const error = require(path.join(__dirname, '../../helper/errorHandler'));
 const Session = require(path.join(__dirname, './session.model.js'));
 
-exports.GetAllSession = (req, res, next) => {
+exports.getAllSession = (req, res, next) => {
 
   const respond = (results) => {
     (results) ? res.status(200).json(results) : next(error(400));
@@ -17,7 +17,7 @@ exports.GetAllSession = (req, res, next) => {
   .catch(onError);
 }
 
-exports.GetSession = (req, res, next) => {
+exports.getSession = (req, res, next) => {
   const respond = (results) => {
     results ? res.status(200).json(results) : next(error(400));
   }
@@ -38,7 +38,7 @@ exports.createSession = (req, res, next) => {
   }
 
   const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
+    results ? res.status(201).json(results) : next(error(400));
   }
 
   const onError = (err) => {

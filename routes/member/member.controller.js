@@ -55,11 +55,9 @@ exports.createMember = function(req, res, next) {
       .then((results) => {
         res.status(201).json(results);
       })
-      .catch((err) => {
-        next(err);
-      })
+      .catch(onError)
     } else {
-      next(err);
+      next(error(400));
     }
   };
 

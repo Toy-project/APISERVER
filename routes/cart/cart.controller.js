@@ -4,8 +4,6 @@ const error = require(path.join(__dirname, '../../helper/errorHandler'));
 const Cart = require(path.join(__dirname, './cart.model.js'));
 
 exports.getAllCartByMemId = (req, res, next) => {
-  const mem_id = req.params.mem_id;
-
   const respond = (results) => {
     results ? res.status(200).json(results) : next(error(400));
   };
@@ -14,9 +12,9 @@ exports.getAllCartByMemId = (req, res, next) => {
     next(err);
   };
 
-  Cart.findAll({
+  Cart.findOne({
     where : {
-      mem_id : mem_id
+      req.params.mem_id
     }
   })
   .then(respond)
@@ -30,8 +28,8 @@ exports.createCart = (req, res, next) => {
     club_id:  req.body.club_id
   };
 
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   const onError = (err) => {
@@ -45,19 +43,17 @@ exports.createCart = (req, res, next) => {
 
 exports.deleteCart = (req, res, next) => {
 
-  const respond = (result) => {
-    if(result) {
+  const respond = (results) => {
+    if(results) {
       Cart.destroy({
         where : {
           cart_id : req.params.cart_id
         }
       })
-      .then(result => {
+      .then(results => {
         res.send(200);
       })
-      .catch(err => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }

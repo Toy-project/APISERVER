@@ -5,10 +5,10 @@ const router = express.Router();
 const Controller = require(path.join(__dirname, './session.controller.js'));
 
 //Get All Session
-router.get('/', Controller.GetAllSession);
+router.get('/', Controller.getAllSession);
 
 //Get a Session
-router.get('/:session_id', Controller.GetSession);
+router.get('/:session_id', Controller.getSession);
 
 //Create a session
 router.post('/', Controller.createSession);

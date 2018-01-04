@@ -70,8 +70,8 @@ exports.createComment = (req, res, next) => {
     club_id : req.body.club_id
   };
 
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   const onError = (err) => {
@@ -101,9 +101,7 @@ exports.updateComment = (req, res, next) => {
       .then(results => {
         res.status(201).json(results);
       })
-      .catch(err => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
@@ -131,6 +129,7 @@ exports.deleteComment = (req, res, next) => {
       .then(results => {
         res.send(200);
       })
+      .catch(onError);
     } else {
       next(error(400));
     }
