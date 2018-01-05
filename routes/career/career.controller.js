@@ -39,9 +39,8 @@ exports.getCareer = function(req, res, next) {
 };
 
 exports.deleteCareer = function(req, res, next) {
-    console.log("Remove a career");
-
     const respond = num => {
+      if(num){
         Career.destroy({
           where: {
             career_id: req.params.career_id
@@ -51,20 +50,25 @@ exports.deleteCareer = function(req, res, next) {
           res.send(200);
         })
         .catch(err => {
+          console.log(err);
           next(err);
         });
+      }
+      else{
+        next(error(400));
+      }
 
     };
 
     const onError = err => {
+      console.log('onErr'+err);
       next(err);
     };
 
-    Career.findById(req.params.career_id)
+    Caree.findById(req.params.career_id)
     .then(respond)
     .catch(onError);
   };
-
 
 
 exports.updateCareer = function(req, res, next) {
@@ -75,14 +79,14 @@ exports.updateCareer = function(req, res, next) {
       career_name: req.body.career_name,
       career_ex:req.body.career_name,
       career_photo:req.body.career_photo,
-      career_due : req.body.career_due
-
+      career_due : req.body.career_due,
+      club_id:req.body.club_id
       //...
     };
 
     const respond = find => {
       if(find) {
-
+        console.log(find)
         Career.update(updateList, {
           where: {
             career_id: req.params.career_id
@@ -111,9 +115,11 @@ exports.updateCareer = function(req, res, next) {
     })
     .then(respond)
     .catch(onError);
+
 }
 
 exports.createCareer = function(req, res, next) {
+  
   const createList = {
     career_name: req.body.career_name,
     career_ex:req.body.career_ex,
