@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "apidoc -i routes/ -o views/ && nodemon ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "apidoc": "^0.17.6",
