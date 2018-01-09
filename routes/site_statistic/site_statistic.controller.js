@@ -2,7 +2,7 @@ const path = require('path');
 const error = require(path.join(__dirname, '../../helper/errorHandler'));
 //const dateFormat = require('dateformat');
 
-const Site_statistic = require(path.join(__dirname, './Site_statistic.model.js'));
+const Site_statistic = require(path.join(__dirname, './site_statistic.model.js'));
 
 exports.getAllSite_statistic = (req, res, next) => {
   const respond = (results) => {
