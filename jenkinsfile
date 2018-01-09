@@ -23,21 +23,17 @@ pipeline {
         branch 'develop'
       }
       steps {
-        retry(2) {
-          timeout(2) { // 2 minutes
-            //develop container list
-            echo 'develop container list'
-            sh 'docker exec -i develop ls -al'
+        //develop container list
+        echo 'develop container list'
+        sh 'docker exec -i develop ls -al'
 
-            // npm install
-            echo 'npm install'
-            sh 'docker exec -i develop npm --prefix /shared install /shared'
+        // npm install
+        echo 'npm install'
+        sh 'docker exec -i develop npm --prefix /shared install /shared'
 
-            // pm2 delete & star
-            echo 'pm2 develop delete and start'
-            sh 'pm2 start /shared/bin/www --name develop'
-          }
-        }
+        // pm2 delete & star
+        echo 'pm2 develop delete and start'
+        sh 'pm2 start /shared/bin/www --name develop'
       }
     }
   }
