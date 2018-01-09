@@ -25,13 +25,17 @@ pipeline {
       steps {
         retry(2) {
           timeout(2) { // 2 minutes
+            //develop container list
+            echo 'develop container list'
+            sh 'docker exec -i develop ls -al'
+
             // npm install
             echo 'npm install'
-            sh 'npm --prefix /shared install /shared'
+            sh 'docker exec -i develop npm --prefix /shared install /shared'
 
             // pm2 delete & star
             echo 'pm2 develop delete and start'
-            sh 'pm2 start /app/bin/www --name develop'
+            sh 'pm2 start /shared/bin/www --name develop'
           }
         }
       }
