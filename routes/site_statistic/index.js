@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const router = express.Router();
-const Controller = require(path.join(__dirname, './Site_statistic.controller.js'));
+const Controller = require(path.join(__dirname, './site_statistic.controller.js'));
 
 // get Site_statistic list
 router.get('/', Controller.getAllSite_statistic);
