@@ -8,12 +8,9 @@ const app = require('../app');
 const debug = require('debug')('outplatformapi:server');
 const http = require('http');
 const sequelize = require('../routes/sequelize.js');
-//const schedule = require('node-schedule');
-//const rp = require('request-promise');
 /**
  * Get port from environment and store in Express.
  */
-
 const port = normalizePort(process.env.PORT || '8000');
 
 app.set('port', port);
@@ -21,7 +18,6 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
 const server = http.createServer(app);
 
 /**
@@ -96,21 +92,3 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-// function onPostRequestToSite_statistic(addres, port) {
-//   const options = {
-//     method: 'POST',
-//     uri : "".concat("http://", addres, ":", port, "/site-statistic/"),
-//     resolveWithFullResponse: true
-//   };
-//
-//   const createStatisticRecordEveryDay = schedule.scheduleJob('00 00 * * *', () => {
-//     rp(options)
-//       .then((response) => {
-//         console.log("Success : ", response.statusCode);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       })
-//   });
-// }
