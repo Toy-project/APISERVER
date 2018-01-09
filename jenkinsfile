@@ -33,7 +33,7 @@ pipeline {
 
         // pm2 delete & star
         echo 'pm2 develop delete and start'
-        sh 'pm2 start /shared/bin/www --name develop'
+        sh 'docker exec -i develop pm2 start /shared/bin/www --name develop'
       }
     }
   }
