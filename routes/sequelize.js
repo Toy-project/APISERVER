@@ -16,6 +16,7 @@ const sequelize = new Sequelize(db.name, db.user, db.password,{
       collate: 'utf8_general_ci'
     },
   },
+  port: db.port,
 });
 
 module.exports = sequelize;
