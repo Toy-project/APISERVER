@@ -29,7 +29,7 @@ pipeline {
             echo 'npm install'
             sh 'npm --prefix /shared install /shared'
 
-            // pm2 delete & start
+            // pm2 delete & star
             echo 'pm2 develop delete and start'
             sh 'pm2 start /app/bin/www --name develop'
           }
