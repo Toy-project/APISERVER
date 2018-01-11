@@ -17,6 +17,10 @@ const Club = sequelize.define('CLUB', {
     autoIncrement: true,
     allowNull: false
   },
+  club_userid: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
   club_email: {
     type: Sequelize.STRING,
     allowNull: false,

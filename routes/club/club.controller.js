@@ -9,7 +9,7 @@ const Sns = require(path.join(__dirname, '../sns/sns.model.js'));
 
 exports.getAllClub = function(req, res, next) {
   console.log("get all club list");
-  
+
   const respond = results => {
     res.status(200).json(results);
   };
@@ -63,6 +63,7 @@ exports.createClub = function(req, res, next) {
   console.log("Create a club");
 
   const createList = {
+    club_userid: req.body.club_userid,
     club_email: req.body.club_email,
     club_pw: req.body.club_pw,
     club_name: req.body.club_name,
@@ -79,6 +80,8 @@ exports.createClub = function(req, res, next) {
     union_enabled: req.body.union_enabled,
     //...
   };
+
+  console.log(createList);
 
   // hash password
   createList.club_pw = hash.createPw(createList.club_pw);
@@ -133,7 +136,6 @@ exports.updateClub = function(req, res, next) {
 
   // update list
   const updateList = {
-    club_email: req.body.club_email,
     club_pw: req.body.club_pw,
     club_name: req.body.club_name,
     club_profile_photo: req.body.club_profile_photo,

@@ -14,10 +14,14 @@ const Member = sequelize.define('MEMBER', {
     autoIncrement: true,
     allowNull : false
   },
+  mem_userid: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull : false
+  },
   mem_email: {
     type: Sequelize.STRING,
     allowNull : false,
-    unique: true,
     validate : {
       isEmail : true, // email check
     }
@@ -25,11 +29,6 @@ const Member = sequelize.define('MEMBER', {
   mem_name: {
     type: Sequelize.STRING,
     allowNull : false,
-    validate : {
-      notEmpty: {
-        msg: 'not empty'
-      }
-    }
   },
   mem_profile_photo: {
     type: Sequelize.STRING,
@@ -37,20 +36,12 @@ const Member = sequelize.define('MEMBER', {
   mem_pw: {
     type: Sequelize.STRING,
     allowNull : false,
-    validate : {
-      notEmpty: {
-        msg: 'not empty'
-      }
-    }
   },
   mem_phone: {
     type: Sequelize.STRING,
     allowNull : false,
     validate : {
       is : /^\d{3}-\d{4}-\d{4}$/i,
-      notEmpty: {
-        msg: 'not empty'
-      }
     }
   },
   mem_mail_agree: {
