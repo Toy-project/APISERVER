@@ -35,6 +35,7 @@ const Club = sequelize.define('CLUB', {
   },
   club_name: {
     type: Sequelize.STRING,
+    unique: true,
     allowNull: false,
     unique: true
   },

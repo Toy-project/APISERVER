@@ -23,6 +23,25 @@ exports.getAllClub = function(req, res, next) {
   .catch(onError);
 };
 
+exports.getLimitingClub = function(req, res, next) {
+  console.log("get limiting club list");
+
+  const respond = results => {
+    res.status(200).json(results);
+  };
+
+  const onError = err => {
+    next(err);
+  };
+
+  Club.findAll({
+      offset: parseInt(req.params.start),
+      limit: parseInt(req.params.end),
+  })
+  .then(respond)
+  .catch(onError);
+};
+
 exports.getClub = function(req, res, next) {
   console.log("get a specific club");
 
