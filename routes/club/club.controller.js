@@ -86,6 +86,7 @@ exports.createClub = function(req, res, next) {
     club_email: req.body.club_email,
     club_pw: req.body.club_pw,
     club_name: req.body.club_name,
+    club_phone: req.body.club_phone,
     club_profile_photo: req.body.club_profile_photo,
     club_phone: req.body.club_phone,
     club_photo: req.body.club_photo,
