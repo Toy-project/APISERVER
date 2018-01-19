@@ -32,6 +32,7 @@ exports.getMember = function (req, res, next) {
 
 exports.createMember = function (req, res, next) {
   const createList = {
+    mem_userid: req.body.mem_userid,
     mem_email: req.body.mem_email,
     mem_name: req.body.mem_name,
     mem_profile_photo: req.body.mem_profile_photo,
@@ -65,7 +66,7 @@ exports.createMember = function (req, res, next) {
 
   Member.findOne({
     where: {
-      mem_email: createList.mem_email,
+      mem_userid: createList.mem_userid,
     },
   })
   .then(respond)

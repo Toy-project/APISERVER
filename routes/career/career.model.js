@@ -1,8 +1,6 @@
 const sequelize = require('../sequelize.js');
 const Sequelize = require('sequelize');
 
-const Club = require('../club/club.model.js');
-
 const Career = sequelize.define('CAREER', {
   career_id: {
     type: Sequelize.INTEGER,
@@ -26,14 +24,9 @@ const Career = sequelize.define('CAREER', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  club_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: Club,
-      key: 'club_id',
-    },
-  },
 }, {
   freezeTableName: true,
+  timestamps: false,
 });
+
+module.exports = Career;

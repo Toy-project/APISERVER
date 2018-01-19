@@ -6,6 +6,9 @@ const Controller = require('./club.controller.js');
 // get all club list
 router.get('/', Controller.getAllClub);
 
+// get limiting club list
+router.get('/search/:start/:end', Controller.getLimitingClub);
+
 // get a specific club
 router.get('/:club_id', Controller.getClub);
 

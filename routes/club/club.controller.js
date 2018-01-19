@@ -19,7 +19,24 @@ exports.getAllClub = function (req, res, next) {
   .catch(onError);
 };
 
-exports.getClub = function (req, res, next) {
+exports.getLimitingClub = (req, res, next) => {
+  const respond = (results) => {
+    res.status(200).json(results);
+  };
+
+  const onError = (err) => {
+    next(err);
+  };
+
+  Club.findAll({
+    offset: parseInt(req.params.start),
+    limit: parseInt(req.params.end),
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getClub = (req, res, next) => {
   const respond = (result) => {
     result ? res.status(200).json(result) : next(error(400));
   };
@@ -55,6 +72,7 @@ exports.getClub = function (req, res, next) {
 
 exports.createClub = function (req, res, next) {
   const createList = {
+    club_userid: req.body.club_userid,
     club_email: req.body.club_email,
     club_pw: req.body.club_pw,
     club_name: req.body.club_name,
@@ -119,7 +137,6 @@ exports.deleteClub = function (req, res, next) {
 
 exports.updateClub = function (req, res, next) {
   const updateList = {
-    club_email: req.body.club_email,
     club_pw: req.body.club_pw,
     club_name: req.body.club_name,
     club_profile_photo: req.body.club_profile_photo,
