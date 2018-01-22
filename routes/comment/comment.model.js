@@ -1,9 +1,6 @@
 const sequelize = require('../sequelize.js');
 const Sequelize = require('sequelize');
 
-const Member = require('../member/member.model.js');
-const Club = require('../club/club.model.js');
-
 // Define sequelize comments table
 const Comment = sequelize.define('COMMENT', {
   comment_id: {
@@ -30,18 +27,10 @@ const Comment = sequelize.define('COMMENT', {
   mem_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    references: {
-      model: Member,
-      key: 'mem_id',
-    },
   },
   club_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    references: {
-      model: Club,
-      key: 'club_id',
-    },
   },
 }, {
   freezeTableName: true,

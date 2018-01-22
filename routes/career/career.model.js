@@ -24,6 +24,18 @@ const Career = sequelize.define('CAREER', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  career_peple: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  career_co: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  club_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
 }, {
   freezeTableName: true,
   timestamps: false,

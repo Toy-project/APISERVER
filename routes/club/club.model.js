@@ -65,18 +65,10 @@ const Club = sequelize.define('CLUB', {
   cate_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    references: {
-      model: Category,
-      key: 'cate_id',
-    },
   },
   tag_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    references: {
-      model: Tag,
-      key: 'tag_id',
-    },
   },
   club_history: {
     type: Sequelize.BLOB, // use editor,
@@ -111,9 +103,9 @@ const Club = sequelize.define('CLUB', {
 
 Club.belongsTo(Category, { foreignKey: 'cate_id', as: 'category' });
 Club.belongsTo(Tag, { foreignKey: 'tag_id', as: 'tag' });
-Club.hasMany(Cart, { foreignKey: 'club_id' });
-Club.hasMany(Comment, { foreignKey: 'club_id' });
 Club.hasMany(Sns, { foreignKey: 'club_id' });
 Club.hasMany(Career, { foreignKey: 'club_id' });
+Club.hasMany(Cart, { foreignKey: 'club_id' });
+Club.hasMany(Comment, { foreignKey: 'club_id' });
 
 module.exports = Club;

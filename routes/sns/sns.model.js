@@ -22,10 +22,6 @@ const Sns = sequelize.define('SNS', {
   club_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    references: {
-      model: Club,
-      key: 'club_id',
-    },
   },
 }, {
   freezeTableName: true,

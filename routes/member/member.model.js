@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 
 const Comment = require('../comment/comment.model.js');
 const Cart = require('../cart/cart.model.js');
+const Blacklist = require('../blacklist/blacklist.model.js');
 
 // define sequelize user table
 const Member = sequelize.define('MEMBER', {
@@ -63,7 +64,8 @@ const Member = sequelize.define('MEMBER', {
   timestamps: false,
 });
 
-Member.hasMany(Comment, { foreignKey: 'mem_id' });
+Member.hasOne(Blacklist, { foreignKey: 'mem_id' });
 Member.hasMany(Cart, { foreignKey: 'mem_id' });
+Member.hasMany(Comment, { foreignKey: 'mem_id', constraints: false });
 
 module.exports = Member;
