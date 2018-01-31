@@ -8,6 +8,9 @@
 # api documentation
 /apidoc
 
+# images
+/images
+
 # config
 /config
 
