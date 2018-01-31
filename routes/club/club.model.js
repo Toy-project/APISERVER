@@ -39,6 +39,7 @@ const Club = sequelize.define('CLUB', {
   },
   club_profile_photo: {
     type: Sequelize.STRING,
+    defaultValue: null,
   },
   club_phone: {
     type: Sequelize.STRING,
@@ -48,6 +49,7 @@ const Club = sequelize.define('CLUB', {
   },
   club_photo: {
     type: Sequelize.STRING,
+    defaultValue: null,
   },
   club_ex: {
     type: Sequelize.STRING,
@@ -89,6 +91,18 @@ const Club = sequelize.define('CLUB', {
     type: Sequelize.FLOAT,
     defaultValue: 0,
   },
+  club_create_date: {
+    type: Sequelize.DATE,
+    validate: {
+      isDate: true,
+    },
+  },
+  club_last_connect_date: {
+    type: Sequelize.DATE,
+    validate: {
+      isDate: true,
+    },
+  },
   club_update: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW,
@@ -103,7 +117,7 @@ const Club = sequelize.define('CLUB', {
 
 Club.belongsTo(Category, { foreignKey: 'cate_id', as: 'category' });
 Club.belongsTo(Tag, { foreignKey: 'tag_id', as: 'tag' });
-Club.hasMany(Sns, { foreignKey: 'club_id' });
+Club.hasMany(Sns, { foreignKey: 'club_id', as: 'sns' });
 Club.hasMany(Career, { foreignKey: 'club_id' });
 Club.hasMany(Cart, { foreignKey: 'club_id' });
 Club.hasMany(Comment, { foreignKey: 'club_id' });

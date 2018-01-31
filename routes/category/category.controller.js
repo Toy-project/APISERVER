@@ -10,7 +10,10 @@ exports.getAllCategory = function (req, res, next) {
     next(err);
   };
 
-  Category.findAll()
+  Category.findAndCountAll({
+    offset: req.params.start,
+    limit: req.params.end,
+  })
   .then(respond)
   .catch(onError);
 };
@@ -40,25 +43,22 @@ exports.createCategory = function (req, res, next) {
     // ...
   };
 
-  const respond = (category, created) => {
-    created ? res.status(201).json(category) : next(error(400));
+  const respond = (result) => {
+    res.status(201).json(result);
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Category.findOrCreate({
-    where: createList,
-  })
-  .spread(respond)
+  Category.create(createList)
+  .then(respond)
   .catch(onError);
 };
 
 exports.deleteCategory = function (req, res, next) {
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Category.destroy({
         where: {
           cate_id: req.params.cate_id,
@@ -90,9 +90,8 @@ exports.updateCategory = function (req, res, next) {
     // ...
   };
 
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Category.update(updateList, {
         where: {
           cate_id: req.params.cate_id,

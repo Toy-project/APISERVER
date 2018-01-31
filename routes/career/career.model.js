@@ -11,7 +11,6 @@ const Career = sequelize.define('CAREER', {
   career_name: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
   },
   career_ex: {
     type: Sequelize.STRING,
@@ -19,12 +18,16 @@ const Career = sequelize.define('CAREER', {
   },
   career_photo: {
     type: Sequelize.STRING,
+    defaultValue: null,
   },
-  career_due: {
-    type: Sequelize.STRING,
+  career_due_start: {
+    type: Sequelize.DATE,
     allowNull: false,
   },
-  career_peple: {
+  career_due_end: {
+    type: Sequelize.DATE,
+  },
+  career_people: {
     type: Sequelize.INTEGER,
     allowNull: false,
   },

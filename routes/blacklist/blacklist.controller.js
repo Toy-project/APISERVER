@@ -10,7 +10,10 @@ exports.getAllBlacklist = function (req, res, next) {
     next(err);
   };
 
-  Blacklist.findAll()
+  Blacklist.findAndCountAll({
+    offset: req.params.start,
+    limit: req.params.end,
+  })
   .then(respond)
   .catch(onError);
 };
@@ -40,25 +43,22 @@ exports.createBlacklist = function (req, res, next) {
     // ...
   };
 
-  const respond = (blacklist, created) => {
-    created ? res.status(201).json(blacklist) : next(error(400));
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Blacklist.findOrCreate({
-    where: createList,
-  })
-  .spread(respond)
+  Blacklist.create(createList)
+  .then(respond)
   .catch(onError);
 };
 
-exports.deleteCategory = function (req, res, next) {
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
+exports.deleteBlacklist = function (req, res, next) {
+  const respond = (data) => {
+    if (data) {
       Blacklist.destroy({
         where: {
           mem_id: req.params.mem_id,
@@ -84,15 +84,14 @@ exports.deleteCategory = function (req, res, next) {
   .catch(onError);
 };
 
-exports.updateCategory = function (req, res, next) {
+exports.updateBlacklist = function (req, res, next) {
   const updateList = {
     black_type: req.body.black_type,
     // ...
   };
 
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Blacklist.update(updateList, {
         where: {
           mem_id: req.params.mem_id,

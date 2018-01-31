@@ -6,12 +6,12 @@ const Tag = sequelize.define('TAG', {
   tag_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
     allowNull: false,
   },
   tag_name: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
   },
 }, {
   freezeTableName: true,

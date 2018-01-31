@@ -31,6 +31,7 @@ const Member = sequelize.define('MEMBER', {
   },
   mem_profile_photo: {
     type: Sequelize.STRING,
+    defaultValue: null,
   },
   mem_pw: {
     type: Sequelize.STRING,
@@ -46,6 +47,12 @@ const Member = sequelize.define('MEMBER', {
   mem_mail_agree: {
     type: Sequelize.INTEGER,
     allowNull: false,
+  },
+  mem_create_date: {
+    type: Sequelize.DATE,
+    validate: {
+      isDate: true,
+    },
   },
   mem_last_connect_date: {
     type: Sequelize.DATE,

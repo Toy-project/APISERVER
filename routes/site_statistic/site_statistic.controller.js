@@ -3,14 +3,17 @@ const SiteStatistic = require('./site_statistic.model.js');
 
 exports.getAllSiteStatistic = (req, res, next) => {
   const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
+    res.status(200).json(results);
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  SiteStatistic.findAll()
+  SiteStatistic.findAndCountAll({
+    offset: req.params.start,
+    limit: req.params.end,
+  })
   .then(respond)
   .catch(onError);
 };
@@ -30,31 +33,38 @@ exports.getSiteStatistic = (req, res, next) => {
 };
 
 exports.createOrUpdateSiteStatistic = (req, res, next) => {
-  const updateList = {
-    site_connect_count: req.body.site_connect_count,
-    site_pc_connect_count: req.body.site_pc_connect_count,
-    site_mobile_connect_count: req.body.site_mobile_connect_count,
-  };
+  const respond = (data) => {
+    if (data) {
+      const updateList = {
+        site_connect_count: data.site_connect_count + 1,
+        site_pc_connect_count: req.body.type === 'pc' ? data.site_pc_connect_count + 1 : data.site_pc_connect_count,
+        site_mobile_connect_count: req.body.type === 'mobile' ? data.site_mobile_connect_count + 1 : data.site_mobile_connect_count,
+      };
 
-  const respond = (num) => {
-    // When finding one, updating
-    if (num) {
       SiteStatistic.update(updateList, {
         where: {
           date: req.params.date,
         },
       })
-      .then((result) => {
-        res.status(201).json(result);
+      .then(() => {
+        const result = updateList;
+        result.date = req.params.date;
+
+        res.status(200).json(result);
       })
       .catch((err) => {
         next(err);
       });
     } else {
       // If not, creating
-      updateList.date = req.params.date;
+      const createList = {
+        date: req.params.date,
+        site_connect_count: 1,
+        site_pc_connect_count: req.body.type === 'pc' ? 1 : 0,
+        site_mobile_connect_count: req.body.type === 'mobile' ? 1 : 0,
+      };
 
-      SiteStatistic.create(updateList)
+      SiteStatistic.create(createList)
       .then((result) => {
         res.status(201).json(result);
       })
@@ -74,8 +84,8 @@ exports.createOrUpdateSiteStatistic = (req, res, next) => {
 };
 
 exports.deleteSiteStatistic = (req, res, next) => {
-  const respond = (num) => {
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       SiteStatistic.destroy({
         where: {
           date: req.params.date,

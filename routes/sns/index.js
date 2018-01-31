@@ -9,6 +9,9 @@ router.get('/', Controller.getAllSns);
 // get a specific sns
 router.get('/:sns_id', Controller.getSns);
 
+// get club sns
+router.get('/club/:club_id', Controller.getClubSns);
+
 // create Sns table
 router.post('/', Controller.createSns);
 

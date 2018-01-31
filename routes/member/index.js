@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const Controller = require('./member.controller.js');
+const uploadHelper = require('../../helper/uploadHelper.js');
 
 // get user list
 router.get('/', Controller.getAllMember);
@@ -18,5 +19,7 @@ router.delete('/:mem_id', Controller.deleteMember);
 // update user
 router.put('/:mem_id', Controller.updateMember);
 
+// update user profile
+router.put('/profile/:mem_id', uploadHelper.memberProfile, Controller.updateMemberProfile);
 
 module.exports = router;

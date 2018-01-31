@@ -10,7 +10,10 @@ exports.getAllTag = function (req, res, next) {
     next(err);
   };
 
-  Tag.findAll()
+  Tag.findAndCountAll({
+    offset: req.params.start,
+    limit: req.params.end,
+  })
   .then(respond)
   .catch(onError);
 };
@@ -24,11 +27,7 @@ exports.getTag = function (req, res, next) {
     next(err);
   };
 
-  Tag.findOne({
-    where: {
-      tag_id: req.params.tag_id,
-    },
-  })
+  Tag.findById(req.params.tag_id)
   .then(respond)
   .catch(onError);
 };
@@ -40,25 +39,23 @@ exports.createTag = function (req, res, next) {
     // ...
   };
 
-  const respond = (tag, created) => {
-    created ? res.status(201).json(tag) : next(error(400));
+  const respond = (result) => {
+    res.status(201).json(result);
   };
 
   const onError = (err) => {
+    console.log(err);
     next(err);
   };
 
-  Tag.findOrCreate({
-    where: createList,
-  })
-  .spread(respond)
+  Tag.create(createList)
+  .then(respond)
   .catch(onError);
 };
 
 exports.deleteTag = function (req, res, next) {
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Tag.destroy({
         where: {
           tag_id: req.params.tag_id,
@@ -85,14 +82,13 @@ exports.deleteTag = function (req, res, next) {
 };
 
 exports.updateTag = function (req, res, next) {
-  const updateList = {
-    tag_name: req.body.tag_name,
-    // ...
-  };
+  const respond = (data) => {
+    if (data) {
+      const updateList = {
+        tag_name: req.body.tag_name || data.tag_name,
+        // ...
+      };
 
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
       Tag.update(updateList, {
         where: {
           tag_id: req.params.tag_id,

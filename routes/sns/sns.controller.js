@@ -10,7 +10,10 @@ exports.getAllSns = function (req, res, next) {
     res.send(err);
   };
 
-  Sns.findAll()
+  Sns.findAndCountAll({
+    offset: req.params.start,
+    limit: req.params.end,
+  })
   .then(respond)
   .catch(onError);
 };
@@ -24,9 +27,23 @@ exports.getSns = function (req, res, next) {
     res.send(err);
   };
 
-  Sns.findOne({
+  Sns.findById(req.params.sns_id)
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getClubSns = function (req, res, next) {
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
+  };
+
+  const onError = (err) => {
+    res.send(err);
+  };
+
+  Sns.findAndCountAll({
     where: {
-      sns_id: req.params.sns_id,
+      club_id: req.params.club_id,
     },
   })
   .then(respond)
@@ -55,9 +72,8 @@ exports.createSns = function (req, res, next) {
 };
 
 exports.deleteSns = function (req, res, next) {
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Sns.destroy({
         where: {
           sns_id: req.params.sns_id,
@@ -84,15 +100,14 @@ exports.deleteSns = function (req, res, next) {
 };
 
 exports.updateSns = function (req, res, next) {
-  const updateList = {
-    sns_name: req.body.sns_name,
-    sns_url: req.body.sns_url,
-    // ...
-  };
+  const respond = (data) => {
+    if (data) {
+      const updateList = {
+        sns_name: req.body.sns_name || data.sns_name,
+        sns_url: req.body.sns_url || data.sns_url,
+        // ...
+      };
 
-  const respond = (num) => {
-    // number (0 or 1)
-    if (num) {
       Sns.update(updateList, {
         where: {
           sns_id: req.params.sns_id,

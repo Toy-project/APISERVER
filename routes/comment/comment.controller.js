@@ -10,47 +10,53 @@ exports.getCommentByClubId = function (req, res, next) {
     next(err);
   };
 
-  Comment.findAll({
+  Comment.findAndCountAll({
     where: {
       club_id: req.params.club_id,
     },
+    offset: req.params.start,
+    limit: req.params.end,
   })
   .then(respond)
   .catch(onError);
 };
 
 exports.getCommentByMemId = (req, res, next) => {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Comment.findAll({
+  Comment.findAndCountAll({
     where: {
       mem_id: req.params.mem_id,
     },
+    offset: req.params.start,
+    limit: req.params.end,
   })
   .then(respond)
   .catch(onError);
 };
 
 exports.getCommentByMemIdClubId = (req, res, next) => {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   const onError = (err) => {
     next(err);
   };
 
-  Comment.findAll({
+  Comment.findAndCountAll({
     where: {
       mem_id: req.params.mem_id,
       club_id: req.params.club_id,
     },
+    offset: req.params.start,
+    limit: req.params.end,
   })
   .then(respond)
   .catch(onError);
@@ -66,7 +72,7 @@ exports.createComment = (req, res, next) => {
   };
 
   const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
+    res.status(201).json(result);
   };
 
   const onError = (err) => {
@@ -79,14 +85,14 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.updateComment = (req, res, next) => {
-  const updateList = {
-    comment_contents: req.body.comment_contents,
-    club_rating: req.body.club_rating,
-    comment_update: new Date(),
-  };
-
-  const respond = (num) => {
-    if (num) {
+  const respond = (data) => {
+    if (data) {
+      const updateList = {
+        comment_contents: req.body.comment_contents || data.comment_contents,
+        club_rating: req.body.club_rating || data.club_rating,
+        comment_update: new Date(),
+      };
+      
       Comment.update(updateList, {
         where: {
           comment_id: req.params.comment_id,
@@ -113,8 +119,8 @@ exports.updateComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-  const respond = (num) => {
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Comment.destroy({
         where: {
           comment_id: req.params.comment_id,

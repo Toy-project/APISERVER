@@ -10,10 +10,12 @@ exports.getAllCartByMemId = (req, res, next) => {
     next(err);
   };
 
-  Cart.findOne({
+  Cart.findAndCountAll({
     where: {
       mem_id: req.params.mem_id,
     },
+    offset: req.params.start,
+    limit: req.params.end,
   })
   .then(respond)
   .catch(onError);

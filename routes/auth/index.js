@@ -3,7 +3,10 @@ const express = require('express');
 const router = express.Router();
 const Controller = require('./auth.controller');
 
-// login
-router.post('/login', Controller.login);
+// member login
+router.post('/member', Controller.memberLogin);
+
+// club login
+router.post('/club', Controller.clubLogin);
 
 module.exports = router;
