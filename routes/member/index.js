@@ -10,6 +10,12 @@ router.get('/', Controller.getAllMember);
 // get user
 router.get('/:mem_id', Controller.getMember);
 
+// get user id
+router.get('/userid/:userid', Controller.getMemberUserId);
+
+// get user email
+router.get('/email/:email', Controller.getMemberEmail);
+
 // create user
 router.post('/', Controller.createMember);
 

@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const Tag = require('./tag.model.js');
 
 exports.getAllTag = function (req, res, next) {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Tag.findAndCountAll({
@@ -19,12 +19,12 @@ exports.getAllTag = function (req, res, next) {
 };
 
 exports.getTag = function (req, res, next) {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Tag.findById(req.params.tag_id)
@@ -39,13 +39,12 @@ exports.createTag = function (req, res, next) {
     // ...
   };
 
-  const respond = (result) => {
-    res.status(201).json(result);
+  const onError = (err) => {
+    next(err);
   };
 
-  const onError = (err) => {
-    console.log(err);
-    next(err);
+  const respond = (result) => {
+    res.status(201).json(result);
   };
 
   Tag.create(createList)
@@ -54,6 +53,10 @@ exports.createTag = function (req, res, next) {
 };
 
 exports.deleteTag = function (req, res, next) {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Tag.destroy({
@@ -64,16 +67,10 @@ exports.deleteTag = function (req, res, next) {
       .then(() => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Tag.findById(req.params.tag_id)
@@ -82,6 +79,10 @@ exports.deleteTag = function (req, res, next) {
 };
 
 exports.updateTag = function (req, res, next) {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -100,16 +101,10 @@ exports.updateTag = function (req, res, next) {
         // 1: 기존 데이터와 달라 업데이트 성공
         res.status(201).send(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Tag.findById(req.params.tag_id)

@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const Cart = require('./cart.model.js');
 
 exports.getAllCartByMemId = (req, res, next) => {
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   Cart.findAndCountAll({
@@ -27,12 +27,12 @@ exports.createCart = (req, res, next) => {
     club_id: req.body.club_id,
   };
 
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Cart.create(createList)
@@ -41,6 +41,10 @@ exports.createCart = (req, res, next) => {
 };
 
 exports.deleteCart = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (num) => {
     if (num) {
       Cart.destroy({
@@ -51,16 +55,10 @@ exports.deleteCart = (req, res, next) => {
       .then((result) => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Cart.findById(req.params.cart_id)

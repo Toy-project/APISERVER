@@ -20,6 +20,7 @@ const Member = sequelize.define('MEMBER', {
   },
   mem_email: {
     type: Sequelize.STRING,
+    unique: true,
     allowNull: false,
     validate: {
       isEmail: true, // email check
@@ -50,18 +51,21 @@ const Member = sequelize.define('MEMBER', {
   },
   mem_create_date: {
     type: Sequelize.DATE,
+    allowNull: false,
     validate: {
       isDate: true,
     },
   },
   mem_last_connect_date: {
     type: Sequelize.DATE,
+    allowNull: false,
     validate: {
       isDate: true,
     },
   },
   mem_update: {
     type: Sequelize.DATE,
+    allowNull: false,
     validate: {
       isDate: true,
     },

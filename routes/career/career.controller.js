@@ -4,12 +4,12 @@ const folderHelper = require('../../helper/folderHelper');
 const Career = require('../career/career.model.js');
 
 exports.getAllCareer = (req, res, next) => {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Career.findAndCountAll({
@@ -21,12 +21,12 @@ exports.getAllCareer = (req, res, next) => {
 };
 
 exports.getAllClubByCareerId = (req, res, next) => {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Career.findAndCountAll({
@@ -41,12 +41,12 @@ exports.getAllClubByCareerId = (req, res, next) => {
 };
 
 exports.getCareer = (req, res, next) => {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Career.findById(req.params.career_id)
@@ -55,6 +55,10 @@ exports.getCareer = (req, res, next) => {
 };
 
 exports.deleteCareer = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Career.destroy({
@@ -66,16 +70,10 @@ exports.deleteCareer = (req, res, next) => {
         folderHelper.deleteF(`images/career/${req.params.career_id}`);
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Career.findById(req.params.career_id)
@@ -83,8 +81,45 @@ exports.deleteCareer = (req, res, next) => {
   .catch(onError);
 };
 
+exports.deleteCareerByClubId = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (data) => {
+    if (data.count) {
+      Career.destroy({
+        where: {
+          club_id: req.params.club_id,
+        },
+      })
+      .then((result) => {
+        for (let i = 0; i < data.rows.length; i++) {
+          folderHelper.deleteF(`images/career/${data.rows[i].dataValues.career_id}`);
+        }
+
+        res.send(200);
+      })
+      .catch(onError);
+    } else {
+      next(error(400));
+    }
+  };
+
+  Career.findAndCountAll({
+    where: {
+      club_id: req.params.club_id,
+    },
+  })
+  .then(respond)
+  .catch(onError);
+};
 
 exports.updateCareer = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -106,16 +141,10 @@ exports.updateCareer = (req, res, next) => {
       .then((result) => {
         res.status(201).json(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Career.findById(req.params.career_id)
@@ -136,12 +165,12 @@ exports.createCareer = (req, res, next) => {
     // ...
   };
 
-  const respond = (result) => {
-    result ? res.status(201).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(201).json(result) : next(error(400));
   };
 
   Career.create(createList)
@@ -150,6 +179,10 @@ exports.createCareer = (req, res, next) => {
 };
 
 exports.updateCareerPhoto = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -165,16 +198,10 @@ exports.updateCareerPhoto = (req, res, next) => {
       .then((result) => {
         res.status(201).json(req.file);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Career.findById(req.params.career_id)

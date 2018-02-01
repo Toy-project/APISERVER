@@ -5,30 +5,33 @@ const error = require('../../helper/errorHandler');
 const hashPassword = require('../../helper/hashPassword.js');
 const folderHelper = require('../../helper/folderHelper');
 
-exports.getAllMember = function (req, res, next) {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
+exports.getAllMember = (req, res, next) => {
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Member.findAndCountAll({
     offset: req.params.start,
     limit: req.params.end,
+    order: [
+      ['mem_id', 'DESC'],
+    ],
   })
   .then(respond)
   .catch(onError);
 };
 
-exports.getMember = function (req, res, next) {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
+exports.getMember = (req, res, next) => {
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Member.findById(req.params.mem_id)
@@ -36,7 +39,43 @@ exports.getMember = function (req, res, next) {
   .catch(onError);
 };
 
-exports.createMember = function (req, res, next) {
+exports.getMemberUserId = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).send(true) : res.status(200).send(false);
+  };
+
+  Member.findOne({
+    where: {
+      mem_userid: req.params.userid,
+    },
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getMemberEmail = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).send(true) : res.status(200).send(false);
+  };
+
+  Member.findOne({
+    where: {
+      mem_email: req.params.email,
+    },
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.createMember = (req, res, next) => {
   const createList = {
     mem_userid: req.body.mem_userid,
     mem_email: req.body.mem_email,
@@ -51,13 +90,13 @@ exports.createMember = function (req, res, next) {
 
   // Hashing password
   createList.mem_pw = hashPassword.createPw(createList.mem_pw);
+  
+  const onError = (err) => {
+    next(err);
+  };
 
   const respond = (result) => {
     res.status(201).json(result);
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Member.create(createList)
@@ -66,6 +105,10 @@ exports.createMember = function (req, res, next) {
 };
 
 exports.deleteMember = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Member.destroy({
@@ -77,16 +120,10 @@ exports.deleteMember = (req, res, next) => {
         folderHelper.deleteF(`images/member/${req.params.mem_id}`);
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Member.findById(req.params.mem_id)
@@ -95,6 +132,10 @@ exports.deleteMember = (req, res, next) => {
 };
 
 exports.updateMember = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -123,16 +164,10 @@ exports.updateMember = (req, res, next) => {
       .then((result) => {
         res.status(201).json(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   // Hashing and Updating
@@ -142,6 +177,10 @@ exports.updateMember = (req, res, next) => {
 };
 
 exports.updateMemberProfile = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -157,16 +196,10 @@ exports.updateMemberProfile = (req, res, next) => {
       .then((result) => {
         res.status(201).json(req.file);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Member.findById(req.params.mem_id)

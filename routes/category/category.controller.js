@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const Category = require('./category.model.js');
 
 exports.getAllCategory = function (req, res, next) {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Category.findAndCountAll({
@@ -19,12 +19,12 @@ exports.getAllCategory = function (req, res, next) {
 };
 
 exports.getCategory = function (req, res, next) {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Category.findOne({
@@ -43,12 +43,12 @@ exports.createCategory = function (req, res, next) {
     // ...
   };
 
-  const respond = (result) => {
-    res.status(201).json(result);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    res.status(201).json(result);
   };
 
   Category.create(createList)
@@ -57,6 +57,10 @@ exports.createCategory = function (req, res, next) {
 };
 
 exports.deleteCategory = function (req, res, next) {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Category.destroy({
@@ -67,16 +71,10 @@ exports.deleteCategory = function (req, res, next) {
       .then((result) => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Category.findById(req.params.cate_id)
@@ -85,13 +83,17 @@ exports.deleteCategory = function (req, res, next) {
 };
 
 exports.updateCategory = function (req, res, next) {
-  const updateList = {
-    cate_name: req.body.cate_name,
-    // ...
+  const onError = (err) => {
+    next(err);
   };
 
   const respond = (data) => {
     if (data) {
+      const updateList = {
+        cate_name: req.body.cate_name || data.cate_name,
+        // ...
+      };
+
       Category.update(updateList, {
         where: {
           cate_id: req.params.cate_id,
@@ -103,16 +105,10 @@ exports.updateCategory = function (req, res, next) {
         // 1: 기존 데이터와 달라 업데이트 성공
         res.status(201).send(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Category.findById(req.params.cate_id)

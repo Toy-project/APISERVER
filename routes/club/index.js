@@ -10,8 +10,17 @@ router.get('/', Controller.getAllClub);
 // get a specific club
 router.get('/:club_id', Controller.getClub);
 
-// get search result club list
-// ..
+// get club id
+router.get('/userid/:userid', Controller.getClubUserId);
+
+// get club email
+router.get('/email/:email', Controller.getClubEmail);
+
+// get club name
+router.get('/name/:name', Controller.getClubName);
+
+// get club search list
+router.get('/search/:keyword', Controller.getClubSearch);
 
 // create club
 router.post('/', Controller.createClub);

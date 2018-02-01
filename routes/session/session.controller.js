@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const Session = require('./session.model.js');
 
 exports.getAllSession = (req, res, next) => {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Session.findAndCountAll({
@@ -19,12 +19,12 @@ exports.getAllSession = (req, res, next) => {
 };
 
 exports.getSession = (req, res, next) => {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Session.findById(req.params.session_id)
@@ -38,12 +38,12 @@ exports.createSession = (req, res, next) => {
     user_agent: req.body.user_agent,
   };
 
-  const respond = (result) => {
-    result ? res.status(201).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(201).json(result) : next(error(400));
   };
 
   Session.create(createList)
@@ -52,6 +52,10 @@ exports.createSession = (req, res, next) => {
 };
 
 exports.updateSession = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -71,16 +75,10 @@ exports.updateSession = (req, res, next) => {
         // 1: 기존 데이터와 달라 업데이트 성공
         res.status(201).send(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Session.findById(req.params.session_id)
@@ -89,6 +87,10 @@ exports.updateSession = (req, res, next) => {
 };
 
 exports.deleteSession = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Session.destroy({
@@ -99,16 +101,10 @@ exports.deleteSession = (req, res, next) => {
       .then((result) => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Session.findById(req.params.session_id)

@@ -19,6 +19,9 @@ router.post('/', Controller.createCareer);
 // delete career
 router.delete('/:career_id', Controller.deleteCareer);
 
+// delete career club id
+router.delete('/club/:club_id', Controller.deleteCareerByClubId);
+
 // update career
 router.put('/:career_id', Controller.updateCareer);
 

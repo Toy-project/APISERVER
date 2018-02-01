@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const SiteStatistic = require('./site_statistic.model.js');
 
 exports.getAllSiteStatistic = (req, res, next) => {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   SiteStatistic.findAndCountAll({
@@ -19,12 +19,12 @@ exports.getAllSiteStatistic = (req, res, next) => {
 };
 
 exports.getSiteStatistic = (req, res, next) => {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   SiteStatistic.findById(req.params.date)
@@ -33,6 +33,10 @@ exports.getSiteStatistic = (req, res, next) => {
 };
 
 exports.createOrUpdateSiteStatistic = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -52,9 +56,7 @@ exports.createOrUpdateSiteStatistic = (req, res, next) => {
 
         res.status(200).json(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       // If not, creating
       const createList = {
@@ -68,14 +70,8 @@ exports.createOrUpdateSiteStatistic = (req, res, next) => {
       .then((result) => {
         res.status(201).json(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   SiteStatistic.findById(req.params.date)
@@ -84,6 +80,10 @@ exports.createOrUpdateSiteStatistic = (req, res, next) => {
 };
 
 exports.deleteSiteStatistic = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       SiteStatistic.destroy({
@@ -94,16 +94,10 @@ exports.deleteSiteStatistic = (req, res, next) => {
       .then((result) => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   SiteStatistic.findById(req.params.date)

@@ -11,6 +11,10 @@ exports.memberLogin = function (req, res, next) {
     mem_pw: req.body.mem_pw,
   };
 
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const tokenList = {
@@ -36,19 +40,13 @@ exports.memberLogin = function (req, res, next) {
             access_token: authHelper.tokenGenerator(tokenList),
           });
         })
-        .catch((err) => {
-          next(err);
-        });
+        .catch(onError);
       } else {
         next(error(401));
       }
     } else {
       next(error(401));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Member.findOne({
@@ -64,6 +62,10 @@ exports.clubLogin = function (req, res, next) {
   const loginList = {
     club_userid: req.body.club_userid,
     club_pw: req.body.club_pw,
+  };
+
+  const onError = (err) => {
+    next(err);
   };
 
   const respond = (data) => {
@@ -90,19 +92,13 @@ exports.clubLogin = function (req, res, next) {
             access_token: authHelper.tokenGenerator(tokenList),
           });
         })
-        .catch((err) => {
-          next(err);
-        });
+        .catch(onError);
       } else {
         next(error(401));
       }
     } else {
       next(error(401));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Club.findOne({

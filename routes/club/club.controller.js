@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 const error = require('../../helper/errorHandler');
 const hashPassword = require('../../helper/hashPassword');
 const folderHelper = require('../../helper/folderHelper');
@@ -5,32 +7,34 @@ const folderHelper = require('../../helper/folderHelper');
 const Club = require('./club.model.js');
 const Category = require('../category/category.model.js');
 const Tag = require('../tag/tag.model.js');
-const Sns = require('../sns/sns.model.js');
 
-exports.getAllClub = function (req, res, next) {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
+exports.getAllClub = (req, res, next) => {
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Club.findAndCountAll({
     offset: req.params.start,
     limit: req.params.end,
+    order: [
+      ['club_id', 'DESC'],
+    ],
   })
   .then(respond)
   .catch(onError);
 };
 
 exports.getClub = (req, res, next) => {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Club.findOne({
@@ -58,6 +62,84 @@ exports.getClub = (req, res, next) => {
   .catch(onError);
 };
 
+exports.getClubUserId = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).send(true) : res.status(200).send(false);
+  };
+
+  Club.findOne({
+    where: {
+      club_userid: req.params.userid,
+    },
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getClubEmail = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).send(true) : res.status(200).send(false);
+  };
+
+  Club.findOne({
+    where: {
+      club_email: req.params.email,
+    },
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getClubName = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).send(true) : res.status(200).send(false);
+  };
+
+  Club.findOne({
+    where: {
+      club_name: req.params.name,
+    },
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getClubSearch = (req, res, next) => {
+  const Op = Sequelize.Op;
+
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
+  };
+
+  Club.findAndCountAll({
+    where: {
+      club_name: {
+        [Op.like]: `%${req.params.keyword}%`,
+      },
+    },
+    offset: req.params.start,
+    limit: req.params.end,
+  })
+  .then(respond)
+  .catch(onError);
+};
+
 exports.createClub = function (req, res, next) {
   const createList = {
     club_userid: req.body.club_userid,
@@ -65,13 +147,9 @@ exports.createClub = function (req, res, next) {
     club_pw: req.body.club_pw,
     club_name: req.body.club_name,
     club_phone: req.body.club_phone,
-    club_ex: req.body.club_ex,
     club_copyright: req.body.club_copyright,
     club_college: req.body.club_college,
     cate_id: req.body.cate_id,
-    tag_id: req.body.tag_id,
-    club_history: req.body.club_history,
-    club_price_duration: req.body.club_price_duration,
     union_enabled: req.body.union_enabled,
     club_create_date: new Date(),
     club_last_connect_date: new Date(),
@@ -81,13 +159,13 @@ exports.createClub = function (req, res, next) {
 
   // hash password
   createList.club_pw = hashPassword.createPw(createList.club_pw);
+  
+  const onError = (err) => {
+    next(err);
+  };
 
   const respond = (result) => {
     res.status(201).json(result);
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Club.create(createList)
@@ -96,6 +174,10 @@ exports.createClub = function (req, res, next) {
 };
 
 exports.deleteClub = function (req, res, next) {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Club.destroy({
@@ -107,16 +189,10 @@ exports.deleteClub = function (req, res, next) {
         folderHelper.deleteF(`images/club/${req.params.club_id}`);
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Club.findById(req.params.club_id)
@@ -125,6 +201,10 @@ exports.deleteClub = function (req, res, next) {
 };
 
 exports.updateClub = function (req, res, next) {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -162,16 +242,10 @@ exports.updateClub = function (req, res, next) {
         // 1: 기존 데이터와 달라 업데이트 성공
         res.status(201).json(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Club.findById(req.params.club_id)
@@ -180,11 +254,15 @@ exports.updateClub = function (req, res, next) {
 };
 
 exports.updateClubViews = function (req, res, next) {
-  const respond = (find) => {
-    if (find) {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (data) => {
+    if (data) {
       // views + 1
       const updateList = {
-        club_views: find.club_views + 1,
+        club_views: data.club_views + 1,
       };
 
       Club.update(updateList, {
@@ -195,16 +273,10 @@ exports.updateClubViews = function (req, res, next) {
       .then((result) => {
         res.status(201).json(updateList);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Club.findOne({
@@ -218,6 +290,10 @@ exports.updateClubViews = function (req, res, next) {
 };
 
 exports.updateClubProfile = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -234,16 +310,10 @@ exports.updateClubProfile = (req, res, next) => {
       .then((result) => {
         res.status(201).json(req.file);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Club.findById(req.params.club_id)

@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const Comment = require('./comment.model.js');
 
 exports.getCommentByClubId = function (req, res, next) {
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   Comment.findAndCountAll({
@@ -22,12 +22,12 @@ exports.getCommentByClubId = function (req, res, next) {
 };
 
 exports.getCommentByMemId = (req, res, next) => {
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   Comment.findAndCountAll({
@@ -42,12 +42,12 @@ exports.getCommentByMemId = (req, res, next) => {
 };
 
 exports.getCommentByMemIdClubId = (req, res, next) => {
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    results ? res.status(200).json(results) : next(error(400));
   };
 
   Comment.findAndCountAll({
@@ -71,12 +71,12 @@ exports.createComment = (req, res, next) => {
     club_id: req.body.club_id,
   };
 
-  const respond = (result) => {
-    res.status(201).json(result);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    res.status(201).json(result);
   };
 
   Comment.create(createList)
@@ -85,6 +85,10 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.updateComment = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       const updateList = {
@@ -101,16 +105,10 @@ exports.updateComment = (req, res, next) => {
       .then((result) => {
         res.status(201).json(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Comment.findById(req.params.comment_id)
@@ -119,6 +117,10 @@ exports.updateComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Comment.destroy({
@@ -129,16 +131,10 @@ exports.deleteComment = (req, res, next) => {
       .then((result) => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Comment.findById(req.params.comment_id)

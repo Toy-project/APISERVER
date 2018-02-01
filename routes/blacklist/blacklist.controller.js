@@ -2,12 +2,12 @@ const error = require('../../helper/errorHandler');
 const Blacklist = require('./blacklist.model.js');
 
 exports.getAllBlacklist = function (req, res, next) {
-  const respond = (results) => {
-    res.status(200).json(results);
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
   };
 
   Blacklist.findAndCountAll({
@@ -19,12 +19,12 @@ exports.getAllBlacklist = function (req, res, next) {
 };
 
 exports.getBlacklist = function (req, res, next) {
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Blacklist.findOne({
@@ -43,12 +43,12 @@ exports.createBlacklist = function (req, res, next) {
     // ...
   };
 
-  const respond = (result) => {
-    result ? res.status(200).json(result) : next(error(400));
-  };
-
   const onError = (err) => {
     next(err);
+  };
+
+  const respond = (result) => {
+    result ? res.status(200).json(result) : next(error(400));
   };
 
   Blacklist.create(createList)
@@ -57,6 +57,10 @@ exports.createBlacklist = function (req, res, next) {
 };
 
 exports.deleteBlacklist = function (req, res, next) {
+  const onError = (err) => {
+    next(err);
+  };
+
   const respond = (data) => {
     if (data) {
       Blacklist.destroy({
@@ -67,16 +71,10 @@ exports.deleteBlacklist = function (req, res, next) {
       .then((result) => {
         res.send(200);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Blacklist.findById(req.params.mem_id)
@@ -88,6 +86,10 @@ exports.updateBlacklist = function (req, res, next) {
   const updateList = {
     black_type: req.body.black_type,
     // ...
+  };
+
+  const onError = (err) => {
+    next(err);
   };
 
   const respond = (data) => {
@@ -103,16 +105,10 @@ exports.updateBlacklist = function (req, res, next) {
         // 1: 기존 데이터와 달라 업데이트 성공
         res.status(201).send(result);
       })
-      .catch((err) => {
-        next(err);
-      });
+      .catch(onError);
     } else {
       next(error(400));
     }
-  };
-
-  const onError = (err) => {
-    next(err);
   };
 
   Blacklist.findById(req.params.mem_id)

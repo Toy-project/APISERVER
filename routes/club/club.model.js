@@ -19,6 +19,7 @@ const Club = sequelize.define('CLUB', {
   club_userid: {
     type: Sequelize.STRING,
     unique: true,
+    allowNull: false,
   },
   club_email: {
     type: Sequelize.STRING,
@@ -43,6 +44,7 @@ const Club = sequelize.define('CLUB', {
   },
   club_phone: {
     type: Sequelize.STRING,
+    allowNull: false,
     validate: {
       is: /^\d{2,3}-\d{3,4}-\d{4}$/i,
     },
@@ -53,7 +55,6 @@ const Club = sequelize.define('CLUB', {
   },
   club_ex: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   club_copyright: {
     type: Sequelize.STRING,
@@ -61,7 +62,6 @@ const Club = sequelize.define('CLUB', {
   },
   club_college: {
     type: Sequelize.STRING,
-    allowNull: false,
     // Use career net open api
   },
   cate_id: {
@@ -70,7 +70,7 @@ const Club = sequelize.define('CLUB', {
   },
   tag_id: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    defaultValue: 1,
   },
   club_history: {
     type: Sequelize.BLOB, // use editor,
