@@ -145,6 +145,7 @@ exports.createClub = function (req, res, next) {
     club_userid: req.body.club_userid,
     club_email: req.body.club_email,
     club_pw: req.body.club_pw,
+    club_username: req.body.club_username,
     club_name: req.body.club_name,
     club_phone: req.body.club_phone,
     club_copyright: req.body.club_copyright,
@@ -210,6 +211,7 @@ exports.updateClub = function (req, res, next) {
       const updateList = {
         club_email: req.body.club_email || data.club_email,
         club_pw: req.body.club_pw,
+        club_username: req.body.club_username || data.club_username,
         club_name: req.body.club_name || data.club_name,
         club_phone: req.body.club_phone || data.club_phone,
         club_ex: req.body.club_ex || data.club_ex,

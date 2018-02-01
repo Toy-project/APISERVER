@@ -38,6 +38,10 @@ const Club = sequelize.define('CLUB', {
     unique: true,
     allowNull: false,
   },
+  club_username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   club_profile_photo: {
     type: Sequelize.STRING,
     defaultValue: null,
