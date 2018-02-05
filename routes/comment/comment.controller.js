@@ -9,7 +9,6 @@ exports.getCommentByClubId = function (req, res, next) {
   };
 
   const respond = (results) => {
-    console.log(req.params, req.query);
     results ? res.status(200).json(results) : next(error(400));
   };
 
@@ -39,15 +38,15 @@ exports.getCommentByWriter = (req, res, next) => {
     where: {
       [Op.and]: [
         {
-          comment_writer: req.params.wrtier || req.query.writer,
+          comment_writer: req.params.wrtier_id,
         },
         {
           comment_writer_type: req.params.type || req.query.type,
         },
       ],
     },
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
@@ -56,9 +55,10 @@ exports.getCommentByWriter = (req, res, next) => {
 exports.createComment = (req, res, next) => {
   const createList = {
     comment_contents: req.body.comment_contents,
-    club_rating: req.body.club_rating,
+    comment_writer: req.body.comment_writer,
+    comment_writer_type: req.body.comment_writer_type,
     comment_update: new Date(),
-    mem_id: req.body.mem_id,
+    club_rating: req.body.club_rating,
     club_id: req.body.club_id,
   };
 
@@ -84,8 +84,8 @@ exports.updateComment = (req, res, next) => {
     if (data) {
       const updateList = {
         comment_contents: req.body.comment_contents || data.comment_contents,
-        club_rating: req.body.club_rating || data.club_rating,
         comment_update: new Date(),
+        club_rating: req.body.club_rating || data.club_rating,
       };
       
       Comment.update(updateList, {

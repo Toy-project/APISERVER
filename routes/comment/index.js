@@ -7,7 +7,7 @@ const Controller = require('./comment.controller.js');
 router.get('/club/:club_id', Controller.getCommentByClubId);
 
 // get a sepecific comment
-router.get('/writer/:wrtier', Controller.getCommentByWriter);
+router.get('/writer/:wrtier_id', Controller.getCommentByWriter);
 
 // create a comment
 router.post('/', Controller.createComment);
