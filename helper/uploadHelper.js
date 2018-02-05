@@ -9,9 +9,9 @@ exports.memberProfile = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       // Create Folder
-      folderHelper.createF('images', `member/${req.params.mem_id}`);
+      folderHelper.createF('images', `upload/member/${req.params.mem_id}`);
       // upload images path
-      cb(null, `images/member/${req.params.mem_id}`);
+      cb(null, `images/upload/member/${req.params.mem_id}`);
     },
     filename(req, file, cb) {
       cb(null, `profile.${file.mimetype.split('/')[1]}`);
@@ -26,9 +26,9 @@ exports.clubProfile = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       // Create Folder
-      folderHelper.createF('images', `club/${req.params.club_id}`);
+      folderHelper.createF('images', `upload/club/${req.params.club_id}`);
       // upload images path
-      cb(null, `images/club/${req.params.club_id}`);
+      cb(null, `images/upload/club/${req.params.club_id}`);
     },
     filename(req, file, cb) {
       cb(null, `profile.${file.mimetype.split('/')[1]}`);
@@ -43,9 +43,9 @@ exports.careerPhoto = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       // Create Folder
-      folderHelper.createF('images', `career/${req.params.career_id}`);
+      folderHelper.createF('images', `upload/career/${req.params.career_id}`);
       // upload images path
-      cb(null, `images/career/${req.params.career_id}`);
+      cb(null, `images/upload/career/${req.params.career_id}`);
     },
     filename(req, file, cb) {
       cb(null, `thumb.${file.mimetype.split('/')[1]}`);
