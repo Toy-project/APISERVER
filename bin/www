@@ -35,6 +35,7 @@ sequelize.sync().then(function(){
  */
 
 function normalizePort(val) {
+  console.log(val);
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {

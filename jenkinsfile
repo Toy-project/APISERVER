@@ -51,6 +51,7 @@ pipeline {
 
             // pm2 delete & start
             echo 'pm2 product delete and start'
+            sh 'docker exec -i product apidoc -i /app/routes/ -o /app/views/'
             sh 'docker exec -i product pm2 delete -s product || :'
             sh 'docker exec -i product pm2 start /app/bin/www --name product'
           }
