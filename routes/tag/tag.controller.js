@@ -11,8 +11,8 @@ exports.getAllTag = function (req, res, next) {
   };
 
   Tag.findAndCountAll({
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);

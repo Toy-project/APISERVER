@@ -18,8 +18,8 @@ exports.getAllClub = (req, res, next) => {
   };
 
   Club.findAndCountAll({
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
     order: [
       ['club_id', 'DESC'],
     ],
@@ -46,14 +46,14 @@ exports.getClub = (req, res, next) => {
         model: Category,
         as: 'category',
         where: {
-          cate_id: req.params.cate_id || req.query.cate_id,
+          cate_id: +req.params.cate_id || +req.query.cate_id,
         },
       },
       {
         model: Tag,
         as: 'tag',
         where: {
-          tag_id: req.params.tag_id || req.query.tag_id,
+          tag_id: +req.params.tag_id || +req.query.tag_id,
         },
       },
     ],
@@ -133,8 +133,8 @@ exports.getClubSearch = (req, res, next) => {
         [Op.like]: `%${req.params.keyword}%`,
       },
     },
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);

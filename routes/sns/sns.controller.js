@@ -11,8 +11,8 @@ exports.getAllSns = (req, res, next) => {
   };
 
   Sns.findAndCountAll({
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
@@ -103,7 +103,6 @@ exports.deleteSnsByClubId = (req, res, next) => {
   };
 
   const respond = (data) => {
-    console.log(data);
     if (data) {
       Sns.destroy({
         where: {

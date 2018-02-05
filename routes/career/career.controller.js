@@ -13,8 +13,8 @@ exports.getAllCareer = (req, res, next) => {
   };
 
   Career.findAndCountAll({
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
@@ -33,8 +33,8 @@ exports.getAllClubByCareerId = (req, res, next) => {
     where: {
       club_id: req.params.club_id,
     },
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);

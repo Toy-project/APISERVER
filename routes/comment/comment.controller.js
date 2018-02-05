@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 const error = require('../../helper/errorHandler');
 const Comment = require('./comment.model.js');
 
@@ -7,6 +9,7 @@ exports.getCommentByClubId = function (req, res, next) {
   };
 
   const respond = (results) => {
+    console.log(req.params, req.query);
     results ? res.status(200).json(results) : next(error(400));
   };
 
@@ -14,14 +17,16 @@ exports.getCommentByClubId = function (req, res, next) {
     where: {
       club_id: req.params.club_id,
     },
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
 };
 
-exports.getCommentByMemId = (req, res, next) => {
+exports.getCommentByWriter = (req, res, next) => {
+  const Op = Sequelize.Op;
+
   const onError = (err) => {
     next(err);
   };
@@ -32,28 +37,14 @@ exports.getCommentByMemId = (req, res, next) => {
 
   Comment.findAndCountAll({
     where: {
-      mem_id: req.params.mem_id,
-    },
-    offset: req.params.start,
-    limit: req.params.end,
-  })
-  .then(respond)
-  .catch(onError);
-};
-
-exports.getCommentByMemIdClubId = (req, res, next) => {
-  const onError = (err) => {
-    next(err);
-  };
-
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
-  };
-
-  Comment.findAndCountAll({
-    where: {
-      mem_id: req.params.mem_id,
-      club_id: req.params.club_id,
+      [Op.and]: [
+        {
+          comment_writer: req.params.wrtier || req.query.writer,
+        },
+        {
+          comment_writer_type: req.params.type || req.query.type,
+        },
+      ],
     },
     offset: req.params.start,
     limit: req.params.end,

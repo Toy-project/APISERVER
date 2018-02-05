@@ -24,8 +24,12 @@ const Comment = sequelize.define('COMMENT', {
       isDate: true,
     },
   },
-  mem_id: {
+  comment_writer: {
     type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  comment_writer_type: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
   club_id: {

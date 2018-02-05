@@ -15,8 +15,8 @@ exports.getAllMember = (req, res, next) => {
   };
 
   Member.findAndCountAll({
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
     order: [
       ['mem_id', 'DESC'],
     ],

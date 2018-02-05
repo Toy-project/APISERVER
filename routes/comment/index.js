@@ -6,11 +6,8 @@ const Controller = require('./comment.controller.js');
 // get a sepecific comment with club_id
 router.get('/club/:club_id', Controller.getCommentByClubId);
 
-// get a sepecific comment with mem_id
-router.get('/member/:mem_id', Controller.getCommentByMemId);
-
-// get a sepecific comment with mem_id and club_id
-router.get('/:mem_id/:club_id', Controller.getCommentByMemIdClubId);
+// get a sepecific comment
+router.get('/writer/:wrtier', Controller.getCommentByWriter);
 
 // create a comment
 router.post('/', Controller.createComment);

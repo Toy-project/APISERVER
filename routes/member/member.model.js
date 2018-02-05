@@ -77,6 +77,5 @@ const Member = sequelize.define('MEMBER', {
 
 Member.hasOne(Blacklist, { foreignKey: 'mem_id' });
 Member.hasMany(Cart, { foreignKey: 'mem_id' });
-Member.hasMany(Comment, { foreignKey: 'mem_id', constraints: false });
 
 module.exports = Member;
