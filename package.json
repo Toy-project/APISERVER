@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "apidoc -i routes/ -o views/ && nodemon ./bin/www"
+    "start": "apidoc -i routes/ -o views/ && pm2 start ecosystem.json"
   },
   "dependencies": {
     "apidoc": "^0.17.6",
