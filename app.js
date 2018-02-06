@@ -33,6 +33,9 @@ app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// images setup
+app.set('images', path.join(__dirname, 'images'));
+
 // use static
 app.use(express.static('views'));
 
@@ -47,6 +50,7 @@ app.use(cookieParser());
 // router load
 // auth 인증 시 authHelper.ensureAuthorized 추가
 app.use('/', index);
+app.use('/images', express.static('images'));
 app.use('/member', member);
 app.use('/comment', comment);
 app.use('/site-statistic', siteStatistic);
