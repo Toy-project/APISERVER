@@ -12,9 +12,17 @@ pipeline {
         echo "Building ${BRANCH_NAME}"
         echo "Current workspace : ${workspace}"
 
+        // remove shared diretory
+        echo 'remove shared diretory'
+        sh 'rm -rf /shared/*'
+
         // copy workspace -> shared
         echo 'copy workspace diretory'
         sh 'cp -rf ./* /shared'
+
+        // copy config -> shared
+        echo 'copy config diretory'
+        sh 'cp -rf /config /shared'
       }
     }
     stage('Develop Deploy') {
@@ -23,17 +31,29 @@ pipeline {
         branch 'develop'
       }
       steps {
-        //develop container list
-        echo 'develop container list'
-        sh 'docker exec -i develop ls -al'
+        retry(2) {
+          timeout(2) { // 2minutes
+            // develop conatiner list
+            echo 'develop conatiner list'
+            sh 'docker exec -i develop ls -al'
 
-        // npm install
-        echo 'npm install'
-        sh 'docker exec -i develop npm --prefix /shared install /shared'
+            // copy shared -> workspace
+            echo 'copy shared directory'
+            sh 'docker exec -i develop cp -rf /shared/* /app'
 
-        // pm2 delete & star
-        echo 'pm2 develop delete and start'
-        sh 'docker exec -i develop pm2 start /shared/ecosystem.json'
+            // npm cache verify
+            echo 'npm cache verify'
+            // todo
+
+            // npm install
+            echo 'npm install'
+            sh 'docker exec -i develop npm --prefix /app install /app'
+
+            // pm2 delete & start
+            echo 'create apidoc and pm2 product delete & start'
+            sh 'docker exec -i develop npm --prefix /app start'
+          }
+        }
       }
     }
   }
