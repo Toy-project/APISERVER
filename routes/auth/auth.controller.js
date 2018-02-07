@@ -71,6 +71,7 @@ exports.clubLogin = function (req, res, next) {
   const respond = (data) => {
     if (data) {
       const tokenList = {
+        club_id: data.club_id,
         club_userid: data.club_userid,
         club_name: data.club_name,
         // ...
