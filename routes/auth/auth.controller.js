@@ -74,6 +74,8 @@ exports.clubLogin = function (req, res, next) {
         club_id: data.club_id,
         club_userid: data.club_userid,
         club_name: data.club_name,
+        cate_id: data.cate_id,
+        tag_id: data.tag_id,
         // ...
       };
       const updateList = {
