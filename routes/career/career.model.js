@@ -33,7 +33,7 @@ const Career = sequelize.define('CAREER', {
   },
   career_co: {
     type: Sequelize.STRING,
-    allowNull: false,
+    defaultValue: 1,
   },
   club_id: {
     type: Sequelize.INTEGER,

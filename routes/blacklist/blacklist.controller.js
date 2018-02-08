@@ -1,5 +1,6 @@
 const error = require('../../helper/errorHandler');
-const Blacklist = require('./blacklist.model.js');
+
+const Blacklist = require('./blacklist.model');
 
 exports.getAllBlacklist = function (req, res, next) {
   const onError = (err) => {

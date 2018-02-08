@@ -3,7 +3,6 @@ const Sequelize = require('sequelize');
 
 const Category = require('../category/category.model.js');
 const Tag = require('../tag/tag.model.js');
-const Cart = require('../cart/cart.model.js');
 const Comment = require('../comment/comment.model.js');
 const Sns = require('../sns/sns.model.js');
 const Career = require('../career/career.model.js');
@@ -41,6 +40,10 @@ const Club = sequelize.define('CLUB', {
   club_username: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  club_people: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1,
   },
   club_profile_photo: {
     type: Sequelize.STRING,
@@ -116,14 +119,13 @@ const Club = sequelize.define('CLUB', {
   },
 }, {
   freezeTableName: true,
-  timestamps: false, // createdAt, updatedAt 로 생성날짜와 수정날짜 저장.
+  timestamps: false,
 });
 
 Club.belongsTo(Category, { foreignKey: 'cate_id', as: 'category' });
 Club.belongsTo(Tag, { foreignKey: 'tag_id', as: 'tag' });
 Club.hasMany(Sns, { foreignKey: 'club_id', as: 'sns' });
 Club.hasMany(Career, { foreignKey: 'club_id' });
-Club.hasMany(Cart, { foreignKey: 'club_id' });
 Club.hasMany(Comment, { foreignKey: 'club_id' });
 
 module.exports = Club;

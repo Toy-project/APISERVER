@@ -42,7 +42,7 @@ const Member = sequelize.define('MEMBER', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      is: /^\d{3}-\d{4}-\d{4}$/i,
+      is: /^\d{2,3}-\d{3,4}-\d{4}$/i,
     },
   },
   mem_mail_agree: {

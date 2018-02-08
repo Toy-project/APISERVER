@@ -1,9 +1,9 @@
-const multer = require('multer');
-
-const Member = require('./member.model.js');
 const error = require('../../helper/errorHandler');
 const hashPassword = require('../../helper/hashPassword.js');
 const folderHelper = require('../../helper/folderHelper');
+const uploadHelper = require('../../helper/uploadHelper.js');
+
+const Member = require('./member.model.js');
 
 exports.getAllMember = (req, res, next) => {
   const onError = (err) => {
@@ -15,6 +15,11 @@ exports.getAllMember = (req, res, next) => {
   };
 
   Member.findAndCountAll({
+    attributes: {
+      exclude: [
+        'mem_pw',
+      ],
+    },
     offset: +req.params.start || +req.query.start,
     limit: +req.params.end || +req.query.end,
     order: [
@@ -34,7 +39,16 @@ exports.getMember = (req, res, next) => {
     result ? res.status(200).json(result) : next(error(400));
   };
 
-  Member.findById(req.params.mem_id)
+  Member.findOne({
+    where: {
+      mem_id: req.params.mem_id,
+    },
+    attributes: {
+      exclude: [
+        'mem_pw',
+      ],
+    },
+  })
   .then(respond)
   .catch(onError);
 };
@@ -139,7 +153,6 @@ exports.updateMember = (req, res, next) => {
   const respond = (data) => {
     if (data) {
       const updateList = {
-        mem_userid: req.body.mem_userid || data.mem_userid,
         mem_email: req.body.mem_email || data.mem_email,
         mem_name: req.body.mem_name || data.mem_name,
         mem_pw: req.body.mem_pw,
@@ -178,25 +191,32 @@ exports.updateMember = (req, res, next) => {
 
 exports.updateMemberProfile = (req, res, next) => {
   const onError = (err) => {
+    console.log(err);
     next(err);
   };
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        mem_profile_photo: req.file.path || data.mem_profile_photo,
-        mem_update: new Date(),
-      };
+      uploadHelper.memberProfile(req, res, (err) => {
+        if (err) {
+          next(err);
+        } else {
+          const updateList = {
+            mem_profile_photo: req.file.path || data.mem_profile_photo,
+            mem_update: new Date(),
+          };
 
-      Member.update(updateList, {
-        where: {
-          mem_id: req.params.mem_id,
-        },
-      })
-      .then((result) => {
-        res.status(201).json(req.file);
-      })
-      .catch(onError);
+          Member.update(updateList, {
+            where: {
+              mem_id: req.params.mem_id,
+            },
+          })
+          .then((result) => {
+            res.status(201).json(req.file);
+          })
+          .catch(onError);
+        }
+      });
     } else {
       next(error(400));
     }
