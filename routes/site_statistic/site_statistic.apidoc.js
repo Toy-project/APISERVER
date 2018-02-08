@@ -1,7 +1,10 @@
 /**
-  * @api {get} /site-statistic/ 전체 날짜 사이트 통계 조회
+  * @api {get} /site-statistic/ 전체 사이트 통계 조회
   * @apiName GetSiteStatistic
   * @apiGroup SiteStatistic
+  *
+  * @apiParam {Number} start offset
+  * @apiParam {Number} end limit
   *
   * @apiSuccess {Date} date 날짜
   * @apiSuccess {Number} site_connect_count 사이트 접속 수
@@ -9,12 +12,17 @@
   * @apiSuccess {Number} site_mobile_connect_count 사이트 Mobile 접속 수
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
-  *     [{
-  *       "date" : "2018-01-01 15:24:46",
-  *       "site_connect_count" : 5,
-  *       "site_pc_connect_count" : 2,
-  *       "site_connect_count" : 3
-  *     }]
+  *     {
+  *       "count": 1,
+  *       "rows": [
+  *         {
+  *           "date": "2018-01-01",
+  *           "site_connect_count": 1,
+  *           "site_pc_connect_count": 1,
+  *           "site_mobile_connect_count": 0
+  *         }
+  *       ]
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -35,14 +43,16 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
+
 
 /**
   * @api {get} /site-statistic/:date 특정 날짜 사이트 통계 조회
   * @apiName GetSpecificSiteStatistic
   * @apiGroup SiteStatistic
   *
-  * @apiParam {Date} date 날짜
+  * @apiParam {Date} date 날짜 (2018-01-01)
   *
   * @apiSuccess {Date} date 날짜
   * @apiSuccess {Number} site_connect_count 사이트 접속 수
@@ -51,10 +61,10 @@
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
   *     {
-  *       "date" : "2018-01-01 15:24:46",
-  *       "site_connect_count" : 5,
-  *       "site_pc_connect_count" : 2,
-  *       "site_connect_count" : 3
+  *       "date" : "2018-01-01",
+  *       "site_connect_count" : 2,
+  *       "site_pc_connect_count" : 1,
+  *       "site_mobile_connect_count" : 1
   *     }
   *
   * @apiError BadRequest 잘못된 요청
@@ -76,18 +86,16 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
 
 
 /**
-  * @api {put} /site-statistic/:date 특정 날짜 사이트 통계 수정
-  * @apiName PutSite_statistic
-  * @apiGroup Site_statistic
+  * @api {put} /site-statistic/:date 사이트 통계 생성 및 추가
+  * @apiName UpdateSiteStatistic
+  * @apiGroup SiteStatistic
   *
-  * @apiParam {Date} date 날짜
-  * @apiParam {Number} site_connect_count 사이트 접속 수
-  * @apiParam {Number} site_pc_connect_count 사이트 PC 접속 수
-  * @apiParam {Number} site_mobile_connect_count 사이트 Mobile 접속 수
+  * @apiParam {Date} date 날짜 (2018-01-01)
   *
   * @apiSuccess {Date} date 날짜
   * @apiSuccess {Number} site_connect_count 사이트 접속 수
@@ -96,10 +104,10 @@
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
   *     {
-  *       "date" : "2018-01-01 15:24:46",
-  *       "site_connect_count" : 5,
-  *       "site_pc_connect_count" : 2,
-  *       "site_connect_count" : 3
+  *       "date" : "2018-01-01",
+  *       "site_connect_count" : 2,
+  *       "site_pc_connect_count" : 1,
+  *       "site_mobile_connect_count" : 1
   *     }
   *
   * @apiError BadRequest 잘못된 요청
@@ -121,15 +129,16 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
 
 
 /**
-  * @api {delete} /site-statistic/:date 특정 날짜 사이트 통계 삭제
-  * @apiName deleteSite_statistic
-  * @apiGroup Site_statistic
+  * @api {delete} /site-statistic/:date 사이트 통계 삭제
+  * @apiName DeleteSiteStatistic
+  * @apiGroup SiteStatistic
   *
-  * @apiParam {Date} date 날짜
+  * @apiParam {Date} date 날짜 (2018-01-01)
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
@@ -156,4 +165,5 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
