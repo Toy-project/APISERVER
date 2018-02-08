@@ -60,6 +60,7 @@ exports.createComment = (req, res, next) => {
     comment_update: new Date(),
     club_rating: req.body.club_rating,
     club_id: req.body.club_id,
+    // ...
   };
 
   const onError = (err) => {

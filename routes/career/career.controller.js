@@ -1,7 +1,8 @@
 const error = require('../../helper/errorHandler');
 const folderHelper = require('../../helper/folderHelper');
+const uploadHelper = require('../../helper/uploadHelper');
 
-const Career = require('../career/career.model.js');
+const Career = require('../career/career.model');
 
 exports.getAllCareer = (req, res, next) => {
   const onError = (err) => {
@@ -20,7 +21,7 @@ exports.getAllCareer = (req, res, next) => {
   .catch(onError);
 };
 
-exports.getAllClubByCareerId = (req, res, next) => {
+exports.getAllCareerByClubId = (req, res, next) => {
   const onError = (err) => {
     next(err);
   };
@@ -185,20 +186,26 @@ exports.updateCareerPhoto = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        career_photo: req.file.path || data.career_photo,
-        // ...
-      };
-
-      Career.update(updateList, {
-        where: {
-          career_id: req.params.career_id,
-        },
-      })
-      .then((result) => {
-        res.status(201).json(req.file);
-      })
-      .catch(onError);
+      uploadHelper.careerPhoto(req, res, (err) => {
+        if (err) {
+          next(err);
+        } else {
+          const updateList = {
+            career_photo: req.file.path || data.career_photo,
+            // ...
+          };
+    
+          Career.update(updateList, {
+            where: {
+              career_id: req.params.career_id,
+            },
+          })
+          .then((result) => {
+            res.status(201).json(req.file);
+          })
+          .catch(onError);
+        }
+      });
     } else {
       next(error(400));
     }

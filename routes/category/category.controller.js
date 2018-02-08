@@ -1,5 +1,6 @@
 const error = require('../../helper/errorHandler');
-const Category = require('./category.model.js');
+
+const Category = require('./category.model');
 
 exports.getAllCategory = function (req, res, next) {
   const onError = (err) => {

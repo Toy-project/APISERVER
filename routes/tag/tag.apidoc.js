@@ -1,5 +1,5 @@
 /**
- * @api {get} /tag/ 모든 태그 조회
+ * @api {get} /tag 전체 태그 조회
  * @apiName GetAllTag
  * @apiGroup Tag
  *
@@ -7,14 +7,22 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiSuccess {Number} tag_id 태그 아이디
+ * @apiParam {Number} start offset
+ * @apiParam {Number} end limit
+ *
+ * @apiSuccess {Number} tag_id 태그 고유값
  * @apiSuccess {String} tag_name 태그 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     [{
- *       "tag_id": 1,
- *       "tag_name": "성실",
- *     }]
+ *     {
+ *        "count": 1,
+ *        "rows": [
+ *          {
+ *            "tag_id": 1,
+ *            "tag_name": "성실한"
+ *          }
+ *        ]
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -48,9 +56,9 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} tag_id 태그 아이디
+ * @apiParam {Number} tag_id 태그 고유값
  *
- * @apiSuccess {Number} tag_id 태그 아이디
+ * @apiSuccess {Number} tag_id 태그 고유값
  * @apiSuccess {String} tag_name 태그 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
@@ -91,7 +99,7 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} tag_id 태그 아이디
+ * @apiParam {Number} tag_id 태그 고유값
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
@@ -123,7 +131,7 @@
 
 
 /**
- * @api {post} /tag/ 태그 생성
+ * @api {post} /tag 태그 생성
  * @apiName CreateTag
  * @apiGroup Tag
  *
@@ -131,9 +139,11 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {number} tag_id 태그 아이디
+ * @apiParam {number} tag_id 태그 고유값
  * @apiParam {String} tag_name 태그 이름
  *
+ * @apiSuccess {Number} tag_id 태그 고유값
+ * @apiSuccess {String} tag_name 태그 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     {
@@ -173,7 +183,7 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} tag_id 태그 아이디
+ * @apiParam {Number} tag_id 태그 고유값
  * @apiParam {String} tag_name 태그 이름
  *
  * @apiSuccessExample Success-Response:

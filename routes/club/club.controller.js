@@ -3,10 +3,12 @@ const Sequelize = require('sequelize');
 const error = require('../../helper/errorHandler');
 const hashPassword = require('../../helper/hashPassword');
 const folderHelper = require('../../helper/folderHelper');
+const uploadHelper = require('../../helper/uploadHelper');
 
-const Club = require('./club.model.js');
-const Category = require('../category/category.model.js');
-const Tag = require('../tag/tag.model.js');
+const Club = require('./club.model');
+const Category = require('../category/category.model');
+const Tag = require('../tag/tag.model');
+const Sns = require('../sns/sns.model');
 
 exports.getAllClub = (req, res, next) => {
   const onError = (err) => {
@@ -18,10 +20,29 @@ exports.getAllClub = (req, res, next) => {
   };
 
   Club.findAndCountAll({
+    attributes: {
+      exclude: [
+        'club_pw',
+      ],
+    },
     offset: +req.params.start || +req.query.start,
     limit: +req.params.end || +req.query.end,
     order: [
       ['club_id', 'DESC'],
+    ],
+    include: [
+      {
+        model: Category,
+        as: 'category',
+      },
+      {
+        model: Tag,
+        as: 'tag',
+      },
+      {
+        model: Sns,
+        as: 'sns',
+      },
     ],
   })
   .then(respond)
@@ -41,20 +62,23 @@ exports.getClub = (req, res, next) => {
     where: {
       club_id: req.params.club_id,
     },
+    attributes: {
+      exclude: [
+        'club_pw',
+      ],
+    },
     include: [
       {
         model: Category,
         as: 'category',
-        where: {
-          cate_id: +req.params.cate_id || +req.query.cate_id,
-        },
       },
       {
         model: Tag,
         as: 'tag',
-        where: {
-          tag_id: +req.params.tag_id || +req.query.tag_id,
-        },
+      },
+      {
+        model: Sns,
+        as: 'sns',
       },
     ],
   })
@@ -133,6 +157,65 @@ exports.getClubSearch = (req, res, next) => {
         [Op.like]: `%${req.params.keyword}%`,
       },
     },
+    attributes: {
+      exclude: [
+        'club_pw',
+      ],
+    },
+    include: [
+      {
+        model: Category,
+        as: 'category',
+      },
+      {
+        model: Tag,
+        as: 'tag',
+      },
+      {
+        model: Sns,
+        as: 'sns',
+      },
+    ],
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
+  })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.getClubCategory = (req, res, next) => {
+  const onError = (err) => {
+    console.log(err);
+    next(err);
+  };
+
+  const respond = (results) => {
+    res.status(200).json(results);
+  };
+
+  Club.findAndCountAll({
+    where: {
+      cate_id: req.params.cate_id,
+    },
+    attributes: {
+      exclude: [
+        'club_pw',
+      ],
+    },
+    include: [
+      {
+        model: Category,
+        as: 'category',
+      },
+      {
+        model: Tag,
+        as: 'tag',
+      },
+      {
+        model: Sns,
+        as: 'sns',
+      },
+    ],
     offset: +req.params.start || +req.query.start,
     limit: +req.params.end || +req.query.end,
   })
@@ -212,6 +295,7 @@ exports.updateClub = function (req, res, next) {
         club_email: req.body.club_email || data.club_email,
         club_pw: req.body.club_pw,
         club_username: req.body.club_username || data.club_username,
+        club_people: req.body.club_people || data.club_people,
         club_name: req.body.club_name || data.club_name,
         club_phone: req.body.club_phone || data.club_phone,
         club_ex: req.body.club_ex || data.club_ex,
@@ -298,21 +382,27 @@ exports.updateClubProfile = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        club_profile_photo: req.file.path || data.club_profile_photo,
-        club_update: new Date(),
-        // ...
-      };
+      uploadHelper.clubProfile(req, res, (err) => {
+        if (err) {
+          next(err);
+        } else {
+          const updateList = {
+            club_profile_photo: req.file.path || data.club_profile_photo,
+            club_update: new Date(),
+            // ...
+          };
 
-      Club.update(updateList, {
-        where: {
-          club_id: req.params.club_id,
-        },
-      })
-      .then((result) => {
-        res.status(201).json(req.file);
-      })
-      .catch(onError);
+          Club.update(updateList, {
+            where: {
+              club_id: req.params.club_id,
+            },
+          })
+          .then((result) => {
+            res.status(201).json(req.file);
+          })
+          .catch(onError);
+        }
+      });
     } else {
       next(error(400));
     }

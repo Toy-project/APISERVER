@@ -1,14 +1,13 @@
 const express = require('express');
 
 const router = express.Router();
-const Controller = require('./career.controller.js');
-const uploadHelper = require('../../helper/uploadHelper.js');
+const Controller = require('./career.controller');
 
 // get all career list
 router.get('/', Controller.getAllCareer);
 
 // get club career list
-router.get('/club/:club_id', Controller.getAllClubByCareerId);
+router.get('/club/:club_id', Controller.getAllCareerByClubId);
 
 // get a specific career
 router.get('/:career_id', Controller.getCareer);
@@ -26,6 +25,6 @@ router.delete('/club/:club_id', Controller.deleteCareerByClubId);
 router.put('/:career_id', Controller.updateCareer);
 
 // update career photo
-router.put('/photo/:career_id', uploadHelper.careerPhoto, Controller.updateCareerPhoto);
+router.put('/photo/:career_id', Controller.updateCareerPhoto);
 
 module.exports = router;

@@ -18,9 +18,11 @@ exports.memberLogin = function (req, res, next) {
   const respond = (data) => {
     if (data) {
       const tokenList = {
+        mem_id: data.mem_id,
         mem_userid: data.mem_userid,
         mem_email: data.mem_email,
         mem_name: data.mem_name,
+        mem_profile_photo: data.mem_profile_photo,
         // ...
       };
       const updateList = {
@@ -73,9 +75,10 @@ exports.clubLogin = function (req, res, next) {
       const tokenList = {
         club_id: data.club_id,
         club_userid: data.club_userid,
+        club_email: data.club_email,
         club_name: data.club_name,
-        cate_id: data.cate_id,
-        tag_id: data.tag_id,
+        club_profile_photo: data.club_profile_photo,
+        club_username: data.club_username,
         // ...
       };
       const updateList = {

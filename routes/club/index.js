@@ -1,8 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const Controller = require('./club.controller.js');
-const uploadHelper = require('../../helper/uploadHelper.js');
+const Controller = require('./club.controller');
 
 // get all club list
 router.get('/', Controller.getAllClub);
@@ -22,6 +21,9 @@ router.get('/name/:name', Controller.getClubName);
 // get club search list
 router.get('/search/:keyword', Controller.getClubSearch);
 
+// get club category list
+router.get('/category/:cate_id', Controller.getClubCategory);
+
 // create club
 router.post('/', Controller.createClub);
 
@@ -35,6 +37,6 @@ router.put('/:club_id', Controller.updateClub);
 router.put('/views/:club_id', Controller.updateClubViews);
 
 // update club profile
-router.put('/profile/:club_id', uploadHelper.clubProfile, Controller.updateClubProfile);
+router.put('/profile/:club_id', Controller.updateClubProfile);
 
 module.exports = router;
