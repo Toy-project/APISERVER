@@ -1,5 +1,5 @@
 /**
-  * @api {get} /session/ 전체 세션 조회
+  * @api {get} /session 전체 세션 조회
   * @apiName GetSession
   * @apiGroup Session
   *
@@ -93,7 +93,7 @@
 */
 
 /**
-  * @api {post} /session/ 세션 생성
+  * @api {post} /session 세션 생성
   * @apiName CreateSession
   * @apiGroup Session
   *

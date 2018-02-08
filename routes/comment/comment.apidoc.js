@@ -116,7 +116,7 @@
 
 
 /**
-  * @api {post} /comment/ 댓글 생성
+  * @api {post} /comment 댓글 생성
   * @apiName CreateComment
   * @apiGroup Comment
   *

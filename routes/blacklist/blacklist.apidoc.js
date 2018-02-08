@@ -131,7 +131,7 @@
 
 
 /**
- * @api {post} /Blacklist/ 블랙리스트 생성
+ * @api {post} /Blacklist 블랙리스트 생성
  * @apiName CreateBlacklist
  * @apiGroup Blacklist
  *

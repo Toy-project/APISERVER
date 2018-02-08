@@ -6,7 +6,7 @@
  * @apiHeader {String} Authorization bearer token
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
- * 
+ *
  * @apiParam {Number} start offset
  * @apiParam {Number} end limit
  *
@@ -14,10 +14,15 @@
  * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     [{
- *       "cate_id": 1,
- *       "cate_name": "IT",
- *     }]
+ *     {
+ *        "count": 1,
+ *        "rows": [
+ *          {
+ *            "cate_id": 1,
+ *            "cate_name": "IT"
+ *          }
+ *        ]
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

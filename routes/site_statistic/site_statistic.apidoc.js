@@ -1,5 +1,5 @@
 /**
-  * @api {get} /site-statistic/ 전체 사이트 통계 조회
+  * @api {get} /site-statistic 전체 사이트 통계 조회
   * @apiName GetSiteStatistic
   * @apiGroup SiteStatistic
   *

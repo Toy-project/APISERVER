@@ -1,5 +1,5 @@
 /**
- * @api {get} /tag/ 전체 태그 조회
+ * @api {get} /tag 전체 태그 조회
  * @apiName GetAllTag
  * @apiGroup Tag
  *
@@ -131,7 +131,7 @@
 
 
 /**
- * @api {post} /tag/ 태그 생성
+ * @api {post} /tag 태그 생성
  * @apiName CreateTag
  * @apiGroup Tag
  *

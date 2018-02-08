@@ -1,5 +1,5 @@
 /**
- * @api {get} /sns/ 모든 SNS 조회
+ * @api {get} /sns 모든 SNS 조회
  * @apiName GetAllSns
  * @apiGroup Sns
  *
@@ -231,7 +231,7 @@
 
 
 /**
- * @api {post} /sns/ SNS 생성
+ * @api {post} /sns SNS 생성
  * @apiName CreateSns
  * @apiGroup Sns
  *

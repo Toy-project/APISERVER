@@ -1,5 +1,5 @@
 /**
- * @api {get} /club/ 전체 단체 조회
+ * @api {get} /club 전체 단체 조회
  * @apiName GetAllClub
  * @apiGroup Club
  *
@@ -558,7 +558,7 @@
 
 
 /**
- * @api {post} /club/ 단체 생성
+ * @api {post} /club 단체 생성
  * @apiName CreateClub
  * @apiGroup Club
  *
@@ -741,7 +741,7 @@
 
 
 /**
- * @api {put} /club/views/:club_id 단체 수정
+ * @api {put} /club/views/:club_id 단체 조회수 수정
  * @apiName UpdateClubViews
  * @apiGroup Club
  *

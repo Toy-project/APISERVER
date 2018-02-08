@@ -1,5 +1,5 @@
 /**
- * @api {get} /member/ 전체 회원 조회
+ * @api {get} /member 전체 회원 조회
  * @apiName GetAllMember
  * @apiGroup Member
  *
@@ -245,7 +245,7 @@
 
 
 /**
- * @api {post} /member/ 회원 생성
+ * @api {post} /member 회원 생성
  * @apiName CreateMember
  * @apiGroup Member
  *
