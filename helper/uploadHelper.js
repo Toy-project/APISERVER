@@ -1,54 +1,44 @@
 const multer = require('multer');
+const Q = require('q');
 
 const folderHelper = require('./folderHelper');
 
-exports.memberProfile = multer({
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      // Create Folder
-      folderHelper.createF('images', `upload/member/${req.params.mem_id}`);
-      // upload images path
-      cb(null, `images/upload/member/${req.params.mem_id}`);
-    },
-    filename(req, file, cb) {
-      cb(null, `profile.${file.mimetype.split('/')[1]}`);
-    },
-  }),
-}).single('mem_profile_photo');
+exports.uploadSingle = (req, res, opt) => {
+  const deferred = Q.defer();
+  
+  const option = {
+    filesize: opt.fileSize || 2 * 1024 * 1024,
+    filename: opt.filename || 'profile',
+    path: opt.path || 'upload',
+    field: opt.field || null,
+  };
 
-exports.clubProfile = multer({
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
-  storage: multer.diskStorage({
+  const storages = multer.diskStorage({
     destination(req, file, cb) {
       // Create Folder
-      folderHelper.createF('images', `upload/club/${req.params.club_id}`);
+      folderHelper.createF('images', option.path);
       // upload images path
-      cb(null, `images/upload/club/${req.params.club_id}`);
+      cb(null, `images/${option.path}`);
     },
     filename(req, file, cb) {
-      cb(null, `profile.${file.mimetype.split('/')[1]}`);
-    },
-  }),
-}).single('club_profile_photo');
+      cb(null, `${option.filename}.${file.mimetype.split('/')[1]}`);
+    }
+  });
 
-exports.careerPhoto = multer({
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      // Create Folder
-      folderHelper.createF('images', `upload/career/${req.params.career_id}`);
-      // upload images path
-      cb(null, `images/upload/career/${req.params.career_id}`);
-    },
-    filename(req, file, cb) {
-      cb(null, `thumb.${file.mimetype.split('/')[1]}`);
-    },
-  }),
-}).single('career_photo');
+  const upload = multer({ 
+    limits: { 
+      fileSize: option.filesize, 
+    }, 
+    storage: storages 
+  }).single(option.field);
+
+  upload(req, res, (err) => {
+    if (err) {
+      deferred.reject();
+    } else {
+      deferred.resolve(req.file);
+    }
+  });
+
+  return deferred.promise;
+};
