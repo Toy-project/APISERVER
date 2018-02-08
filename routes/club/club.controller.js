@@ -382,27 +382,19 @@ exports.updateClubProfile = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      uploadHelper.clubProfile(req, res, (err) => {
-        if (err) {
-          next(err);
-        } else {
-          const updateList = {
-            club_profile_photo: req.file.path || data.club_profile_photo,
-            club_update: new Date(),
-            // ...
-          };
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: 'profile',
+        path: `upload/club/${req.params.club_id}`,
+        field: 'club_profile_photo',
+      };
 
-          Club.update(updateList, {
-            where: {
-              club_id: req.params.club_id,
-            },
-          })
-          .then((result) => {
-            res.status(201).json(req.file);
-          })
-          .catch(onError);
-        }
-      });
+      uploadHelper
+      .uploadSingle(req, res, options)
+      .then((file) => {
+        res.status(201).send(file);
+      })
+      .catch(onError);
     } else {
       next(error(400));
     }

@@ -191,32 +191,24 @@ exports.updateMember = (req, res, next) => {
 
 exports.updateMemberProfile = (req, res, next) => {
   const onError = (err) => {
-    console.log(err);
     next(err);
   };
 
   const respond = (data) => {
     if (data) {
-      uploadHelper.memberProfile(req, res, (err) => {
-        if (err) {
-          next(err);
-        } else {
-          const updateList = {
-            mem_profile_photo: req.file.path || data.mem_profile_photo,
-            mem_update: new Date(),
-          };
-
-          Member.update(updateList, {
-            where: {
-              mem_id: req.params.mem_id,
-            },
-          })
-          .then((result) => {
-            res.status(201).json(req.file);
-          })
-          .catch(onError);
-        }
-      });
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: 'profile',
+        path: `upload/member/${req.params.club_id}`,
+        field: 'mem_profile_photo',
+      };
+      
+      uploadHelper
+      .uploadSingle(req, res, options)
+      .then((file) => {
+        res.status(201).send(file);
+      })
+      .catch(onError);
     } else {
       next(error(400));
     }

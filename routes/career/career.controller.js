@@ -186,26 +186,19 @@ exports.updateCareerPhoto = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      uploadHelper.careerPhoto(req, res, (err) => {
-        if (err) {
-          next(err);
-        } else {
-          const updateList = {
-            career_photo: req.file.path || data.career_photo,
-            // ...
-          };
-    
-          Career.update(updateList, {
-            where: {
-              career_id: req.params.career_id,
-            },
-          })
-          .then((result) => {
-            res.status(201).json(req.file);
-          })
-          .catch(onError);
-        }
-      });
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: 'thumb',
+        path: `upload/career/${req.params.club_id}`,
+        field: 'career_photo',
+      };
+      
+      uploadHelper
+      .uploadSingle(req, res, options)
+      .then((file) => {
+        res.status(201).send(file);
+      })
+      .catch(onError);
     } else {
       next(error(400));
     }
