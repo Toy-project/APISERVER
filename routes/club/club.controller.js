@@ -185,7 +185,6 @@ exports.getClubSearch = (req, res, next) => {
 
 exports.getClubCategory = (req, res, next) => {
   const onError = (err) => {
-    console.log(err);
     next(err);
   };
 
