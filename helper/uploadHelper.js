@@ -1,7 +1,6 @@
 const multer = require('multer');
+const mkdirp = require('mkdirp');
 const Q = require('q');
-
-const folderHelper = require('./folderHelper');
 
 exports.uploadSingle = (req, res, opt) => {
   const deferred = Q.defer();
@@ -16,25 +15,40 @@ exports.uploadSingle = (req, res, opt) => {
   const storages = multer.diskStorage({
     destination(req, file, cb) {
       // Create Folder
-      folderHelper.createF('images', option.path);
-      // upload images path
-      cb(null, `images/${option.path}`);
+      mkdirp(`images/${option.path}`, 0777, (err) => {
+        if(err) {
+          cb(new Error('Create Directory Failed'));
+        } else {
+          // upload images path
+          cb(null, `images/${option.path}`);
+        }
+      });
     },
     filename(req, file, cb) {
       cb(null, `${option.filename}.${file.mimetype.split('/')[1]}`);
-    }
+    },
   });
+
+  const filefilter = (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1].toLowerCase();
+    if(ext === 'png' || ext === 'jpeg' || ext === 'jpg' || ext === 'gif') {
+      cb(null, true);
+    } else {
+      cb(new Error('Not Images'));
+    }
+  };
 
   const upload = multer({ 
     limits: { 
       fileSize: option.filesize, 
-    }, 
-    storage: storages 
+    },
+    storage: storages,
+    fileFilter: filefilter,
   }).single(option.field);
 
   upload(req, res, (err) => {
     if (err) {
-      deferred.reject();
+      deferred.reject(err);
     } else {
       deferred.resolve(req.file);
     }
