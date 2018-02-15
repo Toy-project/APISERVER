@@ -22,6 +22,7 @@
   *     HTTP/1.1 200 OK
   *     {
   *       "count": 1,
+  *       "club_rating_avg": 3.1,
   *       "rows": [
   *         {
   *           "comment_id": 1,

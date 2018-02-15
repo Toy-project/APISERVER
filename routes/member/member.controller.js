@@ -131,7 +131,7 @@ exports.deleteMember = (req, res, next) => {
         },
       })
       .then((result) => {
-        folderHelper.deleteF(`images/member/${req.params.mem_id}`);
+        folderHelper.deleteF(`images/upload/member/${req.params.mem_id}`);
         res.send(200);
       })
       .catch(onError);
@@ -152,68 +152,54 @@ exports.updateMember = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        mem_email: req.body.mem_email || data.mem_email,
-        mem_name: req.body.mem_name || data.mem_name,
-        mem_pw: req.body.mem_pw,
-        mem_phone: req.body.mem_phone || data.mem_phone,
-        mem_mail_agree: req.body.mem_mail_agree || data.mem_mail_agree,
-        mem_update: new Date(),
+      const key = req.params.mem_id;
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: 'profile',
+        path: `images/upload/member/${key}`,
+        field: 'mem_profile_photo',
       };
 
-      // Checking password with hashed one.
-      if (updateList.mem_pw) {
-        updateList.mem_pw = hashPassword.updatePw(updateList.mem_pw, data.mem_pw);
-      } else {
-        updateList.mem_pw = data.mem_pw;
-      }
+      const upload = uploadHelper.uploadSingle(req, res, options);
+      upload(req, res, (err) => {
+        if (err) {
+          next(error(400));
+        } else {
+          const updateList = {
+            mem_email: req.body.mem_email || data.mem_email,
+            mem_name: req.body.mem_name || data.mem_name,
+            mem_pw: req.body.mem_pw,
+            mem_phone: req.body.mem_phone || data.mem_phone,
+            mem_profile_photo: req.file ? req.file.path : data.mem_profile_photo,
+            mem_mail_agree: req.body.mem_mail_agree || data.mem_mail_agree,
+            mem_update: new Date(),
+          };
 
-      // Updating
-      Member.update(updateList, {
-        where: {
-          mem_id: req.params.mem_id,
-        },
-      })
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch(onError);
+          // Checking password with hashed one.
+          if (updateList.mem_pw) {
+            updateList.mem_pw = hashPassword.updatePw(updateList.mem_pw, data.mem_pw);
+          } else {
+            updateList.mem_pw = data.mem_pw;
+          }
+
+          // Updating
+          Member.update(updateList, {
+            where: {
+              mem_id: req.params.mem_id,
+            },
+          })
+          .then((result) => {
+            res.status(201).json(result);
+          })
+          .catch(onError);
+        }
+      });
     } else {
       next(error(400));
     }
   };
 
   // Hashing and Updating
-  Member.findById(req.params.mem_id)
-  .then(respond)
-  .catch(onError);
-};
-
-exports.updateMemberProfile = (req, res, next) => {
-  const onError = (err) => {
-    next(err);
-  };
-
-  const respond = (data) => {
-    if (data) {
-      const options = {
-        filesize: 2 * 1024 * 1024,
-        filename: 'profile',
-        path: `upload/member/${req.params.club_id}`,
-        field: 'mem_profile_photo',
-      };
-      
-      uploadHelper
-      .uploadSingle(req, res, options)
-      .then((file) => {
-        res.status(201).send(file);
-      })
-      .catch(onError);
-    } else {
-      next(error(400));
-    }
-  };
-
   Member.findById(req.params.mem_id)
   .then(respond)
   .catch(onError);

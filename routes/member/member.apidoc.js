@@ -322,6 +322,7 @@
  * @apiParam {Number} mem_id 회원 고유값
  * @apiParam {String} mem_email 회원 이메일
  * @apiParam {String} mem_name 회원 이름
+ * @apiParam {FormData} mem_profile_photo 회원 프로필 사진
  * @apiParam {String} mem_pw 회원 비밀번호
  * @apiParam {String} mem_phone 회원 전화번호
  * @apiParam {Number} mem_mail_agree 회원 메일 수신 동의 (0: 동의X, 1: 동의)
@@ -332,62 +333,6 @@
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     1
- *
- * @apiError BadRequest 잘못된 요청
- * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
- * @apiError NotFound 잘못된 경로 요청
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Requset
- *     {
- *       "status": 400,
- *       "message": "Bad Request"
- *     }
- *     HTTP/1.1 401 Unauthorized
- *     {
- *       "status": 401,
- *       "message": "Unauthorized"
- *     }
- *     HTTP/1.1 404 Not Found
- *     {
- *       "status": 404,
- *       "error": "Not Found"
- *     }
- *
- */
-
-
-/**
- * @api {put} /member/profile/:mem_id 회원 프로필 사진 수정
- * @apiName UpdateMemberProfile
- * @apiGroup Member
- *
- * @apiHeader {String} Authorization bearer token
- * @apiHeaderExample Request-Example:
- *     "Authorization": "bearer token"
- *
- * @apiParam {Number} mem_id 회원 고유값
- * @apiParam {FormData} mem_profile_photo 회원 프로필 사진 정보
- *
- * @apiSuccess {String} destination 파일 업로드 경로
- * @apiSuccess {String} encoding 파일 인코딩
- * @apiSuccess {String} fieldname 필드 이름
- * @apiSuccess {String} filename 파일 이름
- * @apiSuccess {String} mimetype 파일 형태
- * @apiSuccess {String} originalname 파일 원 이름
- * @apiSuccess {String} path 파일 업로드 경로 (파일명 포함)
- * @apiSuccess {Number} size 파일 사이즈
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     {
- *       "destination": "images/..",
- *       "encoding": "7bit",
- *       "fieldname": "career",
- *       "filename": "thumb.png",
- *       "mimetype": "image/png",
- *       "originalname": "thumb.png",
- *       "path": "images/..",
- *       "size": 1111
- *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

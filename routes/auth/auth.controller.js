@@ -5,7 +5,7 @@ const authHelper = require('../../helper/authHelper');
 const Member = require('../member/member.model');
 const Club = require('../club/club.model');
 
-exports.memberLogin = function (req, res, next) {
+exports.memberLogin = (req, res, next) => {
   const loginList = {
     mem_userid: req.body.mem_userid,
     mem_pw: req.body.mem_pw,
@@ -60,7 +60,7 @@ exports.memberLogin = function (req, res, next) {
   .catch(onError);
 };
 
-exports.clubLogin = function (req, res, next) {
+exports.clubLogin = (req, res, next) => {
   const loginList = {
     club_userid: req.body.club_userid,
     club_pw: req.body.club_pw,

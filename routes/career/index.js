@@ -24,7 +24,4 @@ router.delete('/club/:club_id', Controller.deleteCareerByClubId);
 // update career
 router.put('/:career_id', Controller.updateCareer);
 
-// update career photo
-router.put('/photo/:career_id', Controller.updateCareerPhoto);
-
 module.exports = router;

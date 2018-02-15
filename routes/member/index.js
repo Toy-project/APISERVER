@@ -24,7 +24,4 @@ router.delete('/:mem_id', Controller.deleteMember);
 // update user
 router.put('/:mem_id', Controller.updateMember);
 
-// update user profile
-router.put('/profile/:mem_id', Controller.updateMemberProfile);
-
 module.exports = router;

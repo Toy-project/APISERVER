@@ -125,7 +125,7 @@ const Club = sequelize.define('CLUB', {
 Club.belongsTo(Category, { foreignKey: 'cate_id', as: 'category' });
 Club.belongsTo(Tag, { foreignKey: 'tag_id', as: 'tag' });
 Club.hasMany(Sns, { foreignKey: 'club_id', as: 'sns' });
-Club.hasMany(Career, { foreignKey: 'club_id' });
+Club.hasMany(Career, { foreignKey: 'club_id', as: 'career' });
 Club.hasMany(Comment, { foreignKey: 'club_id' });
 
 module.exports = Club;

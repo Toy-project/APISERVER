@@ -1,15 +1,35 @@
 const Sequelize = require('sequelize');
 
 const error = require('../../helper/errorHandler');
-const Comment = require('./comment.model.js');
+
+const Comment = require('./comment.model');
+const Member = require('../member/member.model');
+const Club = require('../club/club.model');
 
 exports.getCommentByClubId = function (req, res, next) {
   const onError = (err) => {
+    console.log(err);
     next(err);
   };
 
-  const respond = (results) => {
-    results ? res.status(200).json(results) : next(error(400));
+  const respond = (data) => {
+    Comment.findAll({
+      attributes: [
+        [Sequelize.fn('AVG', Sequelize.col('COMMENT.club_rating')), 'club_rating_avg'],
+      ],
+      where: {
+        club_id: req.params.club_id,
+      },
+    })
+    .then((result) => {
+      const dataStr = JSON.stringify(data);
+      const dataJson = JSON.parse(dataStr);
+
+      dataJson.club_rating_avg = parseFloat(result[0].dataValues.club_rating_avg).toFixed(1);
+      
+      data ? res.status(200).json(dataJson) : next(error(400));
+    })
+    .catch(onError);
   };
 
   Comment.findAndCountAll({
@@ -67,8 +87,32 @@ exports.createComment = (req, res, next) => {
     next(err);
   };
 
-  const respond = (result) => {
-    res.status(201).json(result);
+  const respond = (data) => {
+    Comment.findAll({
+      where: {
+        club_id: data.club_id,
+      },
+      attributes: [
+        'club_id',
+        [Sequelize.fn('AVG', Sequelize.col('COMMENT.club_rating')), 'club_rating_avg'],
+      ],
+    })
+    .then((result) => {
+      const updateList = {
+        club_rating: parseFloat(result[0].dataValues.club_rating_avg).toFixed(1),
+      };
+
+      Club.update(updateList, {
+        where: {
+          club_id: result[0].dataValues.club_id,
+        },
+      })
+      .then(() => {
+        res.status(201).json(data);
+      })
+      .catch(onError);
+    })
+    .catch(onError);
   };
 
   Comment.create(createList)
@@ -88,14 +132,38 @@ exports.updateComment = (req, res, next) => {
         comment_update: new Date(),
         club_rating: req.body.club_rating || data.club_rating,
       };
-      
+
       Comment.update(updateList, {
         where: {
           comment_id: req.params.comment_id,
         },
       })
-      .then((result) => {
-        res.status(201).json(result);
+      .then(() => {
+        Comment.findAll({
+          where: {
+            club_id: data.club_id,
+          },
+          attributes: [
+            'club_id',
+            [Sequelize.fn('AVG', Sequelize.col('COMMENT.club_rating')), 'club_rating_avg'],
+          ],
+        })
+        .then((result) => {
+          const updateLists = {
+            club_rating: parseFloat(result[0].dataValues.club_rating_avg).toFixed(1),
+          };
+    
+          Club.update(updateLists, {
+            where: {
+              club_id: result[0].dataValues.club_id,
+            },
+          })
+          .then((num) => {
+            res.status(201).json(num);
+          })
+          .catch(onError);
+        })
+        .catch(onError);
       })
       .catch(onError);
     } else {
@@ -120,8 +188,32 @@ exports.deleteComment = (req, res, next) => {
           comment_id: req.params.comment_id,
         },
       })
-      .then((result) => {
-        res.send(200);
+      .then(() => {
+        Comment.findAll({
+          where: {
+            club_id: data.club_id,
+          },
+          attributes: [
+            'club_id',
+            [Sequelize.fn('AVG', Sequelize.col('COMMENT.club_rating')), 'club_rating_avg'],
+          ],
+        })
+        .then((result) => {
+          const updateList = {
+            club_rating: parseFloat(result[0].dataValues.club_rating_avg).toFixed(1),
+          };
+    
+          Club.update(updateList, {
+            where: {
+              club_id: result[0].dataValues.club_id,
+            },
+          })
+          .then(() => {
+            res.send(200);
+          })
+          .catch(onError);
+        })
+        .catch(onError);
       })
       .catch(onError);
     } else {

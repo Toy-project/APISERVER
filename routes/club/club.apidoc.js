@@ -34,9 +34,6 @@
  * @apiSuccess {Date} club_update 단체 업데이트
  * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccess {String} tag_name 태그 이름
- * @apiSuccess {Number} sns_id SNS 고유값
- * @apiSuccess {String} sns_name SNS 이름
- * @apiSuccess {String} sns_url SNS url
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
  *     {
@@ -73,14 +70,6 @@
  *              "tag_id": 1,
  *              "tag_name": "성실한"
  *            },
- *            "sns": [
- *              {
- *                "sns_id": 1,
- *                "sns_name": " 페이스북",
- *                "sns_url": "http://www.facebook.com",
- *                "club_id": 1
- *              }
- *            ]
  *          }
  *        ]
  *     }
@@ -146,6 +135,14 @@
  * @apiSuccess {Number} sns_id SNS 고유값
  * @apiSuccess {String} sns_name SNS 이름
  * @apiSuccess {String} sns_url SNS url
+ * @apiSuccess {Number} career_id 경력 고유값
+ * @apiSuccess {String} career_name 경력 이름
+ * @apiSuccess {String} career_ex 경력 설명
+ * @apiSuccess {String} career_photo 경력 사진
+ * @apiSuccess {Date} career_due_start 경력 기간 시작일
+ * @apiSuccess {Date} career_due_end 경력 기간 마지막일
+ * @apiSuccess {Number} career_peple 경력 인원
+ * @apiSuccess {String} career_co 경력 기업
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
  *     {
@@ -184,6 +181,19 @@
  *            "sns_id": 1,
  *            "sns_name": " 페이스북",
  *            "sns_url": "http://www.facebook.com",
+ *            "club_id": 1
+ *          }
+ *        ],
+ *        "career": [
+ *          {
+ *            "career_id": 1,
+ *            "career_name": "이름",
+ *            "career_ex": "설명",
+ *            "career_photo": null,
+ *            "career_due_start": "0000-00-00T00:00:00.000Z",
+ *            "career_due_end": "0000-00-00T00:00:00.000Z",
+ *            "career_people": 1,
+ *            "career_co": "기업",
  *            "club_id": 1
  *          }
  *        ]
@@ -701,6 +711,7 @@
  * @apiParam {String} club_username 단체 회장명
  * @apiParam {Number} club_people 단체 인원
  * @apiParam {String} club_phone 단체 전화번호
+ * @apiParam {FormData} club_profile_photo 단체 프로필 사진
  * @apiParam {String} club_ex 단체 설명
  * @apiParam {String} club_copyright 단체 카피라이트
  * @apiParam {String} club_college 단체 소속대학
@@ -755,62 +766,6 @@
  *     HTTP/1.1 201 Created
  *     {
  *        "club_views": 1
- *     }
- *
- * @apiError BadRequest 잘못된 요청
- * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
- * @apiError NotFound 잘못된 경로 요청
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Requset
- *     {
- *       "status": 400,
- *       "message": "Bad Request"
- *     }
- *     HTTP/1.1 401 Unauthorized
- *     {
- *       "status": 401,
- *       "message": "Unauthorized"
- *     }
- *     HTTP/1.1 404 Not Found
- *     {
- *       "status": 404,
- *       "error": "Not Found"
- *     }
- *
- */
-
-
-/**
- * @api {put} /club/profile/:club_id 단체 프로필 사진 수정
- * @apiName UpdateClubProfile
- * @apiGroup Club
- *
- * @apiHeader {String} Authorization bearer token
- * @apiHeaderExample Request-Example:
- *     "Authorization": "bearer token"
- *
- * @apiParam {Number} club_id 단체 고유값
- * @apiParam {FormData} club_profile_photo 단체 프로필 사진 정보
- *
- * @apiSuccess {String} destination 파일 업로드 경로
- * @apiSuccess {String} encoding 파일 인코딩
- * @apiSuccess {String} fieldname 필드 이름
- * @apiSuccess {String} filename 파일 이름
- * @apiSuccess {String} mimetype 파일 형태
- * @apiSuccess {String} originalname 파일 원 이름
- * @apiSuccess {String} path 파일 업로드 경로 (파일명 포함)
- * @apiSuccess {Number} size 파일 사이즈
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     {
- *       "destination": "images/..",
- *       "encoding": "7bit",
- *       "fieldname": "career",
- *       "filename": "thumb.png",
- *       "mimetype": "image/png",
- *       "originalname": "thumb.png",
- *       "path": "images/..",
- *       "size": 1111
  *     }
  *
  * @apiError BadRequest 잘못된 요청
