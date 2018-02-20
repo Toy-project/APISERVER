@@ -9,7 +9,7 @@ exports.postVerify = (req, res, next) => {
     number : req.body.number,
     brand : req.body.brand,
     code_length : '6',
-    pin_expiry: '120'
+    pin_expiry: 120
   }
 
   nexmo.verify.request(data, (err, result) => {
