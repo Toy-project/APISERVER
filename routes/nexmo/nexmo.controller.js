@@ -7,7 +7,7 @@ const nexmo = new Nexmo(asset);
 exports.postVerify = (req, res, next) => {
   const data = {
     number : req.body.number,
-    brand : nexmoHelper.brand,
+    brand : "외주대학교",
   }
 
   nexmo.verify.request(data, (err, result) => {
