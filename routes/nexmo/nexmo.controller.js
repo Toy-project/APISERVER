@@ -33,7 +33,7 @@ exports.postCheck = (req, res, next) => {
 
 exports.getCancel = (req, res, next) => {
   const data = {
-    request_id : +req.params.request_id || +req.query.request_id
+    request_id : +req.params.request_id || +req.query.request_id,
     cmd: 'cancel'
   }
   nexmo.verify.control(data, (err, result) => {
