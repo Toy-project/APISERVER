@@ -1,5 +1,14 @@
 const error = require('../../helper/errorHandler');
-const Nexmo = require('../../config/nexmo');
+const nexmoInfo = require('../config/nexmo.json');
+const Nexmo = require('nexmo');
+
+const nexmo = new Nexmo({
+  nexmoInfo
+});
+
+console.log(nexmo);
+
+
 //
 // exports.postVerify = (req, res, next) => {
 //   const data = {
