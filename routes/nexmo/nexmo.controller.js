@@ -18,9 +18,22 @@ exports.postVerify = (req, res, next) => {
   });
 };
 
-exports.getCancel = (req, res, next) => {
+exports.postCheck = (req, res, next) => {
   const data = {
     request_id : req.body.request_id,
+    code : req.body.code,
+  }
+  nexmo.verify.check(data, (err, result) => {
+    if(err) { next(err); }
+    else {
+      res.status(201).json(result);
+    }
+  });
+};
+
+exports.getCancel = (req, res, next) => {
+  const data = {
+    request_id : req.param.request_id,
     cmd: 'cancel'
   }
   nexmo.verify.control(data, (err, result) => {
