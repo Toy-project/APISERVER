@@ -139,7 +139,7 @@ exports.updateCareer = (req, res, next) => {
         } else {
           const updateList = {
             career_name: req.body.career_name || data.career_name,
-            career_ex: req.body.career_name || data.career_ex,
+            career_ex: req.body.career_ex || data.career_ex,
             career_photo: req.file ? req.file.path : data.career_photo,
             career_due_start: req.body.career_due_start || data.career_due_start,
             career_due_end: req.body.career_due_end || data.career_due_end,
