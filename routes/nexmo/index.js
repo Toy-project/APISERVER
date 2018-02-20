@@ -9,4 +9,7 @@ router.post('/verify', Controller.postVerify);
 // Get a Session
 router.post('/verify/check', Controller.postCheck);
 
+// Get a Session
+router.get('/verify/cancel', Controller.getCancel);
+
 module.exports = router;

@@ -18,12 +18,12 @@ exports.postVerify = (req, res, next) => {
   });
 };
 
-exports.postCheck = (req, res, next) => {
+exports.getCancel = (req, res, next) => {
   const data = {
     request_id : req.body.request_id,
-    code : req.body.code,
+    cmd: 'cancel'
   }
-  nexmo.verify.check(data, (err, result) => {
+  nexmo.verify.control(data, (err, result) => {
     if(err) { next(err); }
     else {
       res.status(201).json(result);
