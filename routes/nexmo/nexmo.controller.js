@@ -22,8 +22,8 @@ exports.postCheck = (req, res, next) => {
   const data = {
     request_id : req.body.request_id,
     code : req.body.code,
-    code_length : 6,
-    pin_expiry: 120
+    code_length : '6',
+    pin_expiry: '120'
   }
   nexmo.verify.check(data, (err, result) => {
     if(err) { next(err); }
