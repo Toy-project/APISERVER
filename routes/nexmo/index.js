@@ -10,6 +10,6 @@ router.post('/verify', Controller.postVerify);
 router.post('/verify/check', Controller.postCheck);
 
 // Get a Session
-router.get('/verify/cancel', Controller.getCancel);
+router.get('/verify/cancel/:request_id', Controller.getCancel);
 
 module.exports = router;
