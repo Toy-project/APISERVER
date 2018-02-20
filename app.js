@@ -22,6 +22,7 @@ const category = require('./routes/category/');
 const tag = require('./routes/tag/');
 const career = require('./routes/career/');
 const blacklist = require('./routes/blacklist/');
+const nexmo = require('./routes/nexmo/');
 
 // app
 const app = express();
@@ -63,6 +64,7 @@ app.use('/category', category);
 app.use('/sns', sns);
 app.use('/career', career);
 app.use('/blacklist', blacklist);
+app.use('/nexmo', nexmo);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
