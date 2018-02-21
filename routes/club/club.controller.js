@@ -243,7 +243,7 @@ exports.createClub = function (req, res, next) {
 
   // hash password
   createList.club_pw = hashPassword.createPw(createList.club_pw);
-  
+
   const onError = (err) => {
     next(err);
   };

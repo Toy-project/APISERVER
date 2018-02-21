@@ -14,7 +14,7 @@ const Comment = sequelize.define('COMMENT', {
     allowNull: false,
   },
   comment_writer: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
   },
   comment_writer_type: {

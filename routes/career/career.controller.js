@@ -147,7 +147,7 @@ exports.updateCareer = (req, res, next) => {
             career_co: req.body.career_co || data.career_co,
             // ...
           };
-    
+
           Career.update(updateList, {
             where: {
               career_id: req.params.career_id,
@@ -173,7 +173,7 @@ exports.createCareer = (req, res, next) => {
   const onError = (err) => {
     next(err);
   };
-  
+
   const respond = (data) => {
     if (data) {
       const key = data[0][0].Auto_increment;

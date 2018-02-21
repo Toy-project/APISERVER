@@ -104,7 +104,7 @@ exports.createMember = (req, res, next) => {
 
   // Hashing password
   createList.mem_pw = hashPassword.createPw(createList.mem_pw);
-  
+
   const onError = (err) => {
     next(err);
   };

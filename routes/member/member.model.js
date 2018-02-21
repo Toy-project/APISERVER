@@ -1,7 +1,6 @@
 const sequelize = require('../sequelize.js');
 const Sequelize = require('sequelize');
 
-const Comment = require('../comment/comment.model.js');
 const Cart = require('../cart/cart.model.js');
 const Blacklist = require('../blacklist/blacklist.model.js');
 

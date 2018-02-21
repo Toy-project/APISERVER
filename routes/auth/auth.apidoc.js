@@ -40,7 +40,7 @@
  */
 
 
- /**
+/**
  * @api {post} /auth/club 단체 로그인
  * @apiName ClubLogin
  * @apiGroup Auth

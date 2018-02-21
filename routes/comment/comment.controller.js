@@ -3,12 +3,10 @@ const Sequelize = require('sequelize');
 const error = require('../../helper/errorHandler');
 
 const Comment = require('./comment.model');
-const Member = require('../member/member.model');
 const Club = require('../club/club.model');
 
 exports.getCommentByClubId = function (req, res, next) {
   const onError = (err) => {
-    console.log(err);
     next(err);
   };
 
@@ -26,7 +24,7 @@ exports.getCommentByClubId = function (req, res, next) {
       const dataJson = JSON.parse(dataStr);
 
       dataJson.club_rating_avg = parseFloat(result[0].dataValues.club_rating_avg).toFixed(1);
-      
+
       data ? res.status(200).json(dataJson) : next(error(400));
     })
     .catch(onError);
@@ -152,7 +150,7 @@ exports.updateComment = (req, res, next) => {
           const updateLists = {
             club_rating: parseFloat(result[0].dataValues.club_rating_avg).toFixed(1),
           };
-    
+
           Club.update(updateLists, {
             where: {
               club_id: result[0].dataValues.club_id,
@@ -202,7 +200,7 @@ exports.deleteComment = (req, res, next) => {
           const updateList = {
             club_rating: parseFloat(result[0].dataValues.club_rating_avg).toFixed(1),
           };
-    
+
           Club.update(updateList, {
             where: {
               club_id: result[0].dataValues.club_id,
