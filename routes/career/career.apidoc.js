@@ -258,9 +258,7 @@
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok
-  *     {
-  *       //...
-  *     }
+  *     true
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -297,9 +295,7 @@
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok
-  *     {
-  *       //...
-  *     }
+  *     true
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -342,12 +338,28 @@
  * @apiParam {Number} career_people 경력 인원
  * @apiParam {String} career_co 경력 기업
  *
+ * @apiSuccess {Number} career_id 경력 고유값
+ * @apiSuccess {String} career_name 경력 이름
+ * @apiSuccess {String} career_ex 경력 설명
+ * @apiSuccess {String} career_photo 경력 사진
+ * @apiSuccess {Date} career_due_start 경력 기간 시작일
+ * @apiSuccess {Date} career_due_end 경력 기간 마지막일
+ * @apiSuccess {Number} career_people 경력 인원
+ * @apiSuccess {String} career_co 경력 기업
+ * @apiSuccess {Number} club_id 단체 고유값
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Create
- *     1
+ *     {
+ *       "career_photo": null,
+ *       "career_id": 1,
+ *       "career_name": "작업",
+ *       "career_ex": "작업하였습니다.",
+ *       "career_due_start": "0000-00-00T00:00:00.000Z",
+ *       "career_due_end": "0000-00-00T00:00:00.000Z",
+ *       "career_people": "1",
+ *       "career_co": "한국기업",
+ *       "club_id": "1"
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

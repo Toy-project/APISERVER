@@ -142,12 +142,16 @@
   * @apiParam {String} ip_address 아이피 주소
   * @apiParam {String} user_agent 사용자 에이젼트
   *
-  * @apiSuccessExample Success-Response:
+  * @apiSuccess {Number} session_id 세션 고유값
+  * @apiSuccess {String} ip_address 아이피 주소
+  * @apiSuccess {String} user_agent 사용자 에이젼트
+  * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
-  *     0
-  * @apiSuccessExample Success-Response:
-  *     HTTP/1.1 201 Created
-  *     1
+  *     {
+  *       "session_id" : 1,
+  *       "ip_address" : "123.123.123.123",
+  *       "user_agent" : "..."
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -180,9 +184,7 @@
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok
-  *    {
-  *     //...
-  *    }
+  *     true
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

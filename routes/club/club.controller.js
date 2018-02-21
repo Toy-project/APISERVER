@@ -271,7 +271,7 @@ exports.deleteClub = function (req, res, next) {
       })
       .then((result) => {
         folderHelper.deleteF(`images/upload/club/${req.params.club_id}`);
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -304,25 +304,14 @@ exports.updateClub = function (req, res, next) {
         if (err) {
           next(error(400));
         } else {
-          const updateList = {
-            club_email: req.body.club_email || data.club_email,
-            club_pw: req.body.club_pw,
-            club_username: req.body.club_username || data.club_username,
-            club_people: req.body.club_people || data.club_people,
-            club_name: req.body.club_name || data.club_name,
-            club_phone: req.body.club_phone || data.club_phone,
-            club_ex: req.body.club_ex || data.club_ex,
-            club_copyright: req.body.club_copyright || data.club_copyright,
-            club_college: req.body.club_college || data.club_college,
-            club_profile_photo: req.file ? req.file.path : data.club_profile_photo,
-            cate_id: req.body.cate_id || data.cate_id,
-            tag_id: req.body.tag_id || data.tag_id,
-            club_history: req.body.club_history || data.club_history,
-            club_price_duration: req.body.club_price_duration || data.club_price_duration,
-            union_enabled: req.body.union_enabled || data.union_enabled,
-            club_update: new Date(),
-            // ...
-          };
+          const dataObj = JSON.parse(JSON.stringify(data));
+          const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
+
+          // update date
+          updateList.club_update = new Date();
+
+          // update file path
+          updateList.club_profile_photo = req.file ? req.file.path : data.club_profile_photo;
 
           // compare password and hash
           if (updateList.club_pw) {
@@ -336,11 +325,8 @@ exports.updateClub = function (req, res, next) {
               club_id: req.params.club_id,
             },
           })
-          .then((result) => {
-            // result is number (o or 1)
-            // 0: 기존 데이터와 동일
-            // 1: 기존 데이터와 달라 업데이트 성공
-            res.status(201).json(result);
+          .then(() => {
+            res.status(201).json(updateList);
           })
           .catch(onError);
         }

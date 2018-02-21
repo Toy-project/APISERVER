@@ -217,9 +217,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -327,12 +325,32 @@
  * @apiParam {String} mem_phone 회원 전화번호
  * @apiParam {Number} mem_mail_agree 회원 메일 수신 동의 (0: 동의X, 1: 동의)
  *
+ * @apiSuccess {Number} mem_id 회원 고유값
+ * @apiSuccess {String} mem_userid 회원 아이디
+ * @apiSuccess {String} mem_email 회원 이메일
+ * @apiSuccess {String} mem_name 회원 이름
+ * @apiSuccess {String} mem_pw 회원 비밀번호
+ * @apiSuccess {String} mem_profile_photo 회원 프로필 사진
+ * @apiSuccess {String} mem_phone 회원 전화번호
+ * @apiSuccess {Number} mem_mail_agree 회원 메일 수신 동의 (0: 동의X, 1: 동의)
+ * @apiSuccess {Date} mem_create_date 회원 생성 날짜
+ * @apiSuccess {Date} mem_last_connect_date 회원 마지막 접속 날짜
+ * @apiSuccess {Date} mem_update 회원 업데이트
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *        "mem_profile_photo": null,
+ *        "mem_id": 1,
+ *        "mem_userid": "test",
+ *        "mem_email": "test@gmail.com",
+ *        "mem_name": "tester",
+ *        "mem_pw": "$2a$10$x47fRDIs/jzt1KEaKgnV2....",
+ *        "mem_phone": "000-0000-0000",
+ *        "mem_mail_agree": "1",
+ *        "mem_create_date": "0000-00-00T00:00:00.000Z",
+ *        "mem_last_connect_date": "0000-00-00T00:00:00.000Z",
+ *        "mem_update": "0000-00-00T00:00:00.000Z"
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

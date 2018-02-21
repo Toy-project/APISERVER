@@ -103,9 +103,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -186,12 +184,14 @@
  * @apiParam {Number} tag_id 태그 고유값
  * @apiParam {String} tag_name 태그 이름
  *
+ * @apiSuccess {Number} tag_id 태그 고유값
+ * @apiSuccess {String} tag_name 태그 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *       "tag_id": 1,
+ *       "tag_name": "성실",
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

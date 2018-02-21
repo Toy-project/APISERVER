@@ -70,7 +70,7 @@ exports.deleteCategory = function (req, res, next) {
         },
       })
       .then((result) => {
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -90,21 +90,16 @@ exports.updateCategory = function (req, res, next) {
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        cate_name: req.body.cate_name || data.cate_name,
-        // ...
-      };
+      const dataObj = JSON.parse(JSON.stringify(data));
+      const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
 
       Category.update(updateList, {
         where: {
           cate_id: req.params.cate_id,
         },
       })
-      .then((result) => {
-        // result is number (o or 1)
-        // 0: 기존 데이터와 동일
-        // 1: 기존 데이터와 달라 업데이트 성공
-        res.status(201).send(result);
+      .then(() => {
+        res.status(201).json(updateList);
       })
       .catch(onError);
     } else {

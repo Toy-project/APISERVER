@@ -103,9 +103,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -186,12 +184,14 @@
  * @apiParam {Number} cate_id 카테고리 고유값
  * @apiParam {String} cate_name 카테고리 이름
  *
+ * @apiSuccess {number} cate_id 카테고리 고유값
+ * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *       "cate_id": 1,
+ *       "cate_name": "IT",
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

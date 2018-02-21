@@ -70,7 +70,7 @@ exports.deleteBlacklist = function (req, res, next) {
         },
       })
       .then((result) => {
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -84,27 +84,22 @@ exports.deleteBlacklist = function (req, res, next) {
 };
 
 exports.updateBlacklist = function (req, res, next) {
-  const updateList = {
-    black_type: req.body.black_type,
-    // ...
-  };
-
   const onError = (err) => {
     next(err);
   };
 
   const respond = (data) => {
     if (data) {
+      const dataObj = JSON.parse(JSON.stringify(data));
+      const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
+
       Blacklist.update(updateList, {
         where: {
           mem_id: req.params.mem_id,
         },
       })
-      .then((result) => {
-        // result is number (o or 1)
-        // 0: 기존 데이터와 동일
-        // 1: 기존 데이터와 달라 업데이트 성공
-        res.status(201).send(result);
+      .then(() => {
+        res.status(201).json(updateList);
       })
       .catch(onError);
     } else {

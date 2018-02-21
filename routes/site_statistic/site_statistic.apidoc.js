@@ -142,9 +142,7 @@
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
-  *     {
-  *       //...
-  *     }
+  *     true
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

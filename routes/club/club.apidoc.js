@@ -668,9 +668,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -721,12 +719,53 @@
  * @apiParam {String} club_price_duration 단체 금액 작업기간
  * @apiParam {Number} union_enabled 연합 여부 (1이면 연합)
  *
+ * @apiSuccess {Number} club_id 단체 고유값
+ * @apiSuccess {String} club_userid 단체 아이디
+ * @apiSuccess {String} club_email 단체 이메일
+ * @apiSuccess {String} club_pw 단체 비밀번호
+ * @apiSuccess {String} club_name 단체 이름
+ * @apiSuccess {String} club_username 단체 회장명
+ * @apiSuccess {Number} club_people 단체 인원
+ * @apiSuccess {String} club_profile_photo 단체 프로필 사진
+ * @apiSuccess {String} club_phone 단체 전화번호
+ * @apiSuccess {String} club_photo 단체 사진
+ * @apiSuccess {String} club_ex 단체 설명
+ * @apiSuccess {String} club_copyright 단체 카피라이트
+ * @apiSuccess {String} club_college 단체 소속대학
+ * @apiSuccess {Number} cate_id 카테고리 고유값
+ * @apiSuccess {Number} tag_id 태그 고유값
+ * @apiSuccess {String} club_history 단체 연혁
+ * @apiSuccess {String} club_price_duration 단체 금액 작업기간
+ * @apiSuccess {Number} club_views 단체 조회수
+ * @apiSuccess {Number} union_enabled 연합 여부 (1이면 연합)
+ * @apiSuccess {Number} club_rating 단체 등급
+ * @apiSuccess {Date} club_create_date 단체 생성 날짜
+ * @apiSuccess {Date} club_last_connect_date 단체 마지막 접속 날짜
+ * @apiSuccess {Date} club_update 단체 업데이트
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *        "club_profile_photo": null,
+ *        "club_photo": null,
+ *        "tag_id": 1,
+ *        "club_views": 0,
+ *        "club_rating": 0,
+ *        "club_id": 1,
+ *        "club_userid": "test",
+ *        "club_email": "test@gmail.com",
+ *        "club_pw": "$2a$10$/AN5ld95h5TpsMZdQK0/s....",
+ *        "club_username": "홍길동",
+ *        "club_people": 1,
+ *        "club_name": "단체 이름",
+ *        "club_phone": "000-0000-0000",
+ *        "club_copyright": "단체 문구",
+ *        "club_college": "단체 대학",
+ *        "cate_id": 1,
+ *        "union_enabled": 1,
+ *        "club_create_date": "0000-00-00T00:00:00.000Z",
+ *        "club_last_connect_date": "0000-00-00T00:00:00.000Z",
+ *        "club_update": "0000-00-00T00:00:00.000Z"
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

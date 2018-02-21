@@ -69,7 +69,7 @@ exports.deleteCart = (req, res, next) => {
         },
       })
       .then((result) => {
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {

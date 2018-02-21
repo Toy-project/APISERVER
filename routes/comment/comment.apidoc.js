@@ -13,7 +13,7 @@
   *
   * @apiSuccess {Number} comment_id 댓글 고유값
   * @apiSuccess {String} comment_contents 댓글 내용
-  * @apiSuccess {Number} comment_writer 댓글 작성자
+  * @apiSuccess {String} comment_writer 댓글 작성자
   * @apiSuccess {String} comment_writer_type 댓글 작성자 유형
   * @apiSuccess {Date} comment_update 댓글 업데이트
   * @apiSuccess {Float} club_rating 단체 등급
@@ -27,7 +27,7 @@
   *         {
   *           "comment_id": 1,
   *           "comment_contents": "댓글입니다.",
-  *           "comment_writer": 1,
+  *           "comment_writer": "아이디",
   *           "comment_writer_type": "member",
   *           "comment_update": "0000-00-00T00:00:00.000Z",
   *           "club_rating": 3.5,
@@ -64,14 +64,14 @@
   * @apiName GetSpecificCommentByMemId
   * @apiGroup Comment
   *
-  * @apiParam {Number} writer_id 댓글 작성자 (회원 혹은 단체 고유값)
+  * @apiParam {String} writer_id 댓글 작성자 (아이디)
   * @apiParam {String} type 댓글 작성자 유형 (member 혹은 club)
   * @apiParam {Number} start offset
   * @apiParam {Number} end limit
   *
   * @apiSuccess {Number} comment_id 댓글 고유값
   * @apiSuccess {String} comment_contents 댓글 내용
-  * @apiSuccess {Number} comment_writer 댓글 작성자
+  * @apiSuccess {String} comment_writer 댓글 작성자
   * @apiSuccess {String} comment_writer_type 댓글 작성자 유형
   * @apiSuccess {Date} comment_update 댓글 업데이트
   * @apiSuccess {Float} club_rating 단체 등급
@@ -84,7 +84,7 @@
   *         {
   *           "comment_id": 1,
   *           "comment_contents": "댓글입니다.",
-  *           "comment_writer": 1,
+  *           "comment_writer": "아이디",
   *           "comment_writer_type": "member",
   *           "comment_update": "0000-00-00T00:00:00.000Z",
   *           "club_rating": 3.5,
@@ -129,7 +129,7 @@
   *
   * @apiSuccess {Number} comment_id 댓글 고유값
   * @apiSuccess {String} comment_contents 댓글 내용
-  * @apiSuccess {Number} comment_writer 댓글 작성자
+  * @apiSuccess {String} comment_writer 댓글 작성자
   * @apiSuccess {String} comment_writer_type 댓글 작성자 유형
   * @apiSuccess {Date} comment_update 댓글 업데이트
   * @apiSuccess {Float} club_rating 단체 등급
@@ -139,7 +139,7 @@
   *     {
   *       "comment_id" : 1,
   *       "comment_contents" : "댓글입니다.",
-  *       "comment_writer" : 1,
+  *       "comment_writer" : "아이디",
   *       "comment_writer_type" : "member",
   *       "comment_update" : "0000-00-00T00:00:00.000Z",
   *       "club_rating" : 1.5,
@@ -178,12 +178,24 @@
   * @apiParam {String} comment_contents 댓글 내용
   * @apiParam {Float} club_rating 단체 등급
   *
-  * @apiSuccessExample Success-Response:
+  * @apiSuccess {Number} comment_id 댓글 고유값
+  * @apiSuccess {String} comment_contents 댓글 내용
+  * @apiSuccess {String} comment_writer 댓글 작성자
+  * @apiSuccess {String} comment_writer_type 댓글 작성자 유형
+  * @apiSuccess {Date} comment_update 댓글 업데이트
+  * @apiSuccess {Float} club_rating 단체 등급
+  * @apiSuccess {Number} club_id 단체 고유값
+  * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
-  *     0
-  * @apiSuccessExample Success-Response:
-  *     HTTP/1.1 201 Created
-  *     1
+  *     {
+  *       "comment_id" : 1,
+  *       "comment_contents" : "댓글입니다.",
+  *       "comment_writer" : "아이디",
+  *       "comment_writer_type" : "member",
+  *       "comment_update" : "0000-00-00T00:00:00.000Z",
+  *       "club_rating" : 1.5,
+  *       "club_id" : 1
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -217,9 +229,7 @@
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok
-  *     {
-  *       //...
-  *     }
+  *     true
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

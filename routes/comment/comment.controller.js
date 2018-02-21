@@ -102,7 +102,7 @@ exports.createComment = (req, res, next) => {
 
       Club.update(updateList, {
         where: {
-          club_id: result[0].dataValues.club_id,
+          club_id: data.club_id,
         },
       })
       .then(() => {
@@ -125,11 +125,11 @@ exports.updateComment = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        comment_contents: req.body.comment_contents || data.comment_contents,
-        comment_update: new Date(),
-        club_rating: req.body.club_rating || data.club_rating,
-      };
+      const dataObj = JSON.parse(JSON.stringify(data));
+      const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
+
+      // update date
+      updateList.comment_update = new Date();
 
       Comment.update(updateList, {
         where: {
@@ -153,11 +153,11 @@ exports.updateComment = (req, res, next) => {
 
           Club.update(updateLists, {
             where: {
-              club_id: result[0].dataValues.club_id,
+              club_id: data.club_id,
             },
           })
-          .then((num) => {
-            res.status(201).json(num);
+          .then(() => {
+            res.status(201).json(updateList);
           })
           .catch(onError);
         })
@@ -198,16 +198,16 @@ exports.deleteComment = (req, res, next) => {
         })
         .then((result) => {
           const updateList = {
-            club_rating: parseFloat(result[0].dataValues.club_rating_avg).toFixed(1),
+            club_rating: result[0].dataValues.club_rating_avg ? parseFloat(result[0].dataValues.club_rating_avg).toFixed(1) : 0,
           };
 
           Club.update(updateList, {
             where: {
-              club_id: result[0].dataValues.club_id,
+              club_id: data.club_id,
             },
           })
           .then(() => {
-            res.send(200);
+            res.status(200).send(true);
           })
           .catch(onError);
         })

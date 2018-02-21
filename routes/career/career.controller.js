@@ -70,7 +70,7 @@ exports.deleteCareer = (req, res, next) => {
       })
       .then((result) => {
         folderHelper.deleteF(`images/upload/career/${req.params.career_id}`);
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -100,7 +100,7 @@ exports.deleteCareerByClubId = (req, res, next) => {
           folderHelper.deleteF(`images/upload/career/${data.rows[i].dataValues.career_id}`);
         }
 
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -137,24 +137,19 @@ exports.updateCareer = (req, res, next) => {
         if (err) {
           next(error(400));
         } else {
-          const updateList = {
-            career_name: req.body.career_name || data.career_name,
-            career_ex: req.body.career_ex || data.career_ex,
-            career_photo: req.file ? req.file.path : data.career_photo,
-            career_due_start: req.body.career_due_start || data.career_due_start,
-            career_due_end: req.body.career_due_end || data.career_due_end,
-            career_people: req.body.career_people || data.career_people,
-            career_co: req.body.career_co || data.career_co,
-            // ...
-          };
+          const dataObj = JSON.parse(JSON.stringify(data));
+          const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
+
+          // update file path
+          updateList.career_photo = req.file ? req.file.path : data.career_photo;
 
           Career.update(updateList, {
             where: {
               career_id: req.params.career_id,
             },
           })
-          .then((result) => {
-            res.status(201).json(result);
+          .then(() => {
+            res.status(201).json(updateList);
           })
           .catch(onError);
         }

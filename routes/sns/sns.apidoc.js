@@ -163,9 +163,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -203,9 +201,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -292,12 +288,18 @@
  * @apiParam {String} sns_name SNS 이름
  * @apiParam {String} sns_url SNS URL
  *
+ * @apiSuccess {Number} sns_id SNS 고유값
+ * @apiSuccess {String} sns_name SNS 이름
+ * @apiSuccess {String} sns_url SNS URL
+ * @apiSuccess {Number} club_id 단체 고유값
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *       "sns_id": 1,
+ *       "sns_name": "페이스북",
+ *       "sns_url": "www.facebook.com",
+ *       "club_id": 1,
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

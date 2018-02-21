@@ -132,7 +132,7 @@ exports.deleteMember = (req, res, next) => {
       })
       .then((result) => {
         folderHelper.deleteF(`images/upload/member/${req.params.mem_id}`);
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -165,15 +165,14 @@ exports.updateMember = (req, res, next) => {
         if (err) {
           next(error(400));
         } else {
-          const updateList = {
-            mem_email: req.body.mem_email || data.mem_email,
-            mem_name: req.body.mem_name || data.mem_name,
-            mem_pw: req.body.mem_pw,
-            mem_phone: req.body.mem_phone || data.mem_phone,
-            mem_profile_photo: req.file ? req.file.path : data.mem_profile_photo,
-            mem_mail_agree: req.body.mem_mail_agree || data.mem_mail_agree,
-            mem_update: new Date(),
-          };
+          const dataObj = JSON.parse(JSON.stringify(data));
+          const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
+
+          // update date
+          updateList.mem_update = new Date();
+
+          // update file path
+          updateList.mem_profile_photo = req.file ? req.file.path : data.mem_profile_photo;
 
           // Checking password with hashed one.
           if (updateList.mem_pw) {
@@ -188,8 +187,8 @@ exports.updateMember = (req, res, next) => {
               mem_id: req.params.mem_id,
             },
           })
-          .then((result) => {
-            res.status(201).json(result);
+          .then(() => {
+            res.status(201).json(updateList);
           })
           .catch(onError);
         }

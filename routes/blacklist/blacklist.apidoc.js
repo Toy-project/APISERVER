@@ -103,9 +103,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -186,12 +184,14 @@
  * @apiParam {Number} mem_id 회원 고유값
  * @apiParam {String} black_type 블랙리스트 유형
  *
+ * @apiSuccess {Number} mem_id 회원 고유값
+ * @apiSuccess {String} black_type 블랙리스트 유형
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *       "mem_id": 1,
+ *       "black_type": "경고",
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
