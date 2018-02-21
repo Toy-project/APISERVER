@@ -3,6 +3,6 @@
     "name"        : "product",
     "script"      : "./bin/www",
     "args"        : "start",
-    "watch"       : true
+    "watch"       : false
   }]
 }
