@@ -37,6 +37,6 @@ router.put('/:club_id', Controller.updateClub);
 router.put('/views/:club_id', Controller.updateClubViews);
 
 // update club visual
-router.put('/visual/:club_id', Controller.updateClubPhoto);
+router.put('/photo/:club_id', Controller.updateClubPhoto);
 
 module.exports = router;
