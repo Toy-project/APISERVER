@@ -401,6 +401,9 @@ exports.updateClubPhoto = (req, res, next) => {
           const photo = dataObj.club_photo.split(',') || [];
           const updateList = {};
 
+          // update date
+          updateList.club_update = new Date();
+
           if (!photo[(req.params.num || req.query.num) - 1]) {
             photo.push(req.file.path);
             updateList.club_photo = photo.join(',');
