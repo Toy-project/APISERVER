@@ -299,7 +299,7 @@ exports.updateClub = function (req, res, next) {
         field: 'club_profile_photo',
       };
 
-      const upload = uploadHelper.uploadSingle(req, res, options);
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
       upload(req, res, (err) => {
         if (err) {
           next(error(400));
@@ -314,10 +314,10 @@ exports.updateClub = function (req, res, next) {
           updateList.club_profile_photo = req.file ? req.file.path : data.club_profile_photo;
 
           // compare password and hash
-          if (updateList.club_pw) {
+          if (data.club_pw !== updateList.club_pw) {
             updateList.club_pw = hashPassword.updatePw(updateList.club_pw, data.club_pw);
           } else {
-            updateList.club_pw = data.club_pw;
+            // Todo
           }
 
           Club.update(updateList, {
@@ -373,6 +373,58 @@ exports.updateClubViews = function (req, res, next) {
       club_id: req.params.club_id,
     },
   })
+  .then(respond)
+  .catch(onError);
+};
+
+exports.updateClubPhoto = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (data) => {
+    if (data) {
+      const key = req.params.club_id;
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: `visual${req.params.num || req.query.num}`,
+        path: `images/upload/club/${key}`,
+        field: 'club_photo',
+      };
+
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
+      upload(req, res, (err) => {
+        if (err) {
+          next(error(400));
+        } else {
+          const dataObj = JSON.parse(JSON.stringify(data));
+          const photo = dataObj.club_photo.split(',') || [];
+          const updateList = {};
+
+          if (!photo[(req.params.num || req.query.num) - 1]) {
+            photo.push(req.file.path);
+            updateList.club_photo = photo.join(',');
+          } else {
+            updateList.club_photo = dataObj.club_photo;
+          }
+
+          Club.update(updateList, {
+            where: {
+              club_id: req.params.club_id,
+            },
+          })
+          .then(() => {
+            res.status(201).json(updateList);
+          })
+          .catch(onError);
+        }
+      });
+    } else {
+      next(error(400));
+    }
+  };
+
+  Club.findById(req.params.club_id)
   .then(respond)
   .catch(onError);
 };

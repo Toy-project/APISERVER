@@ -1,7 +1,7 @@
 const multer = require('multer');
 const mkdirp = require('mkdirp');
 
-exports.uploadSingle = (req, res, opt) => {
+exports.uploadImage = (req, res, opt) => {
   const option = {
     filesize: opt.fileSize || 2 * 1024 * 1024,
     filename: opt.filename || 'profile',
@@ -41,7 +41,7 @@ exports.uploadSingle = (req, res, opt) => {
     },
     storage: storages,
     fileFilter: filefilter,
-  }).single(option.field);
+  });
 
   return upload;
 };

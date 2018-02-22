@@ -160,7 +160,7 @@ exports.updateMember = (req, res, next) => {
         field: 'mem_profile_photo',
       };
 
-      const upload = uploadHelper.uploadSingle(req, res, options);
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
       upload(req, res, (err) => {
         if (err) {
           next(error(400));
@@ -175,10 +175,10 @@ exports.updateMember = (req, res, next) => {
           updateList.mem_profile_photo = req.file ? req.file.path : data.mem_profile_photo;
 
           // Checking password with hashed one.
-          if (updateList.mem_pw) {
+          if (data.mem_pw !== updateList.mem_pw) {
             updateList.mem_pw = hashPassword.updatePw(updateList.mem_pw, data.mem_pw);
           } else {
-            updateList.mem_pw = data.mem_pw;
+            // Todo
           }
 
           // Updating

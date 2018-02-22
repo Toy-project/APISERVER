@@ -132,7 +132,7 @@ exports.updateCareer = (req, res, next) => {
         field: 'career_photo',
       };
 
-      const upload = uploadHelper.uploadSingle(req, res, options);
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
       upload(req, res, (err) => {
         if (err) {
           next(error(400));
