@@ -398,7 +398,7 @@ exports.updateClubPhoto = (req, res, next) => {
           next(error(400));
         } else {
           const dataObj = JSON.parse(JSON.stringify(data));
-          const photo = dataObj.club_photo.split(',') || [];
+          const photo = dataObj.club_photo ? dataObj.club_photo.split(',') : [];
           const updateList = {};
 
           // update date
