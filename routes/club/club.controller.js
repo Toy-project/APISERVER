@@ -406,10 +406,12 @@ exports.updateClubPhoto = (req, res, next) => {
 
           if (!photo[(req.params.num || req.query.num) - 1]) {
             photo.push(req.file.path);
-            updateList.club_photo = photo.join(',');
           } else {
-            updateList.club_photo = dataObj.club_photo;
+            photo[(req.params.num || req.query.num) - 1] = req.file.path;
           }
+
+          // update file path
+          updateList.club_photo = photo.join(',');
 
           Club.update(updateList, {
             where: {
