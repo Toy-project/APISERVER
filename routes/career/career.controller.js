@@ -144,6 +144,15 @@ exports.updateCareer = (req, res, next) => {
 
           // update file path
           updateList.career_photo = req.file ? req.file.path : data.career_photo;
+          
+          if (req.file) {
+            updateList.career_photo = req.file.path;
+            updateList.career_video = null;
+          } else if (updateList.career_video) {
+            updateList.career_photo = null;
+          } else {
+            updateList.career_photo = data.career_photo;
+          }
 
           if (data.career_photo && updateList.career_photo !== data.career_photo) {
             fs.unlink(data.career_photo);
@@ -196,6 +205,7 @@ exports.createCareer = (req, res, next) => {
             career_name: req.body.career_name,
             career_ex: req.body.career_ex,
             career_photo: req.file ? req.file.path : null,
+            career_video: req.file ? null : req.body.career_video,
             career_due_start: req.body.career_due_start,
             career_due_end: req.body.career_due_end,
             career_people: req.body.career_people,
