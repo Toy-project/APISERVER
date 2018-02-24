@@ -694,6 +694,48 @@
 
 
 /**
+ * @api {delete} /club/photo/:club_id 단체 사진 삭제
+ * @apiName DeleteClubPhoto
+ * @apiGroup Club
+ *
+ * @apiHeader {String} Authorization bearer token
+ * @apiHeaderExample Request-Example:
+ *     "Authorization": "bearer token"
+ *
+ * @apiParam {Number} club_id 단체 고유값
+ * @apiParam {Number} num 단체 사진 순서
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 Ok
+ *     {
+ *        "club_update": 0000-00-00T00:00:00.000Z,
+ *        "club_photo": "images/upload/club/1/visual-123123.png"
+ *     }
+ *
+ * @apiError BadRequest 잘못된 요청
+ * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
+ * @apiError NotFound 잘못된 경로 요청
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Requset
+ *     {
+ *       "status": 400,
+ *       "message": "Bad Request"
+ *     }
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "status": 401,
+ *       "message": "Unauthorized"
+ *     }
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "status": 404,
+ *       "error": "Not Found"
+ *     }
+ *
+ */
+
+
+/**
  * @api {put} /club/:club_id 단체 수정
  * @apiName UpdateClub
  * @apiGroup Club
@@ -845,7 +887,8 @@
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     {
- *        "club_photo": "images/upload/club/1/visual1.png,images/upload/club/1/visual2.png,images/upload/club/1/visual3.png"
+ *        "club_update": 0000-00-00T00:00:00.000Z,
+ *        "club_photo": "images/upload/club/1/visual-123123.png,images/upload/club/1/visual-123123.png,images/upload/club/1/visual-123123.png"
  *     }
  *
  * @apiError BadRequest 잘못된 요청

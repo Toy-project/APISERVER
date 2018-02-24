@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Sequelize = require('sequelize');
 
 const error = require('../../helper/errorHandler');
@@ -313,6 +314,12 @@ exports.updateClub = function (req, res, next) {
           // update file path
           updateList.club_profile_photo = req.file ? req.file.path : data.club_profile_photo;
 
+          if (data.club_profile_photo && updateList.club_profile_photo !== data.club_profile_photo) {
+            fs.unlink(data.club_profile_photo);
+          } else {
+            // Todo
+          }
+
           // compare password and hash
           if (data.club_pw !== updateList.club_pw) {
             updateList.club_pw = hashPassword.updatePw(updateList.club_pw, data.club_pw);
@@ -384,10 +391,11 @@ exports.updateClubPhoto = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
+      const date = new Date();
       const key = req.params.club_id;
       const options = {
         filesize: 2 * 1024 * 1024,
-        filename: `visual${req.params.num || req.query.num}`,
+        filename: `visual-${date.getTime()}`,
         path: `images/upload/club/${key}`,
         field: 'club_photo',
       };
@@ -407,6 +415,7 @@ exports.updateClubPhoto = (req, res, next) => {
           if (!photo[(req.params.num || req.query.num) - 1]) {
             photo.push(req.file.path);
           } else {
+            fs.unlink(photo[(req.params.num || req.query.num) - 1]);
             photo[(req.params.num || req.query.num) - 1] = req.file.path;
           }
 
@@ -420,6 +429,53 @@ exports.updateClubPhoto = (req, res, next) => {
           })
           .then(() => {
             res.status(201).json(updateList);
+          })
+          .catch(onError);
+        }
+      });
+    } else {
+      next(error(400));
+    }
+  };
+
+  Club.findById(req.params.club_id)
+  .then(respond)
+  .catch(onError);
+};
+
+exports.deleteClubPhoto = (req, res, next) => {
+  const onError = (err) => {
+    next(err);
+  };
+
+  const respond = (data) => {
+    if (data) {
+      const dataObj = JSON.parse(JSON.stringify(data));
+      const photo = dataObj.club_photo.split(',');
+      const updateList = {};
+
+      // update date
+      updateList.club_update = new Date();
+
+      fs.unlink(photo[(req.params.num || req.query.num) - 1], (err) => {
+        if (err) {
+          next(err);
+        } else {
+          photo.splice((req.params.num || req.query.num) - 1, 1);
+          
+          if (photo.length) {
+            updateList.club_photo = photo.join(',');
+          } else {
+            updateList.club_photo = null;
+          }
+
+          Club.update(updateList, {
+            where: {
+              club_id: req.params.club_id,
+            },
+          })
+          .then(() => {
+            res.status(200).json(updateList);
           })
           .catch(onError);
         }

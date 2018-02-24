@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const error = require('../../helper/errorHandler');
 const folderHelper = require('../../helper/folderHelper');
 const uploadHelper = require('../../helper/uploadHelper');
@@ -143,6 +145,12 @@ exports.updateCareer = (req, res, next) => {
           // update file path
           updateList.career_photo = req.file ? req.file.path : data.career_photo;
 
+          if (data.career_photo && updateList.career_photo !== data.career_photo) {
+            fs.unlink(data.career_photo);
+          } else {
+            // Todo
+          }
+
           Career.update(updateList, {
             where: {
               career_id: req.params.career_id,
@@ -179,7 +187,7 @@ exports.createCareer = (req, res, next) => {
         field: 'career_photo',
       };
 
-      const upload = uploadHelper.uploadSingle(req, res, options);
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
       upload(req, res, (err) => {
         if (err) {
           next(error(400));

@@ -30,13 +30,16 @@ router.post('/', Controller.createClub);
 // delete club
 router.delete('/:club_id', Controller.deleteClub);
 
+// delete club photo
+router.delete('/photo/:club_id', Controller.deleteClubPhoto);
+
 // update club
 router.put('/:club_id', Controller.updateClub);
 
 // update club views
 router.put('/views/:club_id', Controller.updateClubViews);
 
-// update club visual
+// update club photo
 router.put('/photo/:club_id', Controller.updateClubPhoto);
 
 module.exports = router;

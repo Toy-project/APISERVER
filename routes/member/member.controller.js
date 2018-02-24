@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const error = require('../../helper/errorHandler');
 const hashPassword = require('../../helper/hashPassword.js');
 const folderHelper = require('../../helper/folderHelper');
@@ -173,6 +175,12 @@ exports.updateMember = (req, res, next) => {
 
           // update file path
           updateList.mem_profile_photo = req.file ? req.file.path : data.mem_profile_photo;
+
+          if (data.mem_profile_photo && updateList.mem_profile_photo !== data.mem_profile_photo) {
+            fs.unlink(data.mem_profile_photo);
+          } else {
+            // Todo
+          }
 
           // Checking password with hashed one.
           if (data.mem_pw !== updateList.mem_pw) {
