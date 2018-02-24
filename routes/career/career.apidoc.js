@@ -14,6 +14,7 @@
   * @apiSuccess {String} career_name 경력 이름
   * @apiSuccess {String} career_ex 경력 설명
   * @apiSuccess {String} career_photo 경력 사진
+  * @apiSuccess {String} career_video 경력 동영상
   * @apiSuccess {Date} career_due_start 경력 기간 시작일
   * @apiSuccess {Date} career_due_end 경력 기간 마지막일
   * @apiSuccess {Number} career_people 경력 인원
@@ -29,6 +30,7 @@
   *           "career_name": "작업",
   *           "career_ex": "작업하였습니다.",
   *           "career_photo": "thumb.jpg",
+  *           "career_video": null,
   *           "career_due_start": "0000-00-00T00:00:00.000Z",
   *           "career_due_end": "0000-00-00T00:00:00.000Z",
   *           "career_people": "1",
@@ -78,6 +80,7 @@
   * @apiSuccess {String} career_name 경력 이름
   * @apiSuccess {String} career_ex 경력 설명
   * @apiSuccess {String} career_photo 경력 사진
+  * @apiSuccess {String} career_video 경력 동영상
   * @apiSuccess {Date} career_due_start 경력 기간 시작일
   * @apiSuccess {Date} career_due_end 경력 기간 마지막일
   * @apiSuccess {Number} career_people 경력 인원
@@ -93,6 +96,7 @@
   *           "career_name": "작업",
   *           "career_ex": "작업하였습니다.",
   *           "career_photo": "thumb.jpg",
+  *           "career_video": null,
   *           "career_due_start": "0000-00-00T00:00:00.000Z",
   *           "career_due_end": "0000-00-00T00:00:00.000Z",
   *           "career_people": "1",
@@ -140,6 +144,7 @@
   * @apiSuccess {String} career_name 경력 이름
   * @apiSuccess {String} career_ex 경력 설명
   * @apiSuccess {String} career_photo 경력 사진
+  * @apiSuccess {String} career_video 경력 동영상
   * @apiSuccess {Date} career_due_start 경력 기간 시작일
   * @apiSuccess {Date} career_due_end 경력 기간 마지막일
   * @apiSuccess {Number} career_people 경력 인원
@@ -152,6 +157,7 @@
   *       "career_name": "작업",
   *       "career_ex": "작업하였습니다.",
   *       "career_photo": "thumb.jpg",
+  *       "career_video": null,
   *       "career_due_start": "0000-00-00T00:00:00.000Z",
   *       "career_due_end": "0000-00-00T00:00:00.000Z",
   *       "career_people": "1",
@@ -204,6 +210,7 @@
   * @apiSuccess {String} career_name 경력 이름
   * @apiSuccess {String} career_ex 경력 설명
   * @apiSuccess {String} career_photo 경력 사진
+  * @apiSuccess {String} career_video 경력 동영상
   * @apiSuccess {Date} career_due_start 경력 기간 시작일
   * @apiSuccess {Date} career_due_end 경력 기간 마지막일
   * @apiSuccess {Number} career_people 경력 인원
@@ -213,6 +220,7 @@
   *     HTTP/1.1 201 Created
   *     {
   *       "career_photo": null,
+  *       "career_video": null,
   *       "career_id": 1,
   *       "career_name": "작업",
   *       "career_ex": "작업하였습니다.",
@@ -342,6 +350,7 @@
  * @apiSuccess {String} career_name 경력 이름
  * @apiSuccess {String} career_ex 경력 설명
  * @apiSuccess {String} career_photo 경력 사진
+ * @apiSuccess {String} career_video 경력 동영상
  * @apiSuccess {Date} career_due_start 경력 기간 시작일
  * @apiSuccess {Date} career_due_end 경력 기간 마지막일
  * @apiSuccess {Number} career_people 경력 인원
@@ -351,6 +360,7 @@
  *     HTTP/1.1 201 Created
  *     {
  *       "career_photo": null,
+ *       "career_video": null,
  *       "career_id": 1,
  *       "career_name": "작업",
  *       "career_ex": "작업하였습니다.",
