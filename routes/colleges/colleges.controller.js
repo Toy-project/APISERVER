@@ -14,6 +14,8 @@ exports.getColleges = function (req, res, next) {
     results ? res.status(200).json(results) : next(error(400));
   };
 
+  console.log(`${url}&thisPage=${start}&perPage=${end}`);
+
   axios({
     method: 'get',
     timeout: 20000,
