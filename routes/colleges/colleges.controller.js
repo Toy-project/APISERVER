@@ -7,6 +7,7 @@ exports.getColleges = function (req, res, next) {
   const end = req.params.end || req.query.end;
 
   const onError = (err) => {
+    console.log(err.data);
     next(err);
   };
 
