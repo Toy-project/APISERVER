@@ -1,7 +1,6 @@
 const sequelize = require('../sequelize.js');
 const Sequelize = require('sequelize');
 
-const Comment = require('../comment/comment.model.js');
 const Cart = require('../cart/cart.model.js');
 const Blacklist = require('../blacklist/blacklist.model.js');
 
@@ -42,7 +41,7 @@ const Member = sequelize.define('MEMBER', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      is: /^\d{3}-\d{4}-\d{4}$/i,
+      is: /^\d{2,3}-\d{3,4}-\d{4}$/i,
     },
   },
   mem_mail_agree: {
@@ -77,6 +76,5 @@ const Member = sequelize.define('MEMBER', {
 
 Member.hasOne(Blacklist, { foreignKey: 'mem_id' });
 Member.hasMany(Cart, { foreignKey: 'mem_id' });
-Member.hasMany(Comment, { foreignKey: 'mem_id', constraints: false });
 
 module.exports = Member;

@@ -1,54 +1,47 @@
 const multer = require('multer');
+const mkdirp = require('mkdirp');
 
-const folderHelper = require('./folderHelper');
+exports.uploadImage = (req, res, opt) => {
+  const option = {
+    filesize: opt.fileSize || 2 * 1024 * 1024,
+    filename: opt.filename || 'profile',
+    path: opt.path || 'images/upload',
+    field: opt.field || null,
+  };
 
-exports.memberProfile = multer({
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
-  storage: multer.diskStorage({
+  const storages = multer.diskStorage({
     destination(req, file, cb) {
       // Create Folder
-      folderHelper.createF('images', `member/${req.params.mem_id}`);
-      // upload images path
-      cb(null, `images/member/${req.params.mem_id}`);
+      mkdirp(option.path, 0777, (err) => {
+        if(err) {
+          cb(new Error('Create Directory Failed'));
+        } else {
+          // upload images path
+          cb(null, option.path);
+        }
+      });
     },
     filename(req, file, cb) {
-      cb(null, `profile.${file.mimetype.split('/')[1]}`);
+      cb(null, `${option.filename}.${file.mimetype.split('/')[1]}`);
     },
-  }),
-}).single('mem_profile_photo');
+  });
 
-exports.clubProfile = multer({
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      // Create Folder
-      folderHelper.createF('images', `club/${req.params.club_id}`);
-      // upload images path
-      cb(null, `images/club/${req.params.club_id}`);
-    },
-    filename(req, file, cb) {
-      cb(null, `profile.${file.mimetype.split('/')[1]}`);
-    },
-  }),
-}).single('club_profile_photo');
+  const filefilter = (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1].toLowerCase();
+    if(ext === 'png' || ext === 'jpeg' || ext === 'jpg' || ext === 'gif') {
+      cb(null, true);
+    } else {
+      cb(new Error('Not Images'));
+    }
+  };
 
-exports.careerPhoto = multer({
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      // Create Folder
-      folderHelper.createF('images', `career/${req.params.career_id}`);
-      // upload images path
-      cb(null, `images/career/${req.params.career_id}`);
+  const upload = multer({ 
+    limits: { 
+      fileSize: option.filesize, 
     },
-    filename(req, file, cb) {
-      cb(null, `thumb.${file.mimetype.split('/')[1]}`);
-    },
-  }),
-}).single('career_photo');
+    storage: storages,
+    fileFilter: filefilter,
+  });
+
+  return upload;
+};

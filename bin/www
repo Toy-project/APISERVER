@@ -28,9 +28,6 @@ sequelize.sync().then(function(){
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
-
-  //매일 통계 테이블에 하루 데이터를 저장할 레코드를 생성
-  //onPostRequestToSite_statistic("localhost", port);
 });
 
 /**

@@ -25,21 +25,30 @@ pipeline {
         sh 'cp -rf /config /shared'
       }
     }
-    stage('Develop Deploy') {
+    stage('Product Deploy') {
       agent any
       when {
-        branch 'develop'
+        branch 'master'
       }
       steps {
         retry(2) {
           timeout(2) { // 2minutes
             // develop conatiner list
+<<<<<<< HEAD
             echo 'develop conatiner list'
             sh 'docker exec -i develop ls -al'
 
             // copy shared -> workspace
             echo 'copy shared directory'
             sh 'docker exec -i develop cp -rf /shared/* /app'
+=======
+            echo 'product conatiner list'
+            sh 'docker exec -i product ls -al'
+
+            // copy shared -> workspace
+            echo 'copy shared directory'
+            sh 'docker exec -i product cp -rf /shared/* /app'
+>>>>>>> master
 
             // npm cache verify
             echo 'npm cache verify'
@@ -47,11 +56,19 @@ pipeline {
 
             // npm install
             echo 'npm install'
+<<<<<<< HEAD
             sh 'docker exec -i develop npm --prefix /app install /app'
 
             // pm2 delete & start
             echo 'create apidoc and pm2 product delete & start'
             sh 'docker exec -i develop npm --prefix /app start'
+=======
+            sh 'docker exec -i product npm --prefix /app install /app'
+
+            // pm2 delete & start
+            echo 'create apidoc and pm2 product delete & start'
+            sh 'docker exec -i product npm --prefix /app start'
+>>>>>>> master
           }
         }
       }

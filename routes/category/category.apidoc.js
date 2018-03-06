@@ -1,5 +1,5 @@
 /**
- * @api {get} /category/ 모든 카테고리 조회
+ * @api {get} /category 전체 카테고리 조회
  * @apiName GetAllCategory
  * @apiGroup Category
  *
@@ -7,14 +7,22 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiSuccess {Number} cate_id 카테고리 아이디
+ * @apiParam {Number} start offset
+ * @apiParam {Number} end limit
+ *
+ * @apiSuccess {Number} cate_id 카테고리 고유값
  * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     [{
- *       "cate_id": 1,
- *       "cate_name": "IT",
- *     }]
+ *     {
+ *        "count": 1,
+ *        "rows": [
+ *          {
+ *            "cate_id": 1,
+ *            "cate_name": "IT"
+ *          }
+ *        ]
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -48,9 +56,9 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} cate_id 카테고리 아이디
+ * @apiParam {Number} cate_id 카테고리 고유값
  *
- * @apiSuccess {Number} cate_id 카테고리 아이디
+ * @apiSuccess {Number} cate_id 카테고리 고유값
  * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
@@ -91,13 +99,11 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} cate_id 카테고리 아이디
+ * @apiParam {Number} cate_id 카테고리 고유값
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 Ok
- *     {
- *       //...
- *     }
+ *     true
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -123,7 +129,7 @@
 
 
 /**
- * @api {post} /category/ 카테고리 생성
+ * @api {post} /category 카테고리 생성
  * @apiName CreateCategory
  * @apiGroup Category
  *
@@ -131,9 +137,11 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {number} cate_id 카테고리 아이디
+ * @apiParam {number} cate_id 카테고리 고유값
  * @apiParam {String} cate_name 카테고리 이름
  *
+ * @apiSuccess {number} cate_id 카테고리 고유값
+ * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     {
@@ -173,15 +181,17 @@
  * @apiHeaderExample Request-Example:
  *     "Authorization": "bearer token"
  *
- * @apiParam {Number} cate_id 카테고리 아이디
+ * @apiParam {Number} cate_id 카테고리 고유값
  * @apiParam {String} cate_name 카테고리 이름
  *
+ * @apiSuccess {number} cate_id 카테고리 고유값
+ * @apiSuccess {String} cate_name 카테고리 이름
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
- *     0
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 Created
- *     1
+ *     {
+ *       "cate_id": 1,
+ *       "cate_name": "IT",
+ *     }
  *
  * @apiError BadRequest 잘못된 요청
  * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청

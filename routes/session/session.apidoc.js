@@ -1,19 +1,30 @@
 /**
-  * @api {get} /session/ 전체 세션 조회
+  * @api {get} /session 전체 세션 조회
   * @apiName GetSession
   * @apiGroup Session
   *
-  * @apiSuccess {Number} session_id 세션 아이디
-  * @apiSuccess {STRING} ip_address 아이피 주소
-  * @apiSuccess {STRING} user_agent 사용자 에이젼트
+  * @apiHeader {String} Authorization bearer token
+  * @apiHeaderExample Request-Example:
+  *     "Authorization": "bearer token"
   *
+  * @apiParam {Number} start offset
+  * @apiParam {Number} end limit
+  *
+  * @apiSuccess {Number} session_id 세션 고유값
+  * @apiSuccess {String} ip_address 아이피 주소
+  * @apiSuccess {String} user_agent 사용자 에이젼트
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
-  *     [{
-  *       "session_id" : 1,
-  *       "ip_address" : "172.1.1.1",
-  *       "user_agent" : "Test"
-  *     }]
+  *     {
+  *       "count": 1,
+  *       "rows": [
+  *         {
+  *           "session_id": 1,
+  *           "ip_address": "123.123.123.123",
+  *           "user_agent": "..."
+  *         }
+  *       ]
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -34,6 +45,7 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
 
 /**
@@ -41,17 +53,21 @@
   * @apiName GetSpecificSession
   * @apiGroup Session
   *
-  * @apiParam {Number} session_id 세션 아이디
+  * @apiHeader {String} Authorization bearer token
+  * @apiHeaderExample Request-Example:
+  *     "Authorization": "bearer token"
   *
-  * @apiSuccess {Number} session_id 세션 아이디
-  * @apiSuccess {STRING} ip_address 아이피 주소
-  * @apiSuccess {STRING} user_agent 사용자 에이젼트
+  * @apiParam {Number} session_id 세션 고유값
+  *
+  * @apiSuccess {Number} session_id 세션 고유값
+  * @apiSuccess {String} ip_address 아이피 주소
+  * @apiSuccess {String} user_agent 사용자 에이젼트
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 OK
   *     {
   *       "session_id" : 1,
-  *       "ip_address" : "172.1.1.1",
-  *       "user_agent" : "test"
+  *       "ip_address" : "123.123.123.123",
+  *       "user_agent" : "..."
   *     }
   *
   * @apiError BadRequest 잘못된 요청
@@ -73,22 +89,26 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
 
 /**
-  * @api {post} /session/ 세션 생성
-  * @apiName PostSession
+  * @api {post} /session 세션 생성
+  * @apiName CreateSession
   * @apiGroup Session
   *
-  * @apiParam {STRING} ip_address 아이피 주소
-  * @apiParam {STRING} user_agent 사용자 에이젼트
+  * @apiParam {String} ip_address 아이피 주소
+  * @apiParam {String} user_agent 사용자 에이젼트
   *
+  * @apiSuccess {Number} session_id 세션 고유값
+  * @apiSuccess {String} ip_address 아이피 주소
+  * @apiSuccess {String} user_agent 사용자 에이젼트
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
   *     {
   *       "session_id" : 1,
-  *       "ip_address" : "172.1.1.1",
-  *       "user_agent" : "test"
+  *       "ip_address" : "123.123.123.123",
+  *       "user_agent" : "..."
   *     }
   *
   * @apiError BadRequest 잘못된 요청
@@ -110,24 +130,28 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
 
 /**
   * @api {put} /session/:session_id 세션 수정
-  * @apiName PutSession
+  * @apiName UpdateSession
   * @apiGroup Session
   *
-  * @apiParam {Number} session_id 세션 아이디
+  * @apiParam {Number} session_id 세션 고유값
+  * @apiParam {String} ip_address 아이피 주소
+  * @apiParam {String} user_agent 사용자 에이젼트
   *
-  * @apiParam {STRING} ip_address 아이피 주소
-  * @apiParam {STRING} user_agent 사용자 에이젼트
-  *
-  * @apiSuccessExample Success-Response:
+  * @apiSuccess {Number} session_id 세션 고유값
+  * @apiSuccess {String} ip_address 아이피 주소
+  * @apiSuccess {String} user_agent 사용자 에이젼트
+  * @apiSuccessExample Success-Response :
   *     HTTP/1.1 201 Created
-  *     0
-  * @apiSuccessExample Success-Response:
-  *     HTTP/1.1 201 Created
-  *     1
+  *     {
+  *       "session_id" : 1,
+  *       "ip_address" : "123.123.123.123",
+  *       "user_agent" : "..."
+  *     }
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -148,6 +172,7 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */
 
 /**
@@ -155,13 +180,11 @@
   * @apiName DeleteSession
   * @apiGroup Session
   *
-  * @apiParam {Number} session_id 세션 아이디
+  * @apiParam {Number} session_id 세션 고유값
   *
   * @apiSuccessExample Success-Response :
   *     HTTP/1.1 200 Ok
-  *    {
-  *     //...
-  *    }
+  *     true
   *
   * @apiError BadRequest 잘못된 요청
   * @apiError Unauthorized 인증 만료 혹은 잘못된 인증으로 요청
@@ -182,4 +205,5 @@
   *       "status": 404,
   *       "error": "Not Found"
   *     }
+  *
 */

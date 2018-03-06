@@ -20,6 +20,10 @@ const Career = sequelize.define('CAREER', {
     type: Sequelize.STRING,
     defaultValue: null,
   },
+  career_video: {
+    type: Sequelize.STRING,
+    defaultValue: null,
+  },
   career_due_start: {
     type: Sequelize.DATE,
     allowNull: false,
@@ -33,7 +37,7 @@ const Career = sequelize.define('CAREER', {
   },
   career_co: {
     type: Sequelize.STRING,
-    allowNull: false,
+    defaultValue: 1,
   },
   club_id: {
     type: Sequelize.INTEGER,

@@ -9,7 +9,7 @@
 /apidoc
 
 # images
-/images
+images/*
 
 # config
 /config

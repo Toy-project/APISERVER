@@ -13,8 +13,12 @@ const Comment = sequelize.define('COMMENT', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  club_rating: {
-    type: Sequelize.FLOAT,
+  comment_writer: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  comment_writer_type: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
   comment_update: {
@@ -24,8 +28,8 @@ const Comment = sequelize.define('COMMENT', {
       isDate: true,
     },
   },
-  mem_id: {
-    type: Sequelize.INTEGER,
+  club_rating: {
+    type: Sequelize.FLOAT,
     allowNull: false,
   },
   club_id: {

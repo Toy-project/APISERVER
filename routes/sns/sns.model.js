@@ -1,8 +1,6 @@
 const sequelize = require('../sequelize.js');
 const Sequelize = require('sequelize');
 
-const Club = require('../club/club.model.js');
-
 // define sequelize sns table
 const Sns = sequelize.define('SNS', {
   sns_id: {

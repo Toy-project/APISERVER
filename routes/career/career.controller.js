@@ -1,7 +1,11 @@
+const fs = require('fs');
+
 const error = require('../../helper/errorHandler');
 const folderHelper = require('../../helper/folderHelper');
+const uploadHelper = require('../../helper/uploadHelper');
+const sequelize = require('../sequelize');
 
-const Career = require('../career/career.model.js');
+const Career = require('../career/career.model');
 
 exports.getAllCareer = (req, res, next) => {
   const onError = (err) => {
@@ -13,14 +17,14 @@ exports.getAllCareer = (req, res, next) => {
   };
 
   Career.findAndCountAll({
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
 };
 
-exports.getAllClubByCareerId = (req, res, next) => {
+exports.getAllCareerByClubId = (req, res, next) => {
   const onError = (err) => {
     next(err);
   };
@@ -33,8 +37,8 @@ exports.getAllClubByCareerId = (req, res, next) => {
     where: {
       club_id: req.params.club_id,
     },
-    offset: req.params.start,
-    limit: req.params.end,
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
@@ -67,8 +71,8 @@ exports.deleteCareer = (req, res, next) => {
         },
       })
       .then((result) => {
-        folderHelper.deleteF(`images/career/${req.params.career_id}`);
-        res.send(200);
+        folderHelper.deleteF(`images/upload/career/${req.params.career_id}`);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -95,10 +99,10 @@ exports.deleteCareerByClubId = (req, res, next) => {
       })
       .then((result) => {
         for (let i = 0; i < data.rows.length; i++) {
-          folderHelper.deleteF(`images/career/${data.rows[i].dataValues.career_id}`);
+          folderHelper.deleteF(`images/upload/career/${data.rows[i].dataValues.career_id}`);
         }
 
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
@@ -122,26 +126,51 @@ exports.updateCareer = (req, res, next) => {
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        career_name: req.body.career_name || data.career_name,
-        career_ex: req.body.career_name || data.career_ex,
-        career_photo: req.body.career_photo || data.career_photo,
-        career_due_start: req.body.career_due_start || data.career_due_start,
-        career_due_end: req.body.career_due_end || data.career_due_end,
-        career_people: req.body.career_people || data.career_people,
-        career_co: req.body.career_co || data.career_co,
-        // ...
+      const key = req.params.career_id;
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: 'thumb',
+        path: `images/upload/career/${key}`,
+        field: 'career_photo',
       };
 
-      Career.update(updateList, {
-        where: {
-          career_id: req.params.career_id,
-        },
-      })
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch(onError);
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
+      upload(req, res, (err) => {
+        if (err) {
+          next(error(400));
+        } else {
+          const dataObj = JSON.parse(JSON.stringify(data));
+          const updateList = Object.assign(dataObj, JSON.parse(JSON.stringify(req.body)));
+
+          // update file path
+          updateList.career_photo = req.file ? req.file.path : data.career_photo;
+          
+          if (req.file) {
+            updateList.career_photo = req.file.path;
+            updateList.career_video = null;
+          } else if (updateList.career_video) {
+            updateList.career_photo = null;
+          } else {
+            updateList.career_photo = data.career_photo;
+          }
+
+          if (data.career_photo && updateList.career_photo !== data.career_photo) {
+            fs.unlink(data.career_photo);
+          } else {
+            // Todo
+          }
+
+          Career.update(updateList, {
+            where: {
+              career_id: req.params.career_id,
+            },
+          })
+          .then(() => {
+            res.status(201).json(updateList);
+          })
+          .catch(onError);
+        }
+      });
     } else {
       next(error(400));
     }
@@ -153,58 +182,50 @@ exports.updateCareer = (req, res, next) => {
 };
 
 exports.createCareer = (req, res, next) => {
-  const createList = {
-    career_name: req.body.career_name,
-    career_ex: req.body.career_ex,
-    career_photo: req.body.career_photo,
-    career_due_start: req.body.career_due_start,
-    career_due_end: req.body.career_due_end,
-    career_people: req.body.career_people,
-    career_co: req.body.career_co,
-    club_id: req.body.club_id,
-    // ...
-  };
-
-  const onError = (err) => {
-    next(err);
-  };
-
-  const respond = (result) => {
-    result ? res.status(201).json(result) : next(error(400));
-  };
-
-  Career.create(createList)
-  .then(respond)
-  .catch(onError);
-};
-
-exports.updateCareerPhoto = (req, res, next) => {
   const onError = (err) => {
     next(err);
   };
 
   const respond = (data) => {
     if (data) {
-      const updateList = {
-        career_photo: req.file.path || data.career_photo,
-        // ...
+      const key = data[0][0].Auto_increment;
+      const options = {
+        filesize: 2 * 1024 * 1024,
+        filename: 'thumb',
+        path: `images/upload/career/${key}`,
+        field: 'career_photo',
       };
 
-      Career.update(updateList, {
-        where: {
-          career_id: req.params.career_id,
-        },
-      })
-      .then((result) => {
-        res.status(201).json(req.file);
-      })
-      .catch(onError);
+      const upload = uploadHelper.uploadImage(req, res, options).single(options.field);
+      upload(req, res, (err) => {
+        if (err) {
+          next(error(400));
+        } else {
+          const createList = {
+            career_name: req.body.career_name,
+            career_ex: req.body.career_ex,
+            career_photo: req.file ? req.file.path : null,
+            career_video: req.file ? null : req.body.career_video,
+            career_due_start: req.body.career_due_start,
+            career_due_end: req.body.career_due_end,
+            career_people: req.body.career_people,
+            career_co: req.body.career_co,
+            club_id: req.body.club_id,
+          };
+
+          Career.create(createList)
+          .then((result) => {
+            result ? res.status(201).json(result) : next(error(400));
+          })
+          .catch(onError);
+        }
+      });
     } else {
-      next(error(400));
+      next(error(500));
     }
   };
 
-  Career.findById(req.params.career_id)
+  sequelize.query('SHOW TABLE STATUS WHERE NAME="CAREER"')
   .then(respond)
   .catch(onError);
 };

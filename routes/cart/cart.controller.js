@@ -1,5 +1,7 @@
 const error = require('../../helper/errorHandler');
+
 const Cart = require('./cart.model.js');
+const Club = require('../club/club.model');
 
 exports.getAllCartByMemId = (req, res, next) => {
   const onError = (err) => {
@@ -14,8 +16,22 @@ exports.getAllCartByMemId = (req, res, next) => {
     where: {
       mem_id: req.params.mem_id,
     },
-    offset: req.params.start,
-    limit: req.params.end,
+    include: [
+      {
+        model: Club,
+        as: 'club',
+        attributes: {
+          exclude: [
+            'club_id',
+            'club_pw',
+            'cate_id',
+            'tag_id',
+          ],
+        },
+      },
+    ],
+    offset: +req.params.start || +req.query.start,
+    limit: +req.params.end || +req.query.end,
   })
   .then(respond)
   .catch(onError);
@@ -45,15 +61,15 @@ exports.deleteCart = (req, res, next) => {
     next(err);
   };
 
-  const respond = (num) => {
-    if (num) {
+  const respond = (data) => {
+    if (data) {
       Cart.destroy({
         where: {
           cart_id: req.params.cart_id,
         },
       })
       .then((result) => {
-        res.send(200);
+        res.status(200).send(true);
       })
       .catch(onError);
     } else {
