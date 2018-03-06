@@ -7,7 +7,7 @@ exports.getColleges = function (req, res, next) {
   const end = req.params.end || req.query.end;
 
   const onError = (err) => {
-    console.log(err.data);
+    console.log(err);
     next(err);
   };
 
@@ -15,8 +15,6 @@ exports.getColleges = function (req, res, next) {
     console.log(results);
     results ? res.status(200).json(results) : next(error(400));
   };
-
-  console.log(`${url}&thisPage=${start}&perPage=${end}`);
 
   axios({
     method: 'get',
