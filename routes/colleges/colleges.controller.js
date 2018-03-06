@@ -11,6 +11,7 @@ exports.getColleges = function (req, res, next) {
   };
 
   const respond = (results) => {
+    console.log(results);
     results ? res.status(200).json(results) : next(error(400));
   };
 
