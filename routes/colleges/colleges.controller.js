@@ -14,12 +14,12 @@ exports.getColleges = function (req, res, next) {
     results ? res.status(200).json(results) : next(error(400));
   };
 
-  // axios({
-  //   method: 'get',
-  //   timeout: 20000,
-  //   url: `${url}&thisPage=${start}&perPage=${end}`,
-  //   responseType: 'json'
-  // })
-  // .then(respond)
-  // .catch(onError);
+  axios({
+    method: 'get',
+    timeout: 20000,
+    url: `${url}&thisPage=${start}&perPage=${end}`,
+    responseType: 'json'
+  })
+  .then(respond)
+  .catch(onError);
 };
