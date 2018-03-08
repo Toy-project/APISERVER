@@ -6,7 +6,7 @@ exports.postEmailAuth = (req, res, next) => {
   const receiver = req.body.receiver;
   const subject = '외주대학교 - 이메일 인증번호';
   const auth = createAuth();
-
+  console.log('1');
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -24,8 +24,10 @@ exports.postEmailAuth = (req, res, next) => {
   };
 
   // send mail with defined transport object:
+  console.log('2');
   transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
+        console.log(error);
         next(error);
       } else {
         //키 값 전달
