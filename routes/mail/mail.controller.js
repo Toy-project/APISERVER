@@ -31,7 +31,7 @@ exports.postEmailAuth = (req, res, next) => {
 
       //키 값 전달
       res.status(201).json({
-        auth: auth,
+        auth: auth
       });
   });
 }
