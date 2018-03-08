@@ -27,12 +27,12 @@ exports.postEmailAuth = (req, res, next) => {
   transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         next(error);
+      } else {
+        //키 값 전달
+        res.status(201).json({
+          auth: auth
+        });  
       }
-
-      //키 값 전달
-      res.status(201).json({
-        auth: auth
-      });
   });
 }
 
