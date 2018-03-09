@@ -24,14 +24,12 @@ exports.postEmailAuth = (req, res, next) => {
   };
 
   // send mail with defined transport object:
-  console.log('2');
   transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
         next(error);
       } else {
         //키 값 전달
-        console.log('success');
         res.status(201).json({
           auth: auth
         });
