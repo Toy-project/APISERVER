@@ -112,7 +112,7 @@ exports.getClubEmail = (req, res, next) => {
   };
 
   const respond = (result) => {
-    result ? res.status(200).send(true) : res.status(200).send(false);
+    result ? res.status(200).send(result) : res.status(200).send(false);
   };
 
   Club.findOne({
@@ -462,7 +462,7 @@ exports.deleteClubPhoto = (req, res, next) => {
           next(err);
         } else {
           photo.splice((req.params.num || req.query.num) - 1, 1);
-          
+
           if (photo.length) {
             updateList.club_photo = photo.join(',');
           } else {
