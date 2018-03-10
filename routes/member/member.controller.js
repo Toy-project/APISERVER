@@ -79,7 +79,7 @@ exports.getMemberEmail = (req, res, next) => {
   };
 
   const respond = (result) => {
-    result ? res.status(200).send(true) : res.status(200).send(false);
+    result ? res.status(200).send(result) : res.status(200).send(false);
   };
 
   Member.findOne({
